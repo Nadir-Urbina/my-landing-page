@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar, Globe, BookOpen, ChevronRight, Users, Heart, WavesIcon as Wave } from 'lucide-react'
 import { Input } from "@/components/ui/input"
+import { Montserrat } from 'next/font/google';
+
+const montserrat = Montserrat({ subsets: ['latin'] });
 
 export default function LandingPage() {
   return (
@@ -26,16 +29,15 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="relative min-h-[80vh] flex items-center justify-center py-24">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/heroImage.jpg-LiR10nTRucykNbvD4pvPzXjXV3LH5d.jpeg"
+            src="/heroImage.jpg"
             alt="Dr. Joshua Todd speaking on stage with artistic backdrop"
-            layout="fill"
-            objectFit="cover"
-            className="absolute inset-0"
+            fill
+            className="absolute inset-0 object-cover"
             priority
           />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative z-10 text-center text-white pt-20">
-            <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-transparent bg-clip-text">
+            <h1 className={`text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-gray-200 via-gray-400 to-gray-600 text-transparent bg-clip-text ${montserrat.className}`}>
               Dr. Joshua Todd
             </h1>
             <p className="mt-4 text-xl sm:text-2xl md:text-3xl">
@@ -46,7 +48,7 @@ export default function LandingPage() {
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-white/10 text-white placeholder-white/50 border-white/20"
+                  className="bg-white/10 text-white placeholder-white/50 border-white/20 hover:bg-white/20 transition-colors duration-200"
                   required
                   aria-label="Email for newsletter"
                 />
@@ -59,7 +61,7 @@ export default function LandingPage() {
               </form>
               <Button 
                 asChild 
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0"
+                className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white border-0"
               >
                 <Link href="#partner">Partner with Me</Link>
               </Button>
@@ -72,7 +74,7 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold mb-8">About Dr. Joshua Todd</h2>
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/drJosh/drJoshSmilingMic.jpg"
                 alt="Dr. Joshua Todd portrait"
                 width={400}
                 height={400}
@@ -98,6 +100,13 @@ export default function LandingPage() {
             <h2 className="text-3xl font-bold mb-8">Ministry Life</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                <Image
+                  src="/ministry/senior-leader.jpg"
+                  alt="Senior Leader at East Gate"
+                  width={400}
+                  height={250}
+                  className="w-full object-cover h-[200px]"
+                />
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Users className="mr-2" />
@@ -108,7 +117,15 @@ export default function LandingPage() {
                   <p>As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.</p>
                 </CardContent>
               </Card>
+
               <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                <Image
+                  src="/ministry/healing-streams.jpg"
+                  alt="Healing Streams Ministry"
+                  width={400}
+                  height={250}
+                  className="w-full object-cover h-[200px]"
+                />
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Heart className="mr-2" />
@@ -119,7 +136,15 @@ export default function LandingPage() {
                   <p>Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.</p>
                 </CardContent>
               </Card>
+
               <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                <Image
+                  src="/ministry/crest-wave.jpg"
+                  alt="Crest of The Wave Ministry"
+                  width={400}
+                  height={250}
+                  className="w-full object-cover h-[200px]"
+                />
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Wave className="mr-2" />
@@ -138,22 +163,41 @@ export default function LandingPage() {
           <div className="container">
             <h2 className="text-3xl font-bold mb-8 text-center">Testimonials</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((testimonial) => (
-                <Card key={testimonial} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              {[
+                { 
+                  name: "Erich Rose", 
+                  location: "Escondido, CA",
+                  image: "/healingStreams/erichRose.jpg",
+                  text: "Through the years, I’ve watched God meta morph Dr. Joshua Todd. He is not only an inspiration and big brother to me, but he is a clear example of what it means to walk as a new creation son."
+                },
+                { 
+                  name: "Jatoria Battle", 
+                  location: "Phoenix, AZ",
+                  image: "/healingStreams/toriBattle.jpg",
+                  text: "Dr. Joshua’s leadership has transformed my husband and I by how we see ourselves as God’s people, strengthened us in the call, and loved us into a place of healing. Dr. Joshua not only has apostolic and prophetic language, but he leads in a true biblical apostolic nature. He matures the body of Christ so they can be ready to respond to God."
+                },
+                { 
+                  name: "Tylor Trotter", 
+                  location: "Jacksonville, FL",
+                  image: "/healingStreams/tylorTrotter.jpg",
+                  text: "Dr. Joshua’s life is a demonstrative example of the leadership of Jesus. He is a true Father in the spirit who leads humbly with a towel wrapped around his waist prepared to wash feet at all times. The authority he carries is only surpassed by his willingness to lay his life down in service to those whom God has placed in front of him."
+                }
+              ].map((testimonial, index) => (
+                <Card key={index} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <CardHeader>
                     <Image
-                      src={`/placeholder.svg?height=150&width=150&text=Person+${testimonial}`}
-                      alt={`Testimonial ${testimonial}`}
+                      src={testimonial.image}
+                      alt={`Testimonial from ${testimonial.name}`}
                       width={150}
                       height={150}
-                      className="rounded-full mx-auto"
+                      className="rounded-full mx-auto object-cover"
                     />
                   </CardHeader>
                   <CardContent className="text-center">
-                    <p className="italic">"Dr. Joshua Todd's teachings have transformed my life and ministry. His insights on Kingdom Culture have opened my eyes to a new level of understanding God's purpose for His people."</p>
+                    <p className="italic">"{testimonial.text}"</p>
                   </CardContent>
                   <CardFooter className="text-center">
-                    <p className="font-semibold">- John Doe, Pastor</p>
+                    <p className="font-semibold">- {testimonial.name}, {testimonial.location}</p>
                   </CardFooter>
                 </Card>
               ))}
@@ -227,25 +271,56 @@ export default function LandingPage() {
           <div className="container">
             <h2 className="text-3xl font-bold mb-8">Books by Dr. Joshua Todd</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {[1, 2, 3, 4].map((book) => (
-                <Card key={book} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              {[
+                {
+                  title: "Inheritance Invasion",
+                  image: "/Books/inheritance invasion.jpg",
+                  description: "Discover the principles of living and leading in God's Kingdom culture, transforming communities through biblical values.",
+                  link: "/books/kingdom-culture"
+                },
+                {
+                  title: "Purified Power",
+                  image: "/Books/Purified Power.jpg",
+                  description: "Explore the depth of God's father heart and how it transforms our identity, relationships, and purpose.",
+                  link: "/books/fathers-heart"
+                },
+                {
+                  title: "Seasons of Sonship - Book 1",
+                  image: "/Books/Seasons of Sonship Book 1.jpg",
+                  description: "Understanding your identity as a son/daughter of God and walking in the fullness of your spiritual inheritance.",
+                  link: "/books/sonship"
+                },
+                {
+                  title: "Honor's Pathway",
+                  image: "/books/honors-pathway.jpg",
+                  description: "A practical guide to building a culture of honor in your life, family, and organization.",
+                  link: "/books/honors-pathway"
+                }
+              ].map((book, index) => (
+                <Card key={index} className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <Image
-                    src={`/placeholder.svg?height=300&width=200&text=Book+${book}`}
-                    alt={`Book ${book} cover`}
-                    width={200}
-                    height={300}
-                    className="w-full object-cover"
+                    src={book.image}
+                    alt={`${book.title} book cover`}
+                    width={400}
+                    height={600}
+                    className="w-full object-cover h-[400px]"
                   />
-                  <CardHeader>
-                    <CardTitle>Book Title {book}</CardTitle>
+                  <CardHeader className="py-4">
+                    <CardTitle className="text-xl">
+                      {book.title}
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-grow">
-                    <p>Brief description of the book and its main themes.</p>
+                  <CardContent className="py-2">
+                    <p className="text-sm text-muted-foreground">
+                      {book.description}
+                    </p>
                   </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" className="w-full">
-                      <BookOpen className="mr-2" />
-                      Read More
+                  <CardFooter className="py-4">
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href={book.link}>
+                        <BookOpen className="mr-2" />
+                        Learn More
+                      </Link>
                     </Button>
                   </CardFooter>
                 </Card>
