@@ -190,13 +190,13 @@ export default function LandingPage() {
                   },
                   {
                     title: "Healing Streams",
-                    image: "/ministry/healing-streams.jpg",
+                    image: "/ministry/healingStreamsHorizontal.png",
                     description: "Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.",
                     icon: Heart
                   },
                   {
-                    title: "Crest of The Wave",
-                    image: "/ministry/crest-wave.jpg",
+                    title: "The School of Encounter",
+                    image: "/ministry/tsoeHorizontal2.png",
                     description: "Crest of The Wave is Dr. Todd's initiative to equip and empower the next generation of leaders, riding the forefront of spiritual awakening and cultural transformation.",
                     icon: Wave
                   },
@@ -213,7 +213,7 @@ export default function LandingPage() {
                     icon: Globe
                   }
                 ].map((ministry, index) => (
-                  <CarouselItem key={index} className="pl-4 sm:basis-full lg:basis-1/2">
+                  <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                     <Card className="flex flex-col h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden">
                       <div className="h-[400px]">
                         <Image
@@ -270,10 +270,10 @@ export default function LandingPage() {
                     text: "Dr. Joshua's life is a demonstrative example of the leadership of Jesus. He is a true Father in the spirit who leads humbly with a towel wrapped around his waist prepared to wash feet at all times."
                   },
                   { 
-                    name: "Sarah Martinez", 
-                    location: "San Antonio, TX",
-                    image: "/healingStreams/sarahMartinez.jpg",
-                    text: "The depth of wisdom and practical application in Dr. Todd's ministry has transformed not only my personal walk with God but has given me tools to disciple others. His teachings on Kingdom Culture have revolutionized our church community."
+                    name: "Victoria Guiterrez", 
+                    location: "Jacksonville, Fl",
+                    image: "/healingStreams/vickieNew.png",
+                    text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God’s destiny and purposes for individuals, cities, regions, and nations. What’s more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the “exceedingly and abundantly above all that I can imagine or think of!"
                   },
                   { 
                     name: "David Chen", 
@@ -325,20 +325,62 @@ export default function LandingPage() {
           <div className="container">
             <h2 className="text-3xl font-bold mb-8">Upcoming Events</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((event) => (
-                <Card key={event} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              {[
+                {
+                  title: "Kingdom Culture Conference 2024",
+                  date: "March 15-17, 2024",
+                  location: "Jacksonville, Florida",
+                  description: "A three-day immersive conference exploring Kingdom principles, spiritual authority, and supernatural lifestyle. Join us for powerful worship, transformative teaching, and prophetic ministry.",
+                  image: "/events/kingdom-culture-conf.jpg",
+                  registrationLink: "/events/kingdom-culture-2024"
+                },
+                {
+                  title: "Healing Streams Intensive",
+                  date: "April 22-24, 2024",
+                  location: "Phoenix, Arizona",
+                  description: "An intensive training weekend focused on healing ministry, deliverance, and walking in supernatural power. Learn practical tools for ministering healing and activating your spiritual gifts.",
+                  image: "/events/healing-streams.jpg",
+                  registrationLink: "/events/healing-streams-2024"
+                },
+                {
+                  title: "Fathers & Sons Retreat",
+                  date: "May 18-20, 2024",
+                  location: "Colorado Springs, Colorado",
+                  description: "A special weekend dedicated to strengthening the bonds between spiritual fathers and sons. Experience deep fellowship, mentoring, and activation in your spiritual inheritance.",
+                  image: "/events/fathers-sons.jpg",
+                  registrationLink: "/events/fathers-sons-2024"
+                }
+              ].map((event, index) => (
+                <Card key={index} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                  <div className="h-[200px] relative">
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      fill
+                      className="object-cover rounded-t-lg"
+                    />
+                  </div>
                   <CardHeader>
-                    <CardTitle>Event Title {event}</CardTitle>
-                    <CardDescription>
-                      <Calendar className="inline-block mr-2" />
-                      Date: Month Day, Year
+                    <CardTitle className="text-xl">{event.title}</CardTitle>
+                    <CardDescription className="flex flex-col gap-1">
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        {event.date}
+                      </div>
+                      <div className="flex items-center">
+                        <Globe className="h-4 w-4 mr-2" />
+                        {event.location}
+                      </div>
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p>Brief description of the event. Location and other relevant details.</p>
+                    <p className="text-sm text-muted-foreground">{event.description}</p>
                   </CardContent>
-                  <CardFooter>
-                    <Button variant="outline">Learn More</Button>
+                  <CardFooter className="flex gap-2">
+                    <Button variant="outline" asChild>
+                      <Link href={event.registrationLink}>Learn More</Link>
+                    </Button>
+                    <Button>Register Now</Button>
                   </CardFooter>
                 </Card>
               ))}
