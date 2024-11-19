@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Menu, X, Calendar, Globe, BookOpen, ChevronRight, Users, Heart, WavesIcon as Wave, Crown } from 'lucide-react'
 import { Input } from "@/components/ui/input"
-import { Montserrat, Inter } from 'next/font/google'
+import { Montserrat, Inter } from '@next/font/google'
 import { useState } from 'react'
 import {
   Carousel,
