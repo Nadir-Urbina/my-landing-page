@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Menu, X, Calendar, Globe, BookOpen, ChevronRight, Users, Heart, WavesIcon as Wave, Crown } from 'lucide-react'
 import { Input } from "@/components/ui/input"
-import { Montserrat, Inter } from '@next/font/google'
+import localFont from 'next/font/local'
+import { Montserrat, Inter } from 'next/font/google'
 import { useState } from 'react'
 import {
   Carousel,
@@ -16,8 +17,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-const montserrat = Montserrat({ subsets: ['latin'] });
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] })
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -201,14 +202,14 @@ export default function LandingPage() {
                     icon: Wave
                   },
                   {
-                    title: "Kingdom Culture Training",
-                    image: "/ministry/kingdom-culture.jpg",
+                    title: "Elder at The Well Global Alliance",
+                    image: "/ministry/twgaElder.png",
                     description: "Developing and implementing training programs that establish Kingdom principles and values in individuals, families, and organizations.",
                     icon: Crown
                   },
                   {
-                    title: "Global Missions",
-                    image: "/ministry/global-missions.jpg",
+                    title: "The Crest of the Wave",
+                    image: "/ministry/CoTW.png",
                     description: "Leading missions and outreach initiatives worldwide, spreading the message of Kingdom Culture and establishing connections across nations.",
                     icon: Globe
                   }
@@ -276,10 +277,10 @@ export default function LandingPage() {
                     text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God’s destiny and purposes for individuals, cities, regions, and nations. What’s more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the “exceedingly and abundantly above all that I can imagine or think of!"
                   },
                   { 
-                    name: "David Chen", 
-                    location: "Los Angeles, CA",
-                    image: "/healingStreams/davidChen.jpg",
-                    text: "Dr. Todd's mentorship has been instrumental in my growth as a leader. His teachings on sonship and spiritual authority have helped me understand my true identity in Christ and how to walk in it daily."
+                    name: "Sean Harvey", 
+                    location: "Piedmont, SC",
+                    image: "/healingStreams/harveyFam.png",
+                    text: "As a transformational kingdom leader Dr. Joshua Todd lives the message of being shaped into the likeness of Christ through the power of the Cross and the Spirit. He exemplifies the truth that it is for freedom we have been set free. His passionate commitment to Jesus is made manifest in relational first lifestyle of leadership."
                   }
                 ].map((testimonial, index) => (
                   <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
@@ -323,7 +324,7 @@ export default function LandingPage() {
 
         <section id="events" className="py-16 bg-muted">
           <div className="container">
-            <h2 className="text-3xl font-bold mb-8">Upcoming Events</h2>
+            <h2 className="text-3xl font-bold mb-8">Past and Upcoming Events</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
@@ -350,7 +351,7 @@ export default function LandingPage() {
                   image: "/events/fathers-sons.jpg",
                   registrationLink: "/events/fathers-sons-2024"
                 }
-              ].map((event, index) => (
+              ].slice(0, 1).map((event, index) => (
                 <Card key={index} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <div className="h-[200px] relative">
                     <Image
@@ -392,20 +393,50 @@ export default function LandingPage() {
           <div className="container">
             <h2 className="text-3xl font-bold mb-8">Upcoming Mission Trips</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((mission) => (
-                <Card key={mission} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+              {[
+                {
+                  title: "Healing Streams Australia",
+                  dateRange: "March 26th - April 6th, 2025",
+                  location: "Australia",
+                  description: "Join us in empowering local churches and communities through leadership training and ministry outreach.",
+                  link: "/missions/kenya-2024"
+                },
+                {
+                  title: "India Outreach",
+                  dateRange: "August 10-25, 2024",
+                  location: "Mumbai, India",
+                  description: "Supporting local ministries and conducting Kingdom Culture training sessions across multiple cities.",
+                  link: "/missions/india-2024"
+                },
+                {
+                  title: "European Kingdom Tour",
+                  dateRange: "October 5-20, 2024",
+                  location: "Multiple Cities, Europe",
+                  description: "A strategic mission trip across Europe, establishing Kingdom connections and conducting leadership conferences.",
+                  link: "/missions/europe-2024"
+                }
+              ].slice(0, 1).map((mission) => (
+                <Card key={mission.title} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <CardHeader>
-                    <CardTitle>Mission to Location {mission}</CardTitle>
+                    <CardTitle>{mission.title}</CardTitle>
                     <CardDescription>
-                      <Globe className="inline-block mr-2" />
-                      Date Range: Month - Month, Year
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        {mission.dateRange}
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <Globe className="h-4 w-4" />
+                        {mission.location}
+                      </div>
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p>Brief description of the mission trip. Objectives and impact.</p>
+                    <p>{mission.description}</p>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="outline">Get Involved</Button>
+                    <Button variant="outline" asChild>
+                      <Link href={mission.link}>Get Involved</Link>
+                    </Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -421,39 +452,33 @@ export default function LandingPage() {
                 {[
                   {
                     title: "Inheritance Invasion",
-                    image: "/books/inheritance-invasion.jpg",
+                    image: "/books/inheritanceInvasion.png",
                     description: "Discover the principles of living and leading in God's Kingdom culture, transforming communities through biblical values.",
                     link: "/books/inheritance-invasion"
                   },
                   {
                     title: "Purified Power",
-                    image: "/books/purified-power.jpg",
+                    image: "/books/Purified Power.png",
                     description: "Explore the depth of God's father heart and how it transforms our identity, relationships, and purpose.",
                     link: "/books/purified-power"
                   },
                   {
-                    title: "Seasons of Sonship",
-                    image: "/books/seasons-of-sonship.jpg",
+                    title: "Seasons of Sonship - Foundations",
+                    image: "/books/SoSBook 1.png",
                     description: "Understanding your identity as a son/daughter of God and walking in the fullness of your spiritual inheritance.",
                     link: "/books/seasons-of-sonship"
                   },
                   {
-                    title: "Honor's Pathway",
-                    image: "/books/honors-pathway.jpg",
+                    title: "Seasons of Sonship - Invitation",
+                    image: "/books/SoSBook 2.png",
                     description: "A practical guide to building a culture of honor in your life, family, and organization.",
                     link: "/books/honors-pathway"
                   },
                   {
-                    title: "Kingdom Authority",
-                    image: "/books/kingdom-authority.jpg",
+                    title: "Seasons of Sonship - Interdependence",
+                    image: "/books/SoSBook 3.png",
                     description: "Learn to walk in the authority that God has given you as His representative in the earth.",
                     link: "/books/kingdom-authority"
-                  },
-                  {
-                    title: "Spiritual DNA",
-                    image: "/books/spiritual-dna.jpg",
-                    description: "Understand your spiritual inheritance and how to activate the gifts within you.",
-                    link: "/books/spiritual-dna"
                   }
                 ].map((book, index) => (
                   <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">

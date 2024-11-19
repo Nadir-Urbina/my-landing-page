@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+/// <reference types="node" />
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    appDir: true,
+  }
+}
 
-export default nextConfig;
+export default nextConfig
