@@ -107,21 +107,21 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="relative min-h-[80vh] flex items-center justify-center py-24">
           <Image
-            src="/heroImage.jpg"
+            src="/drJosh/heroImage.png"
             alt="Dr. Joshua Todd speaking on stage with artistic backdrop"
             fill
             className="absolute inset-0 object-cover"
             priority
           />
           <div className="absolute inset-0 bg-black/40" />
-          <div className="relative z-10 text-center text-white pt-20">
+          <div className="relative z-10 text-center text-white pt-20 px-4 sm:px-0">
             <h1 className={`text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-b from-gray-600 via-gray-400 to-gray-200 text-transparent bg-clip-text ${montserrat.className}`}>
               Dr. Joshua Todd
             </h1>
             <p className="mt-4 text-xl sm:text-2xl md:text-3xl">
               Fathering, Sonship, Kingdom Culture and more
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 mx-4 sm:mx-0">
               <div className="flex flex-row gap-4 w-full sm:w-auto">
                 <form className="flex items-center flex-1 sm:flex-initial">
                   <Input
@@ -171,7 +171,7 @@ export default function LandingPage() {
                     Joshua studied at the Southern Baptist Theological Seminary, where he was introduced to deliverance ministry—a key element that has since shaped his life and leadership. He went on to earn a master's degree from Wagner Leadership Institute and a doctorate from Kingdom Leadership Institute. Joshua has been happily married to Coral for 18 years, and they are blessed with two wonderful children, Mia and Joshua.
                   </p>
                   <Button variant="outline" asChild>
-                    <Link href="#books">Learn More</Link>
+                    <Link href="/about">Learn More</Link>
                   </Button>
                 </div>
               </div>
@@ -218,8 +218,8 @@ export default function LandingPage() {
                     }
                   ].map((ministry, index) => (
                     <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                      <Card className="flex flex-col h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden">
-                        <div className="h-[400px]">
+                      <Card className="flex flex-col h-auto min-h-[600px] md:h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden">
+                        <div className="h-[250px] md:h-[400px]">
                           <Image
                             src={ministry.image}
                             alt={ministry.title}
@@ -228,14 +228,14 @@ export default function LandingPage() {
                             className="w-full h-full object-cover rounded-t-lg"
                           />
                         </div>
-                        <CardHeader className="py-6">
-                          <CardTitle className="flex items-center text-2xl">
-                            <ministry.icon className="mr-2 h-6 w-6" />
+                        <CardHeader className="py-4">
+                          <CardTitle className="flex items-center text-xl md:text-2xl">
+                            <ministry.icon className="mr-2 h-5 w-5 md:h-6 md:w-6" />
                             {ministry.title}
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="flex-grow">
-                          <p className="text-muted-foreground text-base">
+                          <p className="text-sm md:text-base text-muted-foreground">
                             {ministry.description}
                           </p>
                         </CardContent>
@@ -277,7 +277,7 @@ export default function LandingPage() {
                     },
                     { 
                       name: "Victoria Guiterrez", 
-                      location: "Jacksonville, Fl",
+                      location: "Jacksonville, FL",
                       image: "/healingStreams/vickieNew.png",
                       text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God's destiny and purposes for individuals, cities, regions, and nations. What's more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the 'exceedingly and abundantly above all that I can imagine or think of!'"
                     },
