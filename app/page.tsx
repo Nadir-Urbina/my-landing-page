@@ -257,19 +257,19 @@ export default function LandingPage() {
                   { 
                     name: "Erich Rose", 
                     location: "Escondido, CA",
-                    image: "/healingStreams/erichRose.jpg",
+                    image: "/healingStreams/erichRose.JPG",
                     text: "Through the years, I've watched God meta morph Dr. Joshua Todd. He is not only an inspiration and big brother to me, but he is a clear example of what it means to walk as a new creation son."
                   },
                   { 
                     name: "Jatoria Battle", 
                     location: "Phoenix, AZ",
-                    image: "/healingStreams/toriBattle.jpg",
+                    image: "/healingStreams/toriBattle.JPG",
                     text: "Dr. Joshua's leadership has transformed my husband and I by how we see ourselves as God's people, strengthened us in the call, and loved us into a place of healing. Dr. Joshua not only has apostolic and prophetic language, but he leads in a true biblical apostolic nature."
                   },
                   { 
                     name: "Tylor Trotter", 
                     location: "Jacksonville, FL",
-                    image: "/healingStreams/tylorTrotter.jpg",
+                    image: "/healingStreams/tylorTrotter.JPG",
                     text: "Dr. Joshua's life is a demonstrative example of the leadership of Jesus. He is a true Father in the spirit who leads humbly with a towel wrapped around his waist prepared to wash feet at all times."
                   },
                   { 
