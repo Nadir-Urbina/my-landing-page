@@ -166,7 +166,7 @@ export default function LandingPage() {
                     Joshua Todd was born again in 1994 after a profound encounter with Jesus, accepting his call to ministry that same year. In his late teens, regular encounters with the Lord through His Word ignited a deep desire for a more meaningful relationship with God. A pivotal moment came in 1999 during a visit to Ireland, where he was baptized in the Holy Spirit. This life-changing experience set him on a global missionary journey and led him to pursue theological education.
                   </p>
                   <p className="text-lg mb-4">
-                    Joshua studied at the Southern Baptist Theological Seminary, where he was introduced to deliverance ministry—a key element that has since shaped his life and leadership. He went on to earn a master’s degree from Wagner Leadership Institute and a doctorate from Kingdom Leadership Institute. Joshua has been happily married to Coral for 18 years, and they are blessed with two wonderful children, Mia and Joshua.
+                    Joshua studied at the Southern Baptist Theological Seminary, where he was introduced to deliverance ministry—a key element that has since shaped his life and leadership. He went on to earn a master's degree from Wagner Leadership Institute and a doctorate from Kingdom Leadership Institute. Joshua has been happily married to Coral for 18 years, and they are blessed with two wonderful children, Mia and Joshua.
                   </p>
                   <Button variant="outline" asChild>
                     <Link href="#books">Learn More</Link>
@@ -274,7 +274,7 @@ export default function LandingPage() {
                     name: "Victoria Guiterrez", 
                     location: "Jacksonville, Fl",
                     image: "/healingStreams/vickieNew.png",
-                    text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God’s destiny and purposes for individuals, cities, regions, and nations. What’s more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the “exceedingly and abundantly above all that I can imagine or think of!"
+                    text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God's destiny and purposes for individuals, cities, regions, and nations. What's more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the 'exceedingly and abundantly above all that I can imagine or think of!'"
                   },
                   { 
                     name: "Sean Harvey", 
@@ -364,14 +364,14 @@ export default function LandingPage() {
                   <CardHeader>
                     <CardTitle className="text-xl">{event.title}</CardTitle>
                     <CardDescription className="flex flex-col gap-1">
-                      <div className="flex items-center">
+                      <span className="flex items-center">
                         <Calendar className="h-4 w-4 mr-2" />
                         {event.date}
-                      </div>
-                      <div className="flex items-center">
+                      </span>
+                      <span className="flex items-center">
                         <Globe className="h-4 w-4 mr-2" />
                         {event.location}
-                      </div>
+                      </span>
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
