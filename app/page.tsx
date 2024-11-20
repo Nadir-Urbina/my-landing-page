@@ -182,133 +182,137 @@ export default function LandingPage() {
         <section id="ministry" className="py-16">
           <div className="container">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Ministry Life</h2>
-            <Carousel className="w-full">
-              <CarouselContent className="-ml-4">
-                {[
-                  {
-                    title: "Senior Leader at East Gate",
-                    image: "/ministry/egkfDarkBg.png",
-                    description: "As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.",
-                    icon: Users
-                  },
-                  {
-                    title: "Healing Streams",
-                    image: "/ministry/healingStreamsHorizontal.png",
-                    description: "Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.",
-                    icon: Heart
-                  },
-                  {
-                    title: "The School of Encounter",
-                    image: "/ministry/tsoeHorizontal2.png",
-                    description: "Crest of The Wave is Dr. Todd's initiative to equip and empower the next generation of leaders, riding the forefront of spiritual awakening and cultural transformation.",
-                    icon: Wave
-                  },
-                  {
-                    title: "Elder at The Well Global Alliance",
-                    image: "/ministry/twgaElder.png",
-                    description: "Developing and implementing training programs that establish Kingdom principles and values in individuals, families, and organizations.",
-                    icon: Crown
-                  },
-                  {
-                    title: "The Crest of the Wave",
-                    image: "/ministry/CoTW.png",
-                    description: "Leading missions and outreach initiatives worldwide, spreading the message of Kingdom Culture and establishing connections across nations.",
-                    icon: Globe
-                  }
-                ].map((ministry, index) => (
-                  <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                    <Card className="flex flex-col h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden">
-                      <div className="h-[400px]">
-                        <Image
-                          src={ministry.image}
-                          alt={ministry.title}
-                          width={800}
-                          height={400}
-                          className="w-full h-full object-cover rounded-t-lg"
-                        />
-                      </div>
-                      <CardHeader className="py-6">
-                        <CardTitle className="flex items-center text-2xl">
-                          <ministry.icon className="mr-2 h-6 w-6" />
-                          {ministry.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="flex-grow">
-                        <p className="text-muted-foreground text-base">
-                          {ministry.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="relative px-8 md:px-12">
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-4">
+                  {[
+                    {
+                      title: "Senior Leader at East Gate",
+                      image: "/ministry/egkfDarkBg.png",
+                      description: "As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.",
+                      icon: Users
+                    },
+                    {
+                      title: "Healing Streams",
+                      image: "/ministry/healingStreamsHorizontal.png",
+                      description: "Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.",
+                      icon: Heart
+                    },
+                    {
+                      title: "The School of Encounter",
+                      image: "/ministry/tsoeHorizontal2.png",
+                      description: "Crest of The Wave is Dr. Todd's initiative to equip and empower the next generation of leaders, riding the forefront of spiritual awakening and cultural transformation.",
+                      icon: Wave
+                    },
+                    {
+                      title: "Elder at The Well Global Alliance",
+                      image: "/ministry/twgaElder.png",
+                      description: "Developing and implementing training programs that establish Kingdom principles and values in individuals, families, and organizations.",
+                      icon: Crown
+                    },
+                    {
+                      title: "The Crest of the Wave",
+                      image: "/ministry/CoTW.png",
+                      description: "Leading missions and outreach initiatives worldwide, spreading the message of Kingdom Culture and establishing connections across nations.",
+                      icon: Globe
+                    }
+                  ].map((ministry, index) => (
+                    <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                      <Card className="flex flex-col h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden">
+                        <div className="h-[400px]">
+                          <Image
+                            src={ministry.image}
+                            alt={ministry.title}
+                            width={800}
+                            height={400}
+                            className="w-full h-full object-cover rounded-t-lg"
+                          />
+                        </div>
+                        <CardHeader className="py-6">
+                          <CardTitle className="flex items-center text-2xl">
+                            <ministry.icon className="mr-2 h-6 w-6" />
+                            {ministry.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-grow">
+                          <p className="text-muted-foreground text-base">
+                            {ministry.description}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute -left-3 md:-left-6" />
+                <CarouselNext className="absolute -right-3 md:-right-6" />
+              </Carousel>
+            </div>
           </div>
         </section>
 
         <section id="testimonials" className="py-16 bg-muted">
           <div className="container">
             <h2 className={`text-3xl font-bold mb-8 text-center ${montserrat.className}`}>Testimonials</h2>
-            <Carousel className="w-full">
-              <CarouselContent className="-ml-1">
-                {[
-                  { 
-                    name: "Erich Rose", 
-                    location: "Escondido, CA",
-                    image: "/healingStreams/erichRose.JPG",
-                    text: "Through the years, I've watched God meta morph Dr. Joshua Todd. He is not only an inspiration and big brother to me, but he is a clear example of what it means to walk as a new creation son."
-                  },
-                  { 
-                    name: "Jatoria Battle", 
-                    location: "Phoenix, AZ",
-                    image: "/healingStreams/toriBattle.JPG",
-                    text: "Dr. Joshua's leadership has transformed my husband and I by how we see ourselves as God's people, strengthened us in the call, and loved us into a place of healing. Dr. Joshua not only has apostolic and prophetic language, but he leads in a true biblical apostolic nature."
-                  },
-                  { 
-                    name: "Tylor Trotter", 
-                    location: "Jacksonville, FL",
-                    image: "/healingStreams/tylorTrotter.JPG",
-                    text: "Dr. Joshua's life is a demonstrative example of the leadership of Jesus. He is a true Father in the spirit who leads humbly with a towel wrapped around his waist prepared to wash feet at all times."
-                  },
-                  { 
-                    name: "Victoria Guiterrez", 
-                    location: "Jacksonville, Fl",
-                    image: "/healingStreams/vickieNew.png",
-                    text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God's destiny and purposes for individuals, cities, regions, and nations. What's more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the 'exceedingly and abundantly above all that I can imagine or think of!'"
-                  },
-                  { 
-                    name: "Sean Harvey", 
-                    location: "Piedmont, SC",
-                    image: "/healingStreams/harveyFam.png",
-                    text: "As a transformational kingdom leader Dr. Joshua Todd lives the message of being shaped into the likeness of Christ through the power of the Cross and the Spirit. He exemplifies the truth that it is for freedom we have been set free. His passionate commitment to Jesus is made manifest in relational first lifestyle of leadership."
-                  }
-                ].map((testimonial, index) => (
-                  <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
-                    <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                      <CardHeader>
-                        <Image
-                          src={testimonial.image}
-                          alt={`Testimonial from ${testimonial.name}`}
-                          width={150}
-                          height={150}
-                          className="rounded-full mx-auto object-cover"
-                        />
-                      </CardHeader>
-                      <CardContent className="text-center">
-                        <p className="italic text-sm">"{testimonial.text}"</p>
-                      </CardContent>
-                      <CardFooter className="mt-auto text-center">
-                        <p className="font-semibold">- {testimonial.name}, {testimonial.location}</p>
-                      </CardFooter>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="relative px-8 md:px-12">
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-1">
+                  {[
+                    { 
+                      name: "Erich Rose", 
+                      location: "Escondido, CA",
+                      image: "/healingStreams/erichRose.JPG",
+                      text: "Through the years, I've watched God meta morph Dr. Joshua Todd. He is not only an inspiration and big brother to me, but he is a clear example of what it means to walk as a new creation son."
+                    },
+                    { 
+                      name: "Jatoria Battle", 
+                      location: "Phoenix, AZ",
+                      image: "/healingStreams/toriBattle.JPG",
+                      text: "Dr. Joshua's leadership has transformed my husband and I by how we see ourselves as God's people, strengthened us in the call, and loved us into a place of healing. Dr. Joshua not only has apostolic and prophetic language, but he leads in a true biblical apostolic nature."
+                    },
+                    { 
+                      name: "Tylor Trotter", 
+                      location: "Jacksonville, FL",
+                      image: "/healingStreams/tylorTrotter.JPG",
+                      text: "Dr. Joshua's life is a demonstrative example of the leadership of Jesus. He is a true Father in the spirit who leads humbly with a towel wrapped around his waist prepared to wash feet at all times."
+                    },
+                    { 
+                      name: "Victoria Guiterrez", 
+                      location: "Jacksonville, Fl",
+                      image: "/healingStreams/vickieNew.png",
+                      text: "Dr. Joshua truly leads with the heart of the Father. I can attest to how he sees beyond the natural circumstances and connects with God's destiny and purposes for individuals, cities, regions, and nations. What's more, his leadership constantly challenges and inspires me to go beyond what I think is possible to pursue the 'exceedingly and abundantly above all that I can imagine or think of!'"
+                    },
+                    { 
+                      name: "Sean Harvey", 
+                      location: "Piedmont, SC",
+                      image: "/healingStreams/harveyFam.png",
+                      text: "As a transformational kingdom leader Dr. Joshua Todd lives the message of being shaped into the likeness of Christ through the power of the Cross and the Spirit. He exemplifies the truth that it is for freedom we have been set free. His passionate commitment to Jesus is made manifest in relational first lifestyle of leadership."
+                    }
+                  ].map((testimonial, index) => (
+                    <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
+                      <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                        <CardHeader>
+                          <Image
+                            src={testimonial.image}
+                            alt={`Testimonial from ${testimonial.name}`}
+                            width={150}
+                            height={150}
+                            className="rounded-full mx-auto object-cover"
+                          />
+                        </CardHeader>
+                        <CardContent className="text-center">
+                          <p className="italic text-sm">"{testimonial.text}"</p>
+                        </CardContent>
+                        <CardFooter className="mt-auto text-center">
+                          <p className="font-semibold">- {testimonial.name}, {testimonial.location}</p>
+                        </CardFooter>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute -left-3 md:-left-6" />
+                <CarouselNext className="absolute -right-3 md:-right-6" />
+              </Carousel>
+            </div>
           </div>
         </section>
 
@@ -452,76 +456,78 @@ export default function LandingPage() {
         <section id="books" className="py-16 bg-muted">
           <div className="container">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Books by Dr. Joshua Todd</h2>
-            <Carousel className="w-full">
-              <CarouselContent className="-ml-1">
-                {[
-                  {
-                    title: "Inheritance Invasion",
-                    image: "/Books/inheritanceInvasion.png",
-                    description: "Discover the principles of living and leading in God's Kingdom culture, transforming communities through biblical values.",
-                    link: "https://www.amazon.com/Inheritance-Invasion-Turning-transfer-Transfer/dp/1548507520/ref=sr_1_1?crid=VFNVXIX5YW7T&dib=eyJ2IjoiMSJ9.eoK3dmVR0ymrwb-Bx_3nqg.9HPsoMsmLdsJYEMOTw_k5cOfxfl6bqDwBhpgxi2n9WA&dib_tag=se&keywords=inheritance+invasion+Joshua+Todd&qid=1732117027&sprefix=inheritance+invasion+joshua+tod%2Caps%2C140&sr=8-1"
-                  },
-                  {
-                    title: "Purified Power",
-                    image: "/Books/PurifiedPower.png",
-                    description: "Explore the depth of God's father heart and how it transforms our identity, relationships, and purpose.",
-                    link: "https://www.amazon.com/Purified-Power-Prophetic-Action/dp/B08DPWNN7W/ref=sr_1_1?crid=2A4EZHW65RZYE&dib=eyJ2IjoiMSJ9.d8cZHlvVoFdN9VpL9Srt0A.cT4fmDfsoskrXtjniVTsP3Lb8LDxsjDBSCtkq3RsaOo&dib_tag=se&keywords=purified+power+Joshua+Todd&qid=1732117055&sprefix=purified+powerjoshua+todd%2Caps%2C111&sr=8-1"
-                  },
-                  {
-                    title: "Seasons of Sonship - Foundations",
-                    image: "/Books/SoSBook1.png",
-                    description: "Understanding your identity as a son/daughter of God and walking in the fullness of your spiritual inheritance.",
-                    link: "https://www.amazon.com/Seasons-Sonship-Foundations-Book-1/dp/1790544602/ref=sr_1_1?crid=3K2AGF6J7X3DX&dib=eyJ2IjoiMSJ9.1XgmpP1o0q4VdDl6Q1fXRYOKosmzMhpWTCrWzcjVzp3GjHj071QN20LucGBJIEps.Wenn8yiK3arY6vElefwh8emWzDHgCnAwvvISyb_wDvc&dib_tag=se&keywords=seasons+of+sonship+foundations+Joshua+Todd&qid=1732117090&sprefix=seasons+of+sonship+foundations+joshua+todd%2Caps%2C129&sr=8-1"
-                  },
-                  {
-                    title: "Seasons of Sonship - Invitation",
-                    image: "/Books/SoSBook2.png",
-                    description: "A practical guide to building a culture of honor in your life, family, and organization.",
-                    link: "https://www.amazon.com/Seasons-Sonship-Invitation-Joshua-Todd/dp/B088LH2WLB/ref=sr_1_2?crid=3K2AGF6J7X3DX&dib=eyJ2IjoiMSJ9.1XgmpP1o0q4VdDl6Q1fXRYOKosmzMhpWTCrWzcjVzp3GjHj071QN20LucGBJIEps.Wenn8yiK3arY6vElefwh8emWzDHgCnAwvvISyb_wDvc&dib_tag=se&keywords=seasons+of+sonship+foundations+Joshua+Todd&qid=1732117090&sprefix=seasons+of+sonship+foundations+joshua+todd%2Caps%2C129&sr=8-2"
-                  },
-                  {
-                    title: "Seasons of Sonship - Interdependence",
-                    image: "/Books/SoSBook3.png",
-                    description: "Learn to walk in the authority that God has given you as His representative in the earth.",
-                    link: "https://www.amazon.com/Seasons-Sonship-Interdependence-Joshua-Todd/dp/B09QF44HKX/ref=sr_1_1?crid=2BMCDX51P45B7&dib=eyJ2IjoiMSJ9.lcLuHBsZFyy1rvtFn_87Xe8mQAL-WLt60TQL4Zp7mlzGjHj071QN20LucGBJIEps.iPpDjJf3MiRBNfISDIDbytVL_GRKkeACYVhFw9UrUkQ&dib_tag=se&keywords=seasons+of+sonship+interdependence&qid=1732055281&sprefix=seasons+of+sonship+interdependence%2Caps%2C121&sr=8-1"
-                  }
-                ].map((book, index) => (
-                  <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
-                    <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-                      <div>
-                        <Image
-                          src={book.image}
-                          alt={`${book.title} book cover`}
-                          width={400}
-                          height={600}
-                          className="w-full object-cover h-[400px]"
-                        />
-                        <CardHeader className="py-4">
-                          <CardTitle className="text-xl">
-                            {book.title}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="py-2">
-                          <p className="text-sm text-muted-foreground">
-                            {book.description}
-                          </p>
-                        </CardContent>
-                      </div>
-                      <CardFooter className="mt-auto py-4">
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link href={book.link}>
-                            <BookOpen className="mr-2" />
-                            Learn More
-                          </Link>
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="relative px-8 md:px-12">
+              <Carousel className="w-full">
+                <CarouselContent className="-ml-1">
+                  {[
+                    {
+                      title: "Inheritance Invasion",
+                      image: "/Books/inheritanceInvasion.png",
+                      description: "Discover the principles of living and leading in God's Kingdom culture, transforming communities through biblical values.",
+                      link: "https://www.amazon.com/Inheritance-Invasion-Turning-transfer-Transfer/dp/1548507520/ref=sr_1_1?crid=VFNVXIX5YW7T&dib=eyJ2IjoiMSJ9.eoK3dmVR0ymrwb-Bx_3nqg.9HPsoMsmLdsJYEMOTw_k5cOfxfl6bqDwBhpgxi2n9WA&dib_tag=se&keywords=inheritance+invasion+Joshua+Todd&qid=1732117027&sprefix=inheritance+invasion+joshua+tod%2Caps%2C140&sr=8-1"
+                    },
+                    {
+                      title: "Purified Power",
+                      image: "/Books/PurifiedPower.png",
+                      description: "Explore the depth of God's father heart and how it transforms our identity, relationships, and purpose.",
+                      link: "https://www.amazon.com/Purified-Power-Prophetic-Action/dp/B08DPWNN7W/ref=sr_1_1?crid=2A4EZHW65RZYE&dib=eyJ2IjoiMSJ9.d8cZHlvVoFdN9VpL9Srt0A.cT4fmDfsoskrXtjniVTsP3Lb8LDxsjDBSCtkq3RsaOo&dib_tag=se&keywords=purified+power+Joshua+Todd&qid=1732117055&sprefix=purified+powerjoshua+todd%2Caps%2C111&sr=8-1"
+                    },
+                    {
+                      title: "Seasons of Sonship - Foundations",
+                      image: "/Books/SoSBook1.png",
+                      description: "Understanding your identity as a son/daughter of God and walking in the fullness of your spiritual inheritance.",
+                      link: "https://www.amazon.com/Seasons-Sonship-Foundations-Book-1/dp/1790544602/ref=sr_1_1?crid=3K2AGF6J7X3DX&dib=eyJ2IjoiMSJ9.1XgmpP1o0q4VdDl6Q1fXRYOKosmzMhpWTCrWzcjVzp3GjHj071QN20LucGBJIEps.Wenn8yiK3arY6vElefwh8emWzDHgCnAwvvISyb_wDvc&dib_tag=se&keywords=seasons+of+sonship+foundations+Joshua+Todd&qid=1732117090&sprefix=seasons+of+sonship+foundations+joshua+todd%2Caps%2C129&sr=8-1"
+                    },
+                    {
+                      title: "Seasons of Sonship - Invitation",
+                      image: "/Books/SoSBook2.png",
+                      description: "A practical guide to building a culture of honor in your life, family, and organization.",
+                      link: "https://www.amazon.com/Seasons-Sonship-Invitation-Joshua-Todd/dp/B088LH2WLB/ref=sr_1_2?crid=3K2AGF6J7X3DX&dib=eyJ2IjoiMSJ9.1XgmpP1o0q4VdDl6Q1fXRYOKosmzMhpWTCrWzcjVzp3GjHj071QN20LucGBJIEps.Wenn8yiK3arY6vElefwh8emWzDHgCnAwvvISyb_wDvc&dib_tag=se&keywords=seasons+of+sonship+foundations+Joshua+Todd&qid=1732117090&sprefix=seasons+of+sonship+foundations+joshua+todd%2Caps%2C129&sr=8-2"
+                    },
+                    {
+                      title: "Seasons of Sonship - Interdependence",
+                      image: "/Books/SoSBook3.png",
+                      description: "Learn to walk in the authority that God has given you as His representative in the earth.",
+                      link: "https://www.amazon.com/Seasons-Sonship-Interdependence-Joshua-Todd/dp/B09QF44HKX/ref=sr_1_1?crid=2BMCDX51P45B7&dib=eyJ2IjoiMSJ9.lcLuHBsZFyy1rvtFn_87Xe8mQAL-WLt60TQL4Zp7mlzGjHj071QN20LucGBJIEps.iPpDjJf3MiRBNfISDIDbytVL_GRKkeACYVhFw9UrUkQ&dib_tag=se&keywords=seasons+of+sonship+interdependence&qid=1732055281&sprefix=seasons+of+sonship+interdependence%2Caps%2C121&sr=8-1"
+                    }
+                  ].map((book, index) => (
+                    <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
+                      <Card className="flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                        <div>
+                          <Image
+                            src={book.image}
+                            alt={`${book.title} book cover`}
+                            width={400}
+                            height={600}
+                            className="w-full object-cover h-[400px]"
+                          />
+                          <CardHeader className="py-4">
+                            <CardTitle className="text-xl">
+                              {book.title}
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className="py-2">
+                            <p className="text-sm text-muted-foreground">
+                              {book.description}
+                            </p>
+                          </CardContent>
+                        </div>
+                        <CardFooter className="mt-auto py-4">
+                          <Button variant="outline" className="w-full" asChild>
+                            <Link href={book.link}>
+                              <BookOpen className="mr-2" />
+                              Learn More
+                            </Link>
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute -left-3 md:-left-6" />
+                <CarouselNext className="absolute -right-3 md:-right-6" />
+              </Carousel>
+            </div>
           </div>
         </section>
 
