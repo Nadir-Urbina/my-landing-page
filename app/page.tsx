@@ -23,6 +23,8 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const donateUrl = "https://give.tithe.ly/?formId=fc03799a-0541-44e4-91a9-d53c7f5fd9d3&locationId=ebb1aab5-ff12-4129-8311-983143e7db4f&fundId=62ddfc18-4b94-41ac-978c-3b14d9cdc37c"
+
   return (
     <div className={`flex flex-col min-h-screen ${inter.className}`}>
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -141,7 +143,7 @@ export default function LandingPage() {
                 asChild 
                 className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white border-0 w-full sm:w-auto"
               >
-                <Link href="#partner">Partner with Me</Link>
+                <Link href={donateUrl}>Partner with Me</Link>
               </Button>
             </div>
           </div>
@@ -316,8 +318,10 @@ export default function LandingPage() {
             <p className="text-lg mb-8 max-w-2xl mx-auto">
               Your support enables us to continue spreading the message of Kingdom Culture and discipleship worldwide. Join me in making a difference.
             </p>
-            <Button size="lg" className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0">
-              Donate Now
+            <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0">
+              <Link href="https://give.tithe.ly/?formId=fc03799a-0541-44e4-91a9-d53c7f5fd9d3&locationId=ebb1aab5-ff12-4129-8311-983143e7db4f&fundId=62ddfc18-4b94-41ac-978c-3b14d9cdc37c">
+                Donate Now
+              </Link>
             </Button>
           </div>
         </section>
