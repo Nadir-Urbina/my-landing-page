@@ -457,33 +457,33 @@ export default function LandingPage() {
                 {[
                   {
                     title: "Inheritance Invasion",
-                    image: "/books/inheritanceInvasion.png",
+                    image: "/Books/inheritanceInvasion.png",
                     description: "Discover the principles of living and leading in God's Kingdom culture, transforming communities through biblical values.",
-                    link: "/books/inheritance-invasion"
+                    link: "https://www.amazon.com/Inheritance-Invasion-Turning-transfer-Transfer/dp/1548507520/ref=sr_1_1?crid=VFNVXIX5YW7T&dib=eyJ2IjoiMSJ9.eoK3dmVR0ymrwb-Bx_3nqg.9HPsoMsmLdsJYEMOTw_k5cOfxfl6bqDwBhpgxi2n9WA&dib_tag=se&keywords=inheritance+invasion+Joshua+Todd&qid=1732117027&sprefix=inheritance+invasion+joshua+tod%2Caps%2C140&sr=8-1"
                   },
                   {
                     title: "Purified Power",
-                    image: "/books/PurifiedPower.png",
+                    image: "/Books/PurifiedPower.png",
                     description: "Explore the depth of God's father heart and how it transforms our identity, relationships, and purpose.",
-                    link: "/books/purified-power"
+                    link: "https://www.amazon.com/Purified-Power-Prophetic-Action/dp/B08DPWNN7W/ref=sr_1_1?crid=2A4EZHW65RZYE&dib=eyJ2IjoiMSJ9.d8cZHlvVoFdN9VpL9Srt0A.cT4fmDfsoskrXtjniVTsP3Lb8LDxsjDBSCtkq3RsaOo&dib_tag=se&keywords=purified+power+Joshua+Todd&qid=1732117055&sprefix=purified+powerjoshua+todd%2Caps%2C111&sr=8-1"
                   },
                   {
                     title: "Seasons of Sonship - Foundations",
-                    image: "/books/SoSBook1.png",
+                    image: "/Books/SoSBook1.png",
                     description: "Understanding your identity as a son/daughter of God and walking in the fullness of your spiritual inheritance.",
-                    link: "/books/seasons-of-sonship"
+                    link: "https://www.amazon.com/Seasons-Sonship-Foundations-Book-1/dp/1790544602/ref=sr_1_1?crid=3K2AGF6J7X3DX&dib=eyJ2IjoiMSJ9.1XgmpP1o0q4VdDl6Q1fXRYOKosmzMhpWTCrWzcjVzp3GjHj071QN20LucGBJIEps.Wenn8yiK3arY6vElefwh8emWzDHgCnAwvvISyb_wDvc&dib_tag=se&keywords=seasons+of+sonship+foundations+Joshua+Todd&qid=1732117090&sprefix=seasons+of+sonship+foundations+joshua+todd%2Caps%2C129&sr=8-1"
                   },
                   {
                     title: "Seasons of Sonship - Invitation",
-                    image: "/books/SoSBook2.png",
+                    image: "/Books/SoSBook2.png",
                     description: "A practical guide to building a culture of honor in your life, family, and organization.",
-                    link: "/books/honors-pathway"
+                    link: "https://www.amazon.com/Seasons-Sonship-Invitation-Joshua-Todd/dp/B088LH2WLB/ref=sr_1_2?crid=3K2AGF6J7X3DX&dib=eyJ2IjoiMSJ9.1XgmpP1o0q4VdDl6Q1fXRYOKosmzMhpWTCrWzcjVzp3GjHj071QN20LucGBJIEps.Wenn8yiK3arY6vElefwh8emWzDHgCnAwvvISyb_wDvc&dib_tag=se&keywords=seasons+of+sonship+foundations+Joshua+Todd&qid=1732117090&sprefix=seasons+of+sonship+foundations+joshua+todd%2Caps%2C129&sr=8-2"
                   },
                   {
                     title: "Seasons of Sonship - Interdependence",
-                    image: "/books/SoSBook3.png",
+                    image: "/Books/SoSBook3.png",
                     description: "Learn to walk in the authority that God has given you as His representative in the earth.",
-                    link: "/books/kingdom-authority"
+                    link: "https://www.amazon.com/Seasons-Sonship-Interdependence-Joshua-Todd/dp/B09QF44HKX/ref=sr_1_1?crid=2BMCDX51P45B7&dib=eyJ2IjoiMSJ9.lcLuHBsZFyy1rvtFn_87Xe8mQAL-WLt60TQL4Zp7mlzGjHj071QN20LucGBJIEps.iPpDjJf3MiRBNfISDIDbytVL_GRKkeACYVhFw9UrUkQ&dib_tag=se&keywords=seasons+of+sonship+interdependence&qid=1732055281&sprefix=seasons+of+sonship+interdependence%2Caps%2C121&sr=8-1"
                   }
                 ].map((book, index) => (
                   <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/4">
