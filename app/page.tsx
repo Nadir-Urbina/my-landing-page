@@ -156,7 +156,7 @@ export default function LandingPage() {
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <Image
-                    src="/drJosh/drJoshSmiling.jpg"
+                    src="/drJosh/drJoshSmilingMic.jpg"
                     alt="Dr. Joshua Todd portrait"
                     width={600}
                     height={600}
@@ -358,12 +358,13 @@ export default function LandingPage() {
               ].slice(0, 1).map((event, index) => (
                 <Card key={index} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <div className="h-[200px] relative">
-                    <Image
+                    {/* Comment out until you have the images */}
+                    {/*<Image
                       src={event.image}
                       alt={event.title}
                       fill
                       className="object-cover rounded-t-lg"
-                    />
+                    />*/}
                   </div>
                   <CardHeader>
                     <CardTitle className="text-xl">{event.title}</CardTitle>
@@ -462,25 +463,25 @@ export default function LandingPage() {
                   },
                   {
                     title: "Purified Power",
-                    image: "/books/Purified Power.png",
+                    image: "/books/PurifiedPower.png",
                     description: "Explore the depth of God's father heart and how it transforms our identity, relationships, and purpose.",
                     link: "/books/purified-power"
                   },
                   {
                     title: "Seasons of Sonship - Foundations",
-                    image: "/books/SoSBook 1.png",
+                    image: "/books/SoSBook1.png",
                     description: "Understanding your identity as a son/daughter of God and walking in the fullness of your spiritual inheritance.",
                     link: "/books/seasons-of-sonship"
                   },
                   {
                     title: "Seasons of Sonship - Invitation",
-                    image: "/books/SoSBook 2.png",
+                    image: "/books/SoSBook2.png",
                     description: "A practical guide to building a culture of honor in your life, family, and organization.",
                     link: "/books/honors-pathway"
                   },
                   {
                     title: "Seasons of Sonship - Interdependence",
-                    image: "/books/SoSBook 3.png",
+                    image: "/books/SoSBook3.png",
                     description: "Learn to walk in the authority that God has given you as His representative in the earth.",
                     link: "/books/kingdom-authority"
                   }
