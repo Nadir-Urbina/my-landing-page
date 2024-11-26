@@ -152,7 +152,7 @@ export default function LandingPage() {
         <section id="about" className="py-16 bg-muted">
           <div className="container">
             <div className="max-w-[1400px] mx-auto">
-              <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>About Dr. Joshua Todd</h2>
+              <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Get to Know me</h2>
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <Image
@@ -205,7 +205,7 @@ export default function LandingPage() {
                       icon: Wave
                     },
                     {
-                      title: "Elder at The Well Global Alliance",
+                      title: "Elder at TWGA",
                       image: "/ministry/twgaElder.png",
                       description: "Developing and implementing training programs that establish Kingdom principles and values in individuals, families, and organizations.",
                       icon: Crown
