@@ -22,8 +22,32 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const donateUrl = "https://give.tithe.ly/?formId=fc03799a-0541-44e4-91a9-d53c7f5fd9d3&locationId=ebb1aab5-ff12-4129-8311-983143e7db4f&fundId=62ddfc18-4b94-41ac-978c-3b14d9cdc37c"
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!response.ok) throw new Error()
+
+      setStatus('success')
+      setEmail('')
+      // Show success message or trigger confetti
+    } catch (error) {
+      setStatus('error')
+      // Show error message
+    }
+  }
 
   return (
     <div className={`flex flex-col min-h-screen ${inter.className}`}>
@@ -190,31 +214,29 @@ export default function LandingPage() {
                       title: "Senior Leader at East Gate",
                       image: "/ministry/egkfDarkBg.png",
                       description: "As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.",
-                      icon: Users
+                      icon: Users,
+                      href: "https://www.eastgatejax.com"
                     },
                     {
                       title: "Healing Streams",
                       image: "/ministry/healingStreamsHorizontal.png",
                       description: "Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.",
-                      icon: Heart
+                      icon: Heart,
+                      href: "/healing-streams"
                     },
                     {
                       title: "The School of Encounter",
                       image: "/ministry/tsoeHorizontal2.png",
                       description: "Crest of The Wave is Dr. Todd's initiative to equip and empower the next generation of leaders, riding the forefront of spiritual awakening and cultural transformation.",
-                      icon: Wave
+                      icon: Wave,
+                      href: "https://www.theschoolofencounter.com"
                     },
                     {
                       title: "Elder at TWGA",
                       image: "/ministry/twgaElder.png",
                       description: "Developing and implementing training programs that establish Kingdom principles and values in individuals, families, and organizations.",
-                      icon: Crown
-                    },
-                    {
-                      title: "The Crest of the Wave",
-                      image: "/ministry/CoTW.png",
-                      description: "Leading missions and outreach initiatives worldwide, spreading the message of Kingdom Culture and establishing connections across nations.",
-                      icon: Globe
+                      icon: Crown,
+                      href: "https://www.thewellglobal.life/alliance"
                     }
                   ].map((ministry, index) => (
                     <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
@@ -239,6 +261,18 @@ export default function LandingPage() {
                             {ministry.description}
                           </p>
                         </CardContent>
+                        <CardFooter className="mt-auto pt-4">
+                          <Button variant="outline" className="w-full" asChild>
+                            <Link 
+                              href={ministry.href}
+                              target={ministry.href.startsWith('http') ? '_blank' : undefined}
+                              rel={ministry.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            >
+                              Learn More
+                              <ChevronRight className="ml-2 h-4 w-4" />
+                            </Link>
+                          </Button>
+                        </CardFooter>
                       </Card>
                     </CarouselItem>
                   ))}
@@ -336,12 +370,13 @@ export default function LandingPage() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  title: "Kingdom Culture Conference 2024",
-                  date: "March 15-17, 2024",
-                  location: "Jacksonville, Florida",
-                  description: "A three-day immersive conference exploring Kingdom principles, spiritual authority, and supernatural lifestyle. Join us for powerful worship, transformative teaching, and prophetic ministry.",
-                  image: "/events/kingdom-culture-conf.jpg",
-                  registrationLink: "/events/kingdom-culture-2024"
+                  title: "Ekballo Conference 2025",
+                  date: "March 13-15, 2025",
+                  location: "Maryville, TN",
+                  description: "The Well Global is pleased to announce the Ekballo Conference for Spring 2025! This convergence of global missions-both internationally, nationally, and within the seven mountains along with the call to intercession rising up within the Body of Christ is a timely meeting where many will be launched into their destiny!",
+                  image: "/events/ekballo.webp",
+                  learnMoreLink: "https://www.thewellglobal.life/events/ekballo",
+                  registrationLink: "https://www.thewellglobal.life/events/ekballo/register"
                 },
                 {
                   title: "Healing Streams Intensive",
@@ -362,13 +397,12 @@ export default function LandingPage() {
               ].slice(0, 1).map((event, index) => (
                 <Card key={index} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                   <div className="h-[200px] relative">
-                    {/* Comment out until you have the images */}
-                    {/*<Image
+                    <Image
                       src={event.image}
                       alt={event.title}
                       fill
                       className="object-cover rounded-t-lg"
-                    />*/}
+                    />
                   </div>
                   <CardHeader>
                     <CardTitle className="text-xl">{event.title}</CardTitle>
@@ -388,9 +422,15 @@ export default function LandingPage() {
                   </CardContent>
                   <CardFooter className="flex gap-2">
                     <Button variant="outline" asChild>
-                      <Link href={event.registrationLink}>Learn More</Link>
+                      <Link href={event.learnMoreLink} target="_blank" rel="noopener noreferrer">
+                        Learn More
+                      </Link>
                     </Button>
-                    <Button>Register Now</Button>
+                    <Button asChild>
+                      <Link href={event.registrationLink} target="_blank" rel="noopener noreferrer">
+                        Register Now
+                      </Link>
+                    </Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -537,10 +577,31 @@ export default function LandingPage() {
             <p className="text-lg mb-8 max-w-2xl mx-auto">
               Stay updated with Dr. Joshua Todd's latest teachings, events, and mission opportunities.
             </p>
-            <Button size="lg" className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white border-0">
-              Subscribe to Newsletter
-              <ChevronRight className="ml-2" />
-            </Button>
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full sm:w-[300px] bg-white/10"
+                required
+              />
+              <Button 
+                type="submit"
+                size="lg" 
+                className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white border-0"
+                disabled={status === 'loading'}
+              >
+                {status === 'loading' ? 'Subscribing...' : 'Subscribe to Newsletter'}
+                <ChevronRight className="ml-2" />
+              </Button>
+            </form>
+            {status === 'success' && (
+              <p className="mt-4 text-green-600">Thank you for subscribing!</p>
+            )}
+            {status === 'error' && (
+              <p className="mt-4 text-red-600">Something went wrong. Please try again.</p>
+            )}
           </div>
         </section>
       </main>
