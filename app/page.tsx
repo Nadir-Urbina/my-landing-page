@@ -260,7 +260,7 @@ export default function LandingPage() {
                     }
                   ].map((ministry, index) => (
                     <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                      <Card className="flex flex-col h-auto min-h-[600px] md:h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden">
+                      <Card className="flex flex-col h-auto min-h-[600px] md:h-[600px] transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden relative">
                         <div className="h-[250px] md:h-[400px]">
                           <Image
                             src={ministry.image}
@@ -269,6 +269,17 @@ export default function LandingPage() {
                             height={400}
                             className="w-full h-full object-cover rounded-t-lg"
                           />
+                        </div>
+                        <div className="absolute top-4 right-4">
+                          <Button variant="outline" size="sm" className="bg-white/80 backdrop-blur-sm hover:bg-white" asChild>
+                            <Link 
+                              href={ministry.href}
+                              target={ministry.href.startsWith('http') ? '_blank' : undefined}
+                              rel={ministry.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            >
+                              Learn More
+                            </Link>
+                          </Button>
                         </div>
                         <CardHeader className="py-4">
                           <CardTitle className="flex items-center text-xl md:text-2xl">
@@ -281,18 +292,6 @@ export default function LandingPage() {
                             {ministry.description}
                           </p>
                         </CardContent>
-                        <CardFooter className="mt-auto pt-4">
-                          <Button variant="outline" className="w-full" asChild>
-                            <Link 
-                              href={ministry.href}
-                              target={ministry.href.startsWith('http') ? '_blank' : undefined}
-                              rel={ministry.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            >
-                              Learn More
-                              <ChevronRight className="ml-2 h-4 w-4" />
-                            </Link>
-                          </Button>
-                        </CardFooter>
                       </Card>
                     </CarouselItem>
                   ))}
