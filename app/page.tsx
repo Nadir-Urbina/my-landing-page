@@ -376,7 +376,7 @@ export default function LandingPage() {
                   description: "The Well Global is pleased to announce the Ekballo Conference for Spring 2025! This convergence of global missions-both internationally, nationally, and within the seven mountains along with the call to intercession rising up within the Body of Christ is a timely meeting where many will be launched into their destiny!",
                   image: "/events/ekballo.webp",
                   learnMoreLink: "https://www.thewellglobal.life/events/ekballo",
-                  registrationLink: "https://www.thewellglobal.life/events/ekballo/register"
+                  registrationLink: "https://www.thewellglobal.life/store/ekballo"
                 },
                 {
                   title: "Healing Streams Intensive",
@@ -421,16 +421,20 @@ export default function LandingPage() {
                     <p className="text-sm text-muted-foreground">{event.description}</p>
                   </CardContent>
                   <CardFooter className="flex gap-2">
-                    <Button variant="outline" asChild>
-                      <Link href={event.learnMoreLink} target="_blank" rel="noopener noreferrer">
-                        Learn More
-                      </Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={event.registrationLink} target="_blank" rel="noopener noreferrer">
-                        Register Now
-                      </Link>
-                    </Button>
+                    {event.learnMoreLink && (
+                      <Button variant="outline" asChild>
+                        <Link href={event.learnMoreLink} target="_blank" rel="noopener noreferrer">
+                          Learn More
+                        </Link>
+                      </Button>
+                    )}
+                    {event.registrationLink && (
+                      <Button asChild>
+                        <Link href={event.registrationLink} target="_blank" rel="noopener noreferrer">
+                          Register Now
+                        </Link>
+                      </Button>
+                    )}
                   </CardFooter>
                 </Card>
               ))}
