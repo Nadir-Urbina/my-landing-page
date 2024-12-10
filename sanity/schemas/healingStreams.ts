@@ -7,6 +7,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'description',
@@ -14,28 +15,13 @@ export default {
       type: 'text',
     },
     {
-      name: 'mainImage',
-      title: 'Main Image',
+      name: 'image',
+      title: 'Image',
       type: 'image',
-      options: { hotspot: true },
+      options: {
+        hotspot: true,
+      },
     },
-    {
-      name: 'galleryImages',
-      title: 'Gallery Images',
-      type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
-    },
-    {
-      name: 'testimonials',
-      title: 'Testimonials',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'testimonial' }] }],
-    },
-    {
-      name: 'upcomingEvents',
-      title: 'Upcoming Events',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'event' }] }],
-    }
-  ],
+    // Add other fields as needed
+  ]
 } 

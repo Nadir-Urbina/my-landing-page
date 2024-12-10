@@ -95,4 +95,17 @@ export async function getUpcomingEvents() {
       registrationLink
     }
   `, { now })
+}
+
+export async function getHealingStreamsContent() {
+  const query = `*[_type == "healingStreams"] {
+    _id,
+    title,
+    description,
+    image,
+    // add other fields you need
+  }`
+
+  const content = await client.fetch(query)
+  return content
 } 
