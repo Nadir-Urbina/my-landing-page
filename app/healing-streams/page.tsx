@@ -6,16 +6,22 @@ import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
 import { useState } from 'react'
 import Link from 'next/link'
+import { getHealingStreamsContent } from '@/lib/sanity.client'
+import type { Testimonial, Event } from '@/types/sanity'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
-export default function HealingStreamsPage() {
-  const [activeImage, setActiveImage] = useState(0)
-  const images = [
-    "/healingStreams/ausHealingStreams.JPG",
-    "/healingStreams/ausHealingStreams2.JPG",
-    "/healingStreams/drJoshPrayingforEmma.JPG"
-  ]
+interface HealingStreamsContent {
+  title: string;
+  description: string;
+  mainImage: string;
+  galleryImages: string[];
+  testimonials: Testimonial[];
+  upcomingEvents: Event[];
+}
+
+export default async function HealingStreamsPage() {
+  const content = await getHealingStreamsContent() as HealingStreamsContent
 
   return (
     <main className="flex-1">
@@ -48,7 +54,7 @@ export default function HealingStreamsPage() {
         </Link>
       </motion.div>
 
-      {/* Hero Section with Image Carousel */}
+      {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0 }}
@@ -57,27 +63,14 @@ export default function HealingStreamsPage() {
           className="absolute inset-0"
         >
           <Image
-            src={images[activeImage]}
+            src={content.mainImage}
             alt="Healing Streams Ministry"
             fill
-            className="absolute inset-0 object-cover transition-opacity duration-500"
+            className="absolute inset-0 object-cover"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
         </motion.div>
-
-        {/* Image Navigation Dots */}
-        <div className="absolute bottom-8 flex gap-2 z-20">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveImage(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                activeImage === index ? 'bg-white scale-125' : 'bg-white/50'
-              }`}
-            />
-          ))}
-        </div>
 
         <motion.div 
           initial={{ y: 50, opacity: 0 }}
@@ -86,104 +79,62 @@ export default function HealingStreamsPage() {
           className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8"
         >
           <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold ${montserrat.className}`}>
-            Healing Streams International
+            {content.title}
           </h1>
-          <p className="mt-4 text-xl sm:text-2xl max-w-3xl mx-auto">
-            Training and equipping believers in Kingdom principles for spiritual wholeness
+          <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto">
+            {content.description}
           </p>
         </motion.div>
       </section>
 
-      {/* Main Content with Grid Layout */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="grid md:grid-cols-2 gap-12 items-center mb-16"
-          >
-            <div className="prose prose-lg">
-              <h2 className={`text-3xl font-bold mb-6 ${montserrat.className}`}>Our Vision</h2>
-              <p className="text-lg">
-                Healing Streams International is a powerful ministry expression that supports believers 
-                through the training and equipping of Kingdom principles and the removal of spiritual 
-                root systems that are impeding forward momentum in an individual's journey towards 
-                who they truly are.
-              </p>
-            </div>
-            <div className="relative h-[400px] rounded-lg overflow-hidden shadow-2xl">
-              <Image
-                src="/healingStreams/ausHealingStreams.JPG"
-                alt="Healing Streams Ministry"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
+      {/* Gallery Section */}
+      <section className="py-16">
+        <div className="container">
+          <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Gallery</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {content.galleryImages.map((image, index) => (
+              <div key={index} className="relative aspect-video rounded-lg overflow-hidden">
+                <Image
+                  src={image}
+                  alt={`Healing Streams Gallery ${index + 1}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="prose prose-lg mx-auto mb-16"
-          >
-            <p className="text-lg mb-6">
-              With a unique lens, the goal is to see manifested what believer looks 
-              like had the impacts of wounds, trauma, demonization, had those things never occurred. 
-              Appropriating the finished work of the Cross of Jesus Christ, authority of scripture, the 
-              power of intimacy with the person of Holy Spirit, and reality of several hearted 
-              leadership, individuals are set free at new levels.
-            </p>
-            <p className="text-lg">
-              The rich history of healing streams is worthy of note. Beginning in revelation part of the 
-              well-known "Cleansing Streams" and then further developed under the ministry known 
-              as "Freedom Ministry International", by Dr Don Lynch, and then finally "Bloodline 
-              deliverance" with Mike Brewer, this seminar format allows Holy Spirit to work to bring 
-              wholeness into the entire man.
-            </p>
-          </motion.div>
+      {/* Testimonials Section */}
+      <section className="py-16 bg-muted">
+        <div className="container">
+          <h2 className={`text-3xl font-bold mb-8 text-center ${montserrat.className}`}>
+            Testimonials
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {content.testimonials.map((testimonial) => (
+              <Card key={testimonial._id}>
+                {/* ... Testimonial card content ... */}
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {/* FAQ Section with Interactive Cards */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="mt-16"
-          >
-            <h2 className={`text-3xl font-bold mb-8 text-center ${montserrat.className}`}>
-              Frequently Asked Questions
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "What are the formats of Healing Streams?",
-                  content: "Healing Streams follows several formats that range from individual ministry sessions, to 3 day concentrations, 5 day intensive and 13 week seminars. These are done upon the basis of need and capacity for ministry."
-                },
-                {
-                  title: "Where is the base of Healing Streams located?",
-                  content: "Healing Streams International is headquartered in Jacksonville Florida, among the team of East Gate Kingdom Fellowship. This base reaches out to nations regularly."
-                },
-                {
-                  title: "What are the 3 levels of Healing Streams?",
-                  content: "The first level is called Encounter Christ, is about a fresh encounter of Jesus as described in John 8. This is not about knowledge in the head, but experiencing authentic encounter. The Second level is 'Encounter Holy Spirit,' and is about encountering the person of Holy Spirit intimately. This level deals with substances for deliverance and healing."
-                }
-              ].map((faq, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Card className="h-full hover:shadow-lg transition-shadow duration-300">
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-semibold mb-3">{faq.title}</h3>
-                      <p className="text-gray-600">{faq.content}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+      {/* Events Section */}
+      <section className="py-16">
+        <div className="container">
+          <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>
+            Upcoming Events
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {content.upcomingEvents.map((event) => (
+              <Card key={event._id}>
+                {/* ... Event card content ... */}
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 

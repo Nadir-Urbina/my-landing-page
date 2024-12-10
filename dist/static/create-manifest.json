@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "createdAt": "2024-12-10T00:28:18.456Z",
+  "workspaces": [
+    {
+      "name": "default",
+      "title": "Dr Joshua Todd",
+      "basePath": "/studio",
+      "dataset": "production",
+      "schema": "fe706aa3.create-schema.json"
+    }
+  ]
+}
