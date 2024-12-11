@@ -102,8 +102,8 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
     return (
       <Button
         ref={ref}
-        variant={variant}
-        size={size}
+        variant={variant as "outline"}
+        size={size as "icon"}
         className={cn("absolute left-4 top-1/2 -translate-y-1/2 rounded-full", className)}
         disabled={!canScrollPrev}
         onClick={scrollPrev}
@@ -123,8 +123,8 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
     return (
       <Button
         ref={ref}
-        variant={variant}
-        size={size}
+        variant={variant as "outline"}
+        size={size as "icon"}
         className={cn("absolute right-4 top-1/2 -translate-y-1/2 rounded-full", className)}
         disabled={!canScrollNext}
         onClick={scrollNext}
