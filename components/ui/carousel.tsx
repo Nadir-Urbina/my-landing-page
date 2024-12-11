@@ -4,7 +4,7 @@ import * as React from "react"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button, type ButtonProps } from "@/components/ui/button"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -96,17 +96,14 @@ const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 )
 CarouselItem.displayName = "CarouselItem"
 
-type ButtonVariant = "outline" | "default" | "destructive" | "secondary" | "ghost" | "link"
-type ButtonSize = "default" | "sm" | "lg" | "icon"
-
-const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
-  ({ className, variant = "outline", size = "icon", ...props }, ref) => {
+const CarouselPrevious = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, ...props }, ref) => {
     const { scrollPrev, canScrollPrev } = useCarousel()
     return (
       <Button
         ref={ref}
-        variant={variant as ButtonVariant}
-        size={size as ButtonSize}
+        variant="outline"
+        size="icon"
         className={cn("absolute left-4 top-1/2 -translate-y-1/2 rounded-full", className)}
         disabled={!canScrollPrev}
         onClick={scrollPrev}
@@ -120,14 +117,14 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
 )
 CarouselPrevious.displayName = "CarouselPrevious"
 
-const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<typeof Button>>(
-  ({ className, variant = "outline", size = "icon", ...props }, ref) => {
+const CarouselNext = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, ...props }, ref) => {
     const { scrollNext, canScrollNext } = useCarousel()
     return (
       <Button
         ref={ref}
-        variant={variant as ButtonVariant}
-        size={size as ButtonSize}
+        variant="outline"
+        size="icon"
         className={cn("absolute right-4 top-1/2 -translate-y-1/2 rounded-full", className)}
         disabled={!canScrollNext}
         onClick={scrollNext}
