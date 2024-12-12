@@ -99,12 +99,12 @@ CarouselItem.displayName = "CarouselItem"
 
 type ButtonSize = "default" | "sm" | "lg" | "icon"
 
-export function CarouselPrevious({
+const CarouselPrevious = ({
   className,
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<typeof Button>) => {
   const { orientation = "horizontal", scrollPrev, canScrollPrev } = useCarousel()
 
   return (
@@ -128,12 +128,12 @@ export function CarouselPrevious({
   )
 }
 
-export function CarouselNext({
+const CarouselNext = ({
   className,
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<typeof Button>) => {
   const { orientation = "horizontal", scrollNext, canScrollNext } = useCarousel()
 
   return (
