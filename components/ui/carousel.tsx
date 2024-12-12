@@ -25,6 +25,7 @@ interface CarouselContextProps {
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
+  orientation?: "horizontal" | "vertical"
 }
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -67,7 +68,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     }, [api, setApi])
 
     return (
-      <CarouselContext.Provider value={{ carouselRef, api, scrollPrev, scrollNext, canScrollPrev, canScrollNext }}>
+      <CarouselContext.Provider value={{ carouselRef, api, scrollPrev, scrollNext, canScrollPrev, canScrollNext, orientation }}>
         <div ref={ref} className={cn("relative", className)} {...props}>
           {children}
         </div>
@@ -104,12 +105,12 @@ export function CarouselPrevious({
   size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel()
+  const { orientation = "horizontal", scrollPrev, canScrollPrev } = useCarousel()
 
   return (
     <Button
       variant={variant}
-      size={size as ButtonSize}
+      size={size}
       className={cn(
         "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
@@ -133,12 +134,12 @@ export function CarouselNext({
   size = "icon",
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { orientation, scrollNext, canScrollNext } = useCarousel()
+  const { orientation = "horizontal", scrollNext, canScrollNext } = useCarousel()
 
   return (
     <Button
       variant={variant}
-      size={size as ButtonSize}
+      size={size}
       className={cn(
         "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
