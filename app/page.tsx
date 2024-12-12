@@ -246,7 +246,7 @@ export default async function LandingPage() {
                       <div className="p-6">
                         <div className="flex flex-col items-center">
                           <FallbackImage
-                            src={testimonial.imageUrl ? urlFor(testimonial.imageUrl).url() : '/placeholder-image.jpg'}
+                            src={testimonial.imageUrl ? urlFor(testimonial.imageUrl) : '/placeholder-image.jpg'}
                             alt={`Testimonial from ${testimonial.name || 'Anonymous'}`}
                             fallbackSrc="/placeholder-image.jpg"
                             width={150}
