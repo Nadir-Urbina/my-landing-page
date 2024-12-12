@@ -7,6 +7,7 @@ export default {
       name: 'name',
       title: 'Name',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'location',
@@ -17,6 +18,7 @@ export default {
       name: 'text',
       title: 'Testimonial Text',
       type: 'text',
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'image',

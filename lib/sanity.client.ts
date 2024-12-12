@@ -1,24 +1,30 @@
 import { createClient } from 'next-sanity'
+import imageUrlBuilder from '@sanity/image-url'
+import { SanityImageSource } from '@sanity/image-url/lib/types/types'
 
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  apiVersion: '2024-03-07',
-  useCdn: process.env.NODE_ENV === 'production',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: '2024-01-01',
+  useCdn: false,
 })
 
+const builder = imageUrlBuilder(client)
+
+export function urlFor(source: SanityImageSource) {
+  return builder.image(source).url()
+}
+
 export async function getTestimonials() {
-  const testimonials = await client.fetch(`
-    *[_type == "testimonial"] {
+  return client.fetch(
+    `*[_type == "testimonial"] {
       _id,
       name,
       location,
       text,
       "imageUrl": image.asset->url
-    }
-  `)
-  console.log('Raw testimonials data:', testimonials)
-  return testimonials
+    }`
+  )
 }
 
 export async function getEvents() {

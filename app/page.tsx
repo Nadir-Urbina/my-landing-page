@@ -2,7 +2,7 @@ import type { Testimonial, Event, Book, Mission } from '@/types/sanity'
 import { MainNav } from '@/components/MainNav'
 import { CarouselWrapper } from '@/components/CarouselWrapper'
 import { NewsletterForm } from '@/components/NewsletterForm'
-import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions } from '@/lib/sanity.client'
+import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, urlFor } from '@/lib/sanity.client'
 import Link from 'next/link'
 import { motion } from "framer-motion"
 import Image from 'next/image'
@@ -246,7 +246,7 @@ export default async function LandingPage() {
                       <div className="p-6">
                         <div className="flex flex-col items-center">
                           <FallbackImage
-                            src={testimonial.imageUrl || '/placeholder-image.jpg'}
+                            src={testimonial.imageUrl ? urlFor(testimonial.imageUrl).url() : '/placeholder-image.jpg'}
                             alt={`Testimonial from ${testimonial.name || 'Anonymous'}`}
                             fallbackSrc="/placeholder-image.jpg"
                             width={150}
