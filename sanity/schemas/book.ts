@@ -1,6 +1,6 @@
 export default {
   name: 'book',
-  title: 'Books',
+  title: 'Book',
   type: 'document',
   fields: [
     {
@@ -23,25 +23,9 @@ export default {
       },
     },
     {
-      name: 'publishDate',
-      title: 'Publish Date',
-      type: 'date',
-    },
-    {
       name: 'link',
       title: 'Purchase Link',
       type: 'url',
     },
-    {
-      name: 'author',
-      title: 'Author',
-      type: 'string',
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: 'price',
-      title: 'Price',
-      type: 'number',
-    }
-  ]
+  ],
 } 
