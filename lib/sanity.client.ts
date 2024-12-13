@@ -105,12 +105,29 @@ export async function getUpcomingEvents(): Promise<Event[]> {
 }
 
 export async function getHealingStreamsContent() {
-  const query = `*[_type == "healingStreams"] {
+  const query = `*[_type == "healingStreams"][0] {
     _id,
     title,
     description,
-    image,
-    // add other fields you need
+    "imageUrl": image.asset->url,
+    "galleryImages": galleryImages[].asset->url,
+    testimonials[]->{
+      _id,
+      name,
+      location,
+      text,
+      "imageUrl": image.asset->url
+    },
+    upcomingEvents[]->{
+      _id,
+      title,
+      date,
+      location,
+      description,
+      "imageUrl": image.asset->url,
+      learnMoreLink,
+      registrationLink
+    }
   }`
 
   const content = await client.fetch(query)

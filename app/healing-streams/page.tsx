@@ -84,7 +84,7 @@ export default async function HealingStreamsPage() {
           className="absolute inset-0"
         >
           <Image
-            src={content.image.asset._ref}
+            src={content?.imageUrl || '/placeholder-image.jpg'}
             alt="Healing Streams Ministry"
             fill
             className="absolute inset-0 object-cover"
