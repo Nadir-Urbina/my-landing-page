@@ -6,44 +6,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
 import { useState } from 'react'
 import Link from 'next/link'
-import { getHealingStreamsContent } from '@/lib/sanity.client'
-import type { Testimonial, Event } from '@/types/sanity'
+import { ArrowLeft } from 'lucide-react'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
-interface HealingStreamsContent {
-  _id: string;
-  title: string;
-  description: string;
-  image: {
-    asset: {
-      _ref: string;
-      _type: "reference";
-    };
-  };
-  galleryImages: Array<{
-    asset: {
-      _ref: string;
-      _type: "reference";
-    };
-  }>;
-  testimonials: Testimonial[];
-  upcomingEvents: Event[];
-}
-
-export default async function HealingStreamsPage() {
-  const content = await getHealingStreamsContent()
-
-  // Add fallback/loading state
-  if (!content) {
-    return (
-      <div className="container mx-auto p-4">
-        <h1>Healing Streams</h1>
-        <p>Loading content...</p>
-      </div>
-    )
-  }
-
+export default function HealingStreamsPage() {
   return (
     <main className="flex-1">
       {/* Back Button */}
@@ -52,25 +19,8 @@ export default async function HealingStreamsPage() {
         animate={{ opacity: 1, x: 0 }}
         className="fixed top-6 left-6 z-50"
       >
-        <Link 
-          href="/"
-          className="flex items-center gap-2 px-4 py-2 text-white bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/40 transition-all duration-300"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="w-4 h-4"
-          >
-            <path d="m12 19-7-7 7-7"/>
-            <path d="M19 12H5"/>
-          </svg>
+        <Link href="/" className="flex items-center gap-2 px-4 py-2 text-white bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/40 transition-all duration-300">
+          <ArrowLeft className="w-4 h-4" />
           Back
         </Link>
       </motion.div>
@@ -84,7 +34,7 @@ export default async function HealingStreamsPage() {
           className="absolute inset-0"
         >
           <Image
-            src={content?.imageUrl || '/placeholder-image.jpg'}
+            src="/healingStreams/ausHealingStreams.JPG"
             alt="Healing Streams Ministry"
             fill
             className="absolute inset-0 object-cover"
@@ -100,10 +50,10 @@ export default async function HealingStreamsPage() {
           className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8"
         >
           <h1 className={`text-4xl sm:text-5xl md:text-6xl font-bold ${montserrat.className}`}>
-            {content.title}
+            Healing Streams
           </h1>
           <p className="mt-6 text-lg md:text-xl max-w-3xl mx-auto">
-            {content.description}
+            Bringing healing and restoration through the power of God's love
           </p>
         </motion.div>
       </section>
@@ -113,10 +63,15 @@ export default async function HealingStreamsPage() {
         <div className="container">
           <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.galleryImages?.map((image: { asset: { _ref: string } }, index: number) => (
+            {[
+              '/healingStreams/ausHealingStreams.JPG',
+              '/healingStreams/ausHealingStreams2.JPG',
+              '/healingStreams/drJoshPrayingforEmma.JPG',
+              '/healingStreams/IMG_0062.JPG',
+            ].map((src, index) => (
               <div key={index} className="relative aspect-video rounded-lg overflow-hidden">
                 <Image
-                  src={image.asset._ref}
+                  src={src}
                   alt={`Healing Streams Gallery ${index + 1}`}
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-500"
@@ -133,13 +88,7 @@ export default async function HealingStreamsPage() {
           <h2 className={`text-3xl font-bold mb-8 text-center ${montserrat.className}`}>
             Testimonials
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.testimonials.map((testimonial: Testimonial) => (
-              <Card key={testimonial._id}>
-                {/* ... Testimonial card content ... */}
-              </Card>
-            ))}
-          </div>
+          {/* ... Testimonial card content ... */}
         </div>
       </section>
 
@@ -150,11 +99,7 @@ export default async function HealingStreamsPage() {
             Upcoming Events
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.upcomingEvents.map((event: Event) => (
-              <Card key={event._id}>
-                {/* ... Event card content ... */}
-              </Card>
-            ))}
+            {/* ... Event card content ... */}
           </div>
         </div>
       </section>
