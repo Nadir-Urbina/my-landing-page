@@ -8,9 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
 import type { CalendarEvent } from '@/types/sanity'
+import { CSSProperties } from 'react'
 
-// Remove CSS imports and add styles inline
-const calendarStyles = {
+// Define the style type properly
+const calendarStyles: { [key: string]: CSSProperties } = {
   '.fc': {
     '--fc-border-color': '#e2e8f0',
     '--fc-button-bg-color': '#fff',
@@ -22,9 +23,9 @@ const calendarStyles = {
     '--fc-today-bg-color': '#faf5ff',
     '--fc-event-bg-color': '#e879f9',
     '--fc-event-border-color': '#e879f9',
-    'maxWidth': '1200px',
-    'margin': '0 auto',
-  }
+    maxWidth: '1200px',
+    margin: '0 auto',
+  } as CSSProperties
 }
 
 export function Calendar({ events }: { events: CalendarEvent[] }) {
@@ -40,23 +41,37 @@ export function Calendar({ events }: { events: CalendarEvent[] }) {
 
   return (
     <div className="calendar-wrapper p-4 bg-white rounded-xl shadow-sm">
-      <div style={calendarStyles}>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin]}
-          initialView="dayGridMonth"
-          events={calendarEvents}
-          headerToolbar={{
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek'
-          }}
-          eventClick={({ event }) => {
-            setSelectedEvent(event.extendedProps as CalendarEvent)
-          }}
-          height="auto"
-          dayMaxEvents={3}
-        />
-      </div>
+      <style jsx global>{`
+        .fc {
+          --fc-border-color: #e2e8f0;
+          --fc-button-bg-color: #fff;
+          --fc-button-border-color: #e2e8f0;
+          --fc-button-text-color: #1a1a1a;
+          --fc-button-hover-bg-color: #f8fafc;
+          --fc-button-hover-border-color: #cbd5e1;
+          --fc-button-active-bg-color: #f1f5f9;
+          --fc-today-bg-color: #faf5ff;
+          --fc-event-bg-color: #e879f9;
+          --fc-event-border-color: #e879f9;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+      `}</style>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        initialView="dayGridMonth"
+        events={calendarEvents}
+        headerToolbar={{
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek'
+        }}
+        eventClick={({ event }) => {
+          setSelectedEvent(event.extendedProps as CalendarEvent)
+        }}
+        height="auto"
+        dayMaxEvents={3}
+      />
 
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
         <DialogContent className="calendar-dialog">
