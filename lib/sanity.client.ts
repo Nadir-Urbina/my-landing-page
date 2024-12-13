@@ -1,6 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { Book, Event, Mission, Testimonial } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -15,7 +16,7 @@ export function urlFor(source: SanityImageSource): string {
   return builder.image(source).url()
 }
 
-export async function getTestimonials() {
+export async function getTestimonials(): Promise<Testimonial[]> {
   return client.fetch(
     `*[_type == "testimonial"] {
       _id,
@@ -27,7 +28,7 @@ export async function getTestimonials() {
   )
 }
 
-export async function getEvents() {
+export async function getEvents(): Promise<Event[]> {
   return client.fetch(`
     *[_type == "event"] | order(date asc) {
       _id,
@@ -42,7 +43,7 @@ export async function getEvents() {
   `)
 }
 
-export async function getBooks() {
+export async function getBooks(): Promise<Book[]> {
   return client.fetch(`
     *[_type == "book"] | order(publishDate desc) {
       _id,
@@ -56,7 +57,7 @@ export async function getBooks() {
   `)
 }
 
-export async function getMissions() {
+export async function getMissions(): Promise<Mission[]> {
   const missions = await client.fetch(`
     *[_type == "mission"] {
       _id,
@@ -87,7 +88,7 @@ export async function getFeaturedBooks(): Promise<Book[]> {
   )
 }
 
-export async function getUpcomingEvents() {
+export async function getUpcomingEvents(): Promise<Event[]> {
   const now = new Date().toISOString()
   return client.fetch(`
     *[_type == "event" && date > $now] | order(date asc) [0...3] {
