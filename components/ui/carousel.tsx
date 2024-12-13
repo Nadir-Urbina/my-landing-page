@@ -4,7 +4,8 @@ import * as React from "react"
 import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Button, type ButtonProps } from "@/components/ui/button"
+import { Button, buttonVariants, type ButtonProps as BaseButtonProps } from "@/components/ui/button"
+import { type VariantProps } from "class-variance-authority"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -99,16 +100,21 @@ CarouselItem.displayName = "CarouselItem"
 
 type ButtonSize = "default" | "sm" | "lg" | "icon"
 
+interface CarouselButtonProps 
+  extends Omit<React.ComponentProps<typeof Button>, 'variant' | 'size'>,
+    VariantProps<typeof buttonVariants> {}
+
 const CarouselPrevious = ({
   className,
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>) => {
+}: CarouselButtonProps) => {
   const { orientation = "horizontal", scrollPrev, canScrollPrev } = useCarousel()
 
   return (
     <Button
+      {...props}
       variant={variant}
       size={size}
       className={cn(
@@ -120,7 +126,6 @@ const CarouselPrevious = ({
       )}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
-      {...props}
     >
       <ArrowLeft className="h-4 w-4" />
       <span className="sr-only">Previous slide</span>
@@ -133,11 +138,12 @@ const CarouselNext = ({
   variant = "outline",
   size = "icon",
   ...props
-}: React.ComponentProps<typeof Button>) => {
+}: CarouselButtonProps) => {
   const { orientation = "horizontal", scrollNext, canScrollNext } = useCarousel()
 
   return (
     <Button
+      {...props}
       variant={variant}
       size={size}
       className={cn(
@@ -149,7 +155,6 @@ const CarouselNext = ({
       )}
       disabled={!canScrollNext}
       onClick={scrollNext}
-      {...props}
     >
       <ArrowRight className="h-4 w-4" />
       <span className="sr-only">Next slide</span>

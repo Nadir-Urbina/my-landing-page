@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "createdAt": "2024-12-13T03:12:00.305Z",
+  "createdAt": "2024-12-13T17:43:42.620Z",
   "workspaces": [
     {
-      "name": "default",
+      "name": "dr-joshua-todd",
       "title": "Dr Joshua Todd",
       "basePath": "/studio",
       "dataset": "production",
-      "schema": "d467cdb0.create-schema.json"
+      "schema": "bff45db6.create-schema.json"
     }
   ]
 }

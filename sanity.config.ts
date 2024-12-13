@@ -10,14 +10,14 @@ import {structureTool} from 'sanity/structure'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import {apiVersion, dataset, projectId} from './sanity/env'
-import {schemaTypes} from './sanity/schemaTypes'
+import {schemaTypes} from './sanity/schemas'
 import {structure} from './sanity/structure'
 
 export default defineConfig({
-  name: 'default',
+  name: 'dr-joshua-todd',
   title: 'Dr Joshua Todd',
-  projectId: 'hs1jxljv',
-  dataset: 'production',
+  projectId,
+  dataset,
   basePath: '/studio',
   plugins: [
     structureTool(),

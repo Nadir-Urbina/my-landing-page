@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Menu, X, Calendar, Globe, BookOpen, ChevronRight, Users, Heart, WavesIcon as Wave, Crown } from 'lucide-react'
+import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown } from 'lucide-react'
 import localFont from 'next/font/local'
 import { Montserrat, Inter } from 'next/font/google'
 import { useState, useEffect } from 'react'
@@ -144,7 +144,7 @@ export default async function LandingPage() {
                 </div>
                 <div className="p-6 border-t border-gray-100">
                   <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                    <Users className="h-5 w-5" />
+                    <CircleUserRound className="h-5 w-5" />
                     Senior Leader at East Gate
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground">
