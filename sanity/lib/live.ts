@@ -1,13 +1,23 @@
-// Querying with "sanityFetch" will keep content automatically updated
-// Before using it, import and render "<SanityLive />" in your layout, see
-// https://github.com/sanity-io/next-sanity#live-content-api for more information.
-import { defineLive } from "next-sanity";
-import { client } from './client'
+import { createClient } from '@sanity/client'
+import { dataset, projectId, useCdn } from '../env'
 
-export const { sanityFetch, SanityLive } = defineLive({ 
-  client: client.withConfig({ 
-    // Live content is currently only available on the experimental API
-    // https://www.sanity.io/docs/api-versioning
-    apiVersion: 'vX' 
-  }) 
-});
+export const client = createClient({
+  projectId,
+  dataset,
+  useCdn,
+  apiVersion: '2024-01-01',
+  perspective: 'published',
+})
+
+export const previewClient = createClient({
+  projectId,
+  dataset,
+  useCdn: false,
+  apiVersion: '2024-01-01',
+  perspective: 'previewDrafts',
+  token: process.env.SANITY_API_READ_TOKEN,
+})
+
+export function getClient(preview: boolean = false) {
+  return preview ? previewClient : client
+}
