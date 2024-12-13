@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { Book, Event, Mission, Testimonial } from '@/types/sanity'
+import type { Book, Event, Mission, Testimonial, Post } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -132,4 +132,31 @@ export async function getHealingStreamsContent() {
 
   const content = await client.fetch(query)
   return content
+}
+
+export async function getPosts(): Promise<Post[]> {
+  return client.fetch(`
+    *[_type == "post"] | order(publishedAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      publishedAt,
+      excerpt,
+      "imageUrl": mainImage.asset->url
+    }
+  `)
+}
+
+export async function getPost(slug: string): Promise<Post | null> {
+  return client.fetch(`
+    *[_type == "post" && slug.current == $slug][0] {
+      _id,
+      title,
+      "slug": slug.current,
+      publishedAt,
+      excerpt,
+      "imageUrl": mainImage.asset->url,
+      body
+    }
+  `, { slug })
 } 

@@ -8,7 +8,7 @@ import { motion } from "framer-motion"
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown } from 'lucide-react'
+import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown, Tent } from 'lucide-react'
 import localFont from 'next/font/local'
 import { Montserrat, Inter } from 'next/font/google'
 import { useState, useEffect } from 'react'
@@ -126,7 +126,7 @@ export default async function LandingPage() {
         <section id="ministry" className="py-16 bg-white">
           <div className="container">
             <h2 className={`text-3xl font-bold mb-12 ${montserrat.className}`}>Ministry Life</h2>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {/* East Gate Card */}
               <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
                 <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
@@ -149,6 +149,31 @@ export default async function LandingPage() {
                   </h3>
                   <p className="mt-2 text-sm text-muted-foreground">
                     As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.
+                  </p>
+                </div>
+              </div>
+              {/* CAMP Card */}
+              <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
+                <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                  <Image
+                    src="/ministry/camp.webp"  // Add your CAMP logo image
+                    alt="CAMP Logo"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
+                      <Link href="/camp">Learn More</Link>
+                    </Button>
+                  </div>
+                </div>
+                <div className="p-6 border-t border-gray-100">
+                  <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
+                    <Tent className="h-5 w-5" />  {/* You'll need to import Tent from lucide-react */}
+                    CAMP
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    A sacred gathering space where prayer warriors are equipped and empowered through strategic intercession, prophetic mentoring, and covenant alignment.
                   </p>
                 </div>
               </div>

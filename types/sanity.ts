@@ -36,4 +36,20 @@ export interface Mission {
   cost?: number;
   status?: 'planning' | 'open' | 'full' | 'completed';
   registrationLink?: string;
+}
+
+export interface Post {
+  _id: string
+  title: string
+  slug: string
+  publishedAt: string
+  excerpt: string
+  imageUrl: string
+  mainImage?: {
+    asset: {
+      _ref: string
+      _type: "reference"
+    }
+  }
+  body?: any
 } 
