@@ -52,4 +52,16 @@ export interface Post {
     }
   }
   body?: any
+}
+
+export interface CalendarEvent {
+  _id: string
+  title: string
+  startDate: string
+  endDate?: string
+  location: string
+  description?: string
+  eventType?: string
+  registrationLink?: string
+  image?: any
 } 

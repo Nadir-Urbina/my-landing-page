@@ -1,0 +1,82 @@
+/* Import FullCalendar's styles */
+@import '@fullcalendar/daygrid/main.css';
+@import '@fullcalendar/timegrid/main.css';
+
+/* Custom Calendar Styles */
+.fc {
+  --fc-border-color: #e2e8f0;
+  --fc-button-bg-color: #fff;
+  --fc-button-border-color: #e2e8f0;
+  --fc-button-text-color: #1a1a1a;
+  --fc-button-hover-bg-color: #f8fafc;
+  --fc-button-hover-border-color: #cbd5e1;
+  --fc-button-active-bg-color: #f1f5f9;
+  --fc-today-bg-color: #faf5ff;
+  --fc-event-bg-color: #e879f9;
+  --fc-event-border-color: #e879f9;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: var(--font-montserrat);
+}
+
+.fc .fc-toolbar {
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.fc .fc-button {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.fc .fc-button:hover {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: var(--fc-button-active-bg-color);
+  border-color: var(--fc-button-border-color);
+  color: var(--fc-button-text-color);
+}
+
+.fc-event {
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.fc-event:hover {
+  transform: scale(1.02);
+}
+
+.fc-daygrid-day.fc-day-today {
+  background: var(--fc-today-bg-color) !important;
+}
+
+/* Dialog Styles */
+.calendar-dialog .dialog-content {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+}
+
+.calendar-dialog .dialog-header {
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 1rem;
+}
+
+.calendar-dialog .dialog-title {
+  color: #1a1a1a;
+  font-size: 1.25rem;
+  font-weight: 600;
+} 

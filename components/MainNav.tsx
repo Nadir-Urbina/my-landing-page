@@ -36,6 +36,7 @@ export function MainNav() {
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="#missions">Missions</Link>
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="#books">Books</Link>
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="/blog">Blog</Link>
+        <Link className="text-sm font-medium hover:underline underline-offset-4" href="/calendar">Calendar</Link>
         <Link 
           href={donateUrl}
           className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium 
@@ -99,6 +100,13 @@ export function MainNav() {
               onClick={() => setIsMenuOpen(false)}
             >
               Blog
+            </Link>
+            <Link 
+              className="px-4 py-2 hover:bg-muted rounded-md text-sm font-medium" 
+              href="/calendar"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Calendar
             </Link>
             <Link 
               href={donateUrl}

@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { Book, Event, Mission, Testimonial, Post } from '@/types/sanity'
+import type { Book, Event, Mission, Testimonial, Post, CalendarEvent } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -135,7 +135,8 @@ export async function getHealingStreamsContent() {
 }
 
 export async function getPosts(): Promise<Post[]> {
-  return client.fetch(`
+  console.log('Fetching posts...')
+  const posts = await client.fetch(`
     *[_type == "post"] | order(publishedAt desc) {
       _id,
       title,
@@ -145,6 +146,8 @@ export async function getPosts(): Promise<Post[]> {
       "imageUrl": mainImage.asset->url
     }
   `)
+  console.log('Posts fetched:', posts)
+  return posts
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
@@ -159,4 +162,23 @@ export async function getPost(slug: string): Promise<Post | null> {
       body
     }
   `, { slug })
+}
+
+export async function getCalendarEvents(): Promise<CalendarEvent[]> {
+  console.log('Fetching calendar events...')
+  const events = await client.fetch(`
+    *[_type == "calendarEvent"] | order(startDate asc) {
+      _id,
+      title,
+      startDate,
+      endDate,
+      location,
+      description,
+      eventType,
+      registrationLink,
+      "imageUrl": image.asset->url
+    }
+  `)
+  console.log('Calendar events fetched:', events)
+  return events
 } 
