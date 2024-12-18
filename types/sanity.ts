@@ -64,4 +64,24 @@ export interface CalendarEvent {
   eventType?: string
   registrationLink?: string
   image?: any
+}
+
+export interface HealingStreamsTestimonial {
+  _id: string;
+  name: string;
+  location?: string;
+  text: string;
+  date?: string;
+  imageUrl?: string;
+  healingType?: 'physical' | 'emotional' | 'spiritual' | 'mental' | 'other';
+}
+
+export interface HealingStreamsEvent {
+  _id: string;
+  title: string;
+  date: string;
+  location: string;
+  description?: string;
+  imageUrl?: any;
+  registrationLink?: string;
 } 

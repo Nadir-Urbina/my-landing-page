@@ -4,6 +4,8 @@ import event from './event'
 import mission from './mission'
 import post from './post'
 import calendarEvent from './calendar-event'
+import healingStreamsTestimonial from './healing-streams-testimonial'
+import healingStreamsEvent from './healing-streams-event'
 
 export const schemaTypes = [
   book,
@@ -11,5 +13,7 @@ export const schemaTypes = [
   event,
   mission,
   post,
-  calendarEvent
+  calendarEvent,
+  healingStreamsTestimonial,
+  healingStreamsEvent
 ] 

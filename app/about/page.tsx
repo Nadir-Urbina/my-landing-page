@@ -103,6 +103,9 @@ export default function AboutPage() {
             <p className="text-lg">
               Joshua has been happily married to Coral for 18 years, and they are blessed with two wonderful children, Mia and Joshua. Their family stands as a testament to the principles of Kingdom culture and family values that Dr. Todd teaches.
             </p>
+            <p className="text-lg">
+            In 2022, The Lord spoke to the Todd family and encouraged them to embrace this reality, that if they would answer to the call to establish a place of Kingdom family, He would restore natural families.  Since this time, supernatural kingdom family has impacted natural families around the world.    Learn more about this vision by visiting www.eastgatejax.com (http://www.eastgatejax.com) which acts as the International Hub expanding Kingdom family so that the gates of Hell cannot prevail against it. 
+            </p>
           </div>
           <div className="relative h-[400px] rounded-xl overflow-hidden shadow-xl md:order-1">
             <Image

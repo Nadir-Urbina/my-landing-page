@@ -1,4 +1,3 @@
-import { type SchemaTypeDefinition } from 'sanity'
 import testimonial from '../schemas/testimonial'
 import event from '../schemas/event'
 import book from '../schemas/book'

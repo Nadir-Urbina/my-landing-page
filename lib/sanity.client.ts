@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { Book, Event, Mission, Testimonial, Post, CalendarEvent } from '@/types/sanity'
+import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -181,4 +181,32 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
   `)
   console.log('Calendar events fetched:', events)
   return events
+}
+
+export async function getHealingStreamsTestimonials(): Promise<HealingStreamsTestimonial[]> {
+  return client.fetch(`
+    *[_type == "healingStreamsTestimonial"] | order(date desc) {
+      _id,
+      name,
+      location,
+      text,
+      date,
+      "imageUrl": image.asset->url,
+      healingType
+    }
+  `)
+}
+
+export async function getHealingStreamsEvents(): Promise<HealingStreamsEvent[]> {
+  return client.fetch(`
+    *[_type == "healingStreamsEvent"] | order(date asc) {
+      _id,
+      title,
+      date,
+      location,
+      description,
+      imageUrl,
+      registrationLink
+    }
+  `)
 } 
