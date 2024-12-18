@@ -1,3 +1,5 @@
+import { Rule } from '@sanity/types'
+
 export default {
   name: 'healingStreamsEvent',
   title: 'Healing Streams Event',
@@ -7,19 +9,19 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (rule: Rule) => rule.required()
     },
     {
       name: 'date',
       title: 'Date',
       type: 'datetime',
-      validation: Rule => Rule.required()
+      validation: (rule: Rule) => rule.required()
     },
     {
       name: 'location',
       title: 'Location',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (rule: Rule) => rule.required()
     },
     {
       name: 'description',

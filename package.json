@@ -16,6 +16,7 @@
     "@portabletext/react": "^3.2.0",
     "@radix-ui/react-dialog": "^1.1.3",
     "@radix-ui/react-slot": "^1.1.0",
+    "@sanity/cli": "^3.68.0",
     "@sanity/client": "^6.12.3",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.26.1",
@@ -35,10 +36,12 @@
     "sanity": "^3.26.1",
     "styled-components": "^6.1.13",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.1.0",
+    "@sanity/types": "^3.68.0",
     "@types/node": "^20.11.16",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^18.2.52",
