@@ -1,58 +1,64 @@
 'use client'
 
 import { useState } from 'react'
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ChevronRight } from 'lucide-react'
+import { Input } from "@/components/ui/input"
 
 export function NewsletterForm() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [message, setMessage] = useState('')
 
-  const handleSubscribe = async (e: React.FormEvent) => {
+  const subscribe = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
 
     try {
-      const response = await fetch('/api/subscribe', {
+      const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email })
       })
 
-      if (!response.ok) throw new Error()
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data.error || 'Something went wrong!')
 
       setStatus('success')
+      setMessage('Thanks for subscribing!')
       setEmail('')
-    } catch (error) {
+    } catch (error: any) {
       setStatus('error')
+      setMessage(error.message)
     }
   }
 
   return (
-    <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
-      <Input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        className="w-full sm:w-[300px] bg-white/10"
-        required
-      />
-      <Button 
-        type="submit"
-        size="lg" 
-        className="w-full sm:w-auto bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white border-0"
-        disabled={status === 'loading'}
-      >
-        {status === 'loading' ? 'Subscribing...' : 'Subscribe to Newsletter'}
-        <ChevronRight className="ml-2" />
-      </Button>
-      {status === 'success' && (
-        <p className="mt-4 text-green-600">Thank you for subscribing!</p>
-      )}
-      {status === 'error' && (
-        <p className="mt-4 text-red-600">Something went wrong. Please try again.</p>
+    <form onSubmit={subscribe} className="max-w-md mx-auto">
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="flex-1"
+          disabled={status === 'loading'}
+        />
+        <Button 
+          type="submit"
+          disabled={status === 'loading'}
+          className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600"
+        >
+          {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+        </Button>
+      </div>
+      {message && (
+        <p className={`mt-2 text-sm ${
+          status === 'error' ? 'text-red-500' : 'text-green-500'
+        }`}>
+          {message}
+        </p>
       )}
     </form>
   )

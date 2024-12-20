@@ -60,7 +60,8 @@ export default async function LandingPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 mx-4 sm:mx-0">
               <div className="flex flex-row gap-4 w-full sm:w-auto">
-                <form className="flex items-center flex-1 sm:flex-initial">
+                {/* Commented out email subscription section for future use */}
+                {/* <form className="flex items-center flex-1 sm:flex-initial">
                   <input
                     type="email"
                     placeholder="Enter your email"
@@ -74,7 +75,7 @@ export default async function LandingPage() {
                   className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white border-0 whitespace-nowrap h-[42px] px-6 rounded-2xl"
                 >
                   Subscribe
-                </Button>
+                </Button> */}
               </div>
               <Button 
                 className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white border-0 w-full sm:w-auto h-[42px] px-6 rounded-2xl"
@@ -392,7 +393,7 @@ export default async function LandingPage() {
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Mission Trips</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {missions && missions.map((mission: Mission) => (
-                <Card key={mission._id} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                <Card key={mission._id} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 rounded-xl">
                   <div className="h-[200px] relative">
                     <FallbackImage
                       src={mission.imageUrl}

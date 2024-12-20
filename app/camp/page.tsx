@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -5,14 +8,65 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Montserrat } from 'next/font/google'
 import { Input } from '@/components/ui/input'
+import { useToast } from "@/components/ui/use-toast"
+import { motion } from "framer-motion"
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
 export default function CampPage() {
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name }),
+      })
+
+      const data = await response.json()
+      console.log('Form submission response:', data)
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe')
+      }
+
+      toast({
+        title: "Success!",
+        description: data.message || "Thank you for your interest in CAMP!",
+        variant: "default",
+        className: "bg-green-50",
+        duration: 5000,
+      })
+      setEmail('')
+      setName('')
+    } catch (error: any) {
+      console.error('Form submission error:', error)
+      toast({
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again later.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <main className="flex-1">
       {/* Back Button */}
-      <div className="fixed top-6 left-6 z-50">
+      <motion.div 
+        className="fixed top-6 left-6 z-50"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+      >
         <Link 
           href="/"
           className="flex items-center gap-2 px-4 py-2 text-white bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/40 transition-all duration-300"
@@ -20,27 +74,48 @@ export default function CampPage() {
           <ArrowLeft className="w-4 h-4" />
           Back Home
         </Link>
-      </div>
+      </motion.div>
 
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center">
         <div className="absolute inset-0">
-          <Image
-            src="/camp/camp-hero.jpg" // You'll need to add this image
-            alt="CAMP Hero"
-            fill
-            className="object-cover"
-            priority
+          <motion.div
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          >
+            <Image
+              src="/ministry/camp-heroImg.webp"
+              alt="CAMP Hero"
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
+          <motion.div 
+            className="absolute inset-0 bg-black/20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5 }}
           />
-          <div className="absolute inset-0 bg-black/50" />
         </div>
         <div className="container relative z-10 text-white">
-          <h1 className={`text-5xl md:text-6xl font-bold mb-6 ${montserrat.className}`}>
+          <motion.h1 
+            className={`text-5xl md:text-6xl font-bold mb-6 ${montserrat.className}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
             CAMP
-          </h1>
-          <p className="text-xl md:text-2xl max-w-2xl">
+          </motion.h1>
+          <motion.p 
+            className="text-xl md:text-2xl max-w-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
             A sacred gathering space where prayer warriors are equipped and empowered
-          </p>
+          </motion.p>
         </div>
       </section>
 
@@ -74,30 +149,30 @@ export default function CampPage() {
           {/* Cards Grid */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Core Features */}
-            <Card className="h-full">
-              <CardContent className="p-6">
+            <Card className="h-full rounded-xl overflow-hidden">
+              <CardContent className="p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">Strategic Intercession</h3>
                 <p className="text-muted-foreground">Equipping prayer warriors with powerful intercession strategies</p>
               </CardContent>
             </Card>
 
-            <Card className="h-full">
-              <CardContent className="p-6">
+            <Card className="h-full rounded-xl overflow-hidden">
+              <CardContent className="p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">Prophetic Mentoring</h3>
                 <p className="text-muted-foreground">Developing Christ-centered leadership through prophetic guidance</p>
               </CardContent>
             </Card>
 
-            <Card className="h-full">
-              <CardContent className="p-6">
+            <Card className="h-full rounded-xl overflow-hidden">
+              <CardContent className="p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">Covenant Alignment</h3>
                 <p className="text-muted-foreground">Building deep relational bonds in kingdom family</p>
               </CardContent>
             </Card>
 
             {/* Additional Features */}
-            <Card className="h-full">
-              <CardContent className="p-6">
+            <Card className="h-full rounded-xl overflow-hidden">
+              <CardContent className="p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">Prevailing Prayer</h3>
                 <p className="text-muted-foreground">
                   Mastering the art of effective and persistent prayer, learning to stand in faith until breakthrough manifests.
@@ -105,8 +180,8 @@ export default function CampPage() {
               </CardContent>
             </Card>
 
-            <Card className="h-full">
-              <CardContent className="p-6">
+            <Card className="h-full rounded-xl overflow-hidden">
+              <CardContent className="p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">High Courts of the Lord</h3>
                 <p className="text-muted-foreground">
                   Understanding and operating in heavenly judicial systems, learning to present cases before the throne.
@@ -114,8 +189,8 @@ export default function CampPage() {
               </CardContent>
             </Card>
 
-            <Card className="h-full">
-              <CardContent className="p-6">
+            <Card className="h-full rounded-xl overflow-hidden">
+              <CardContent className="p-6 rounded-xl">
                 <h3 className="text-xl font-semibold mb-2">Prophetic Development</h3>
                 <p className="text-muted-foreground">
                   Growing in prophetic gifting through community, company, and corporate prophetic expression, fostering mature prophetic ministry.
@@ -136,15 +211,38 @@ export default function CampPage() {
             <p className="text-muted-foreground mb-6">
               Leave your email and we'll send you more information about CAMP.
             </p>
-            <form className="flex gap-3">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1"
-                required
-              />
-              <Button type="submit" className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700">
-                Send Me Info
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <Input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="rounded-xl"
+                />
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="rounded-xl"
+                />
+              </div>
+              <Button 
+                type="submit" 
+                disabled={isLoading}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 rounded-xl"
+              >
+                {isLoading ? (
+                  <>
+                    <span className="animate-spin mr-2">⏳</span>
+                    Sending...
+                  </>
+                ) : (
+                  "Send Me Info"
+                )}
               </Button>
             </form>
           </div>
