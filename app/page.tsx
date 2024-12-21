@@ -154,9 +154,16 @@ export default async function LandingPage() {
               </div>
               {/* CAMP Card */}
               <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
+                {/* Registration Badge */}
+                <div className="absolute top-4 left-4 z-10">
+                  <div className="bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium animate-pulse">
+                    2025 Registration Open
+                  </div>
+                </div>
+
                 <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
                   <Image
-                    src="/ministry/camp.webp"  // Add your CAMP logo image
+                    src="/ministry/camp.webp"
                     alt="CAMP Logo"
                     fill
                     className="object-cover"
