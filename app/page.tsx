@@ -1,7 +1,6 @@
 import type { Testimonial, Event, Book, Mission } from '@/types/sanity'
 import { MainNav } from '@/components/MainNav'
 import { CarouselWrapper } from '@/components/CarouselWrapper'
-import { NewsletterForm } from '@/components/NewsletterForm'
 import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, urlFor } from '@/lib/sanity.client'
 import Link from 'next/link'
 import { motion } from "framer-motion"
