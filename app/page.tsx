@@ -81,7 +81,7 @@ export default async function LandingPage() {
                 className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white border-0 w-full sm:w-auto h-[42px] px-6 rounded-2xl"
                 asChild
               >
-                <Link href="/donate">
+                <Link href="https://give.tithe.ly/?formId=fc03799a-0541-44e4-91a9-d53c7f5fd9d3&locationId=ebb1aab5-ff12-4129-8311-983143e7db4f&fundId=62ddfc18-4b94-41ac-978c-3b14d9cdc37c">
                   Partner with Me
                 </Link>
               </Button>
@@ -493,8 +493,8 @@ export default async function LandingPage() {
           </div>
         </section>
 
-        {/* Newsletter Section */}
-        <section className="py-16">
+        {/* Newsletter Section - Temporarily disabled */}
+        {/* <section className="py-16">
           <div className="container text-center">
             <h2 className={`text-3xl font-bold mb-4 ${montserrat.className}`}>Join Our Community</h2>
             <p className="text-lg mb-8 max-w-2xl mx-auto">
@@ -502,7 +502,7 @@ export default async function LandingPage() {
             </p>
             <NewsletterForm />
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   )

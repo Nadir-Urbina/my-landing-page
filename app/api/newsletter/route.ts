@@ -1,11 +1,10 @@
-import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 import mailchimp from '@mailchimp/mailchimp_marketing';
 
-// Use existing Mailchimp configuration
+// Initialize Mailchimp with config
 mailchimp.setConfig({
   apiKey: process.env.MAILCHIMP_API_KEY,
-  server: process.env.MAILCHIMP_SERVER // assuming this is your existing env variable name
+  server: process.env.MAILCHIMP_SERVER_PREFIX
 });
 
 export async function POST(req: Request) {
@@ -19,23 +18,41 @@ export async function POST(req: Request) {
       );
     }
 
-    // Make sure to use the correct list ID for newsletter subscribers
-    await mailchimp.lists.addListMember(process.env.MAILCHIMP_NEWSLETTER_LIST_ID!, {
+    // Add member to list with newsletter tag
+    await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID!, {
       email_address: email,
       status: 'subscribed',
+      tags: ['newsletter'],
+      merge_fields: {
+        SOURCE: 'Website Newsletter'
+      }
     });
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    // Handle existing subscribers gracefully
+    // Log the actual error for debugging
+    console.error('Detailed error:', error);
+
     if (error.response?.body?.title === 'Member Exists') {
-      return NextResponse.json(
-        { error: 'You\'re already subscribed!' },
-        { status: 400 }
-      );
+      try {
+        const subscriberHash = mailchimp.helpers.lists.memberHash(email);
+        await mailchimp.lists.updateListMemberTags(
+          process.env.MAILCHIMP_LIST_ID!,
+          subscriberHash,
+          {
+            tags: [{ name: 'newsletter', status: 'active' }]
+          }
+        );
+        return NextResponse.json({ success: true });
+      } catch (tagError) {
+        console.error('Error updating member tags:', tagError);
+        return NextResponse.json(
+          { error: 'Error updating subscription.' },
+          { status: 500 }
+        );
+      }
     }
 
-    console.error('Mailchimp error:', error);
     return NextResponse.json(
       { error: 'There was an error subscribing to the newsletter.' },
       { status: 500 }
