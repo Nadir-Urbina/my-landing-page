@@ -5,21 +5,43 @@ export async function POST(req: Request) {
   try {
     console.log('Starting CAMP application request')
     
-    // Verify environment variables first
-    if (!process.env.MAILCHIMP_API_KEY || !process.env.MAILCHIMP_LIST_ID || !process.env.MAILCHIMP_SERVER_PREFIX) {
-      console.error('Missing environment variables:', {
-        hasApiKey: !!process.env.MAILCHIMP_API_KEY,
-        hasListId: !!process.env.MAILCHIMP_LIST_ID,
-        hasServerPrefix: !!process.env.MAILCHIMP_SERVER_PREFIX
-      })
-      throw new Error('Missing required environment variables')
+    // Log environment variables (safely)
+    console.log('Environment check:', {
+      hasApiKey: !!process.env.MAILCHIMP_API_KEY,
+      hasListId: !!process.env.MAILCHIMP_LIST_ID,
+      hasServerPrefix: !!process.env.MAILCHIMP_SERVER_PREFIX,
+      serverPrefix: process.env.MAILCHIMP_SERVER_PREFIX?.substring(0, 2) + '**' // Log first 2 chars safely
+    })
+
+    if (!process.env.MAILCHIMP_API_KEY) {
+      throw new Error('Missing MAILCHIMP_API_KEY')
+    }
+    if (!process.env.MAILCHIMP_LIST_ID) {
+      throw new Error('Missing MAILCHIMP_LIST_ID')
+    }
+    if (!process.env.MAILCHIMP_SERVER_PREFIX) {
+      throw new Error('Missing MAILCHIMP_SERVER_PREFIX')
     }
 
-    // Initialize Mailchimp inside the handler
-    mailchimp.setConfig({
-      apiKey: process.env.MAILCHIMP_API_KEY,
-      server: process.env.MAILCHIMP_SERVER_PREFIX
-    })
+    // Initialize Mailchimp with explicit error handling
+    try {
+      const serverPrefix = process.env.MAILCHIMP_SERVER_PREFIX?.replace('https://', '')
+        .replace('.api.mailchimp.com', '')
+        .trim()
+
+      console.log('Mailchimp config:', {
+        hasApiKey: !!process.env.MAILCHIMP_API_KEY,
+        serverPrefix: serverPrefix?.substring(0, 2) + '**'  // Log safely
+      })
+
+      mailchimp.setConfig({
+        apiKey: process.env.MAILCHIMP_API_KEY,
+        server: serverPrefix // Use cleaned server prefix
+      })
+    } catch (error) {
+      console.error('Failed to initialize Mailchimp:', error)
+      throw new Error('Mailchimp initialization failed')
+    }
 
     const data = await req.json()
     console.log('Received data:', { email: data.email, name: data.fullName })
