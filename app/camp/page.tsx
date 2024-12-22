@@ -36,7 +36,11 @@ export default function CampPage() {
         }),
       })
 
-      if (!res.ok) throw new Error('Failed to submit')
+      if (!res.ok) {
+        const errorData = await res.json()
+        console.error('Server error:', errorData)
+        throw new Error(errorData.details || 'Failed to submit')
+      }
 
       setMessage({
         text: "Thank you! We'll send more information to the provided email soon.",
