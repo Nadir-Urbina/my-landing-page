@@ -17,7 +17,7 @@ export default function CampPage() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,18 +36,17 @@ export default function CampPage() {
         }),
       })
 
-      if (!res.ok) {
-        const errorData = await res.json()
-        console.error('Server error:', errorData)
-        throw new Error(errorData.details || 'Failed to submit')
-      }
+      const data = await res.json()
 
       setMessage({
-        text: "Thank you! We'll send more information to the provided email soon.",
-        type: 'success'
+        text: data.message,
+        type: data.type as 'success' | 'error' | 'info'
       })
-      setEmail('')
-      setName('')
+
+      if (data.success) {
+        setEmail('')
+        setName('')
+      }
     } catch (error) {
       setMessage({
         text: "Something went wrong. Please try again.",
@@ -235,7 +234,9 @@ export default function CampPage() {
               {message && (
                 <div className={cn(
                   "text-sm px-4 py-2 rounded-lg",
-                  message.type === 'success' ? "text-green-600 bg-green-50" : "text-red-600 bg-red-50"
+                  message.type === 'success' ? "text-green-600 bg-green-50" : 
+                  message.type === 'error' ? "text-red-600 bg-red-50" :
+                  "text-blue-600 bg-blue-50"
                 )}>
                   {message.text}
                 </div>

@@ -36,15 +36,31 @@ export async function POST(req: Request) {
     const data = await response.json()
 
     if (!response.ok) {
+      if (data.title === 'Member Exists') {
+        return NextResponse.json({
+          success: false,
+          message: "You're already on our list! We'll keep you updated about CAMP.",
+          type: 'info'
+        })
+      }
+
       console.error('Mailchimp API error:', data)
       throw new Error(data.detail || 'Failed to subscribe')
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json({
+      success: true,
+      message: "Thank you! We'll send more information to your email soon.",
+      type: 'success'
+    })
   } catch (error: any) {
     console.error('Error:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to subscribe' },
+      { 
+        success: false,
+        message: 'Something went wrong. Please try again later.',
+        type: 'error'
+      },
       { status: 500 }
     )
   }
