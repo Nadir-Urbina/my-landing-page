@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import mailchimp from '@mailchimp/mailchimp_marketing'
-import type { ApiError } from '@mailchimp/mailchimp_marketing'
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +14,10 @@ export async function POST(req: Request) {
     // Get the data early so it's available throughout the function
     const data = await req.json()
     console.log('Received data:', { email: data.email, name: data.fullName })
+
+    // Dynamically import mailchimp
+    const mailchimpModule = await import('@mailchimp/mailchimp_marketing')
+    const mailchimp = mailchimpModule.default
 
     // Initialize Mailchimp
     mailchimp.setConfig({
