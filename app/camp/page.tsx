@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Montserrat } from 'next/font/google'
 import { Input } from '@/components/ui/input'
-import { Toast } from '@/components/ui/toast'
 import { motion } from "framer-motion"
 import { cn } from '@/lib/utils'
 
@@ -255,15 +254,6 @@ export default function CampPage() {
           </div>
         </div>
       </section>
-
-      {/* Toast */}
-      {/* {toast.show && (
-        <Toast
-          title={toast.title}
-          description={toast.description}
-          variant={toast.variant}
-        />
-      )} */}
     </main>
   )
 } 
