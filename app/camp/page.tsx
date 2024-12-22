@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Montserrat } from 'next/font/google'
 import { Input } from '@/components/ui/input'
-import { useToast } from "@/components/ui/use-toast"
+import { Toast } from '@/components/ui/toast'
 import { motion } from "framer-motion"
+import { cn } from '@/lib/utils'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -17,11 +18,12 @@ export default function CampPage() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setMessage(null)
 
     try {
       const res = await fetch('/api/camp-application', {
@@ -32,29 +34,26 @@ export default function CampPage() {
         body: JSON.stringify({
           email,
           fullName: name,
-          source: 'CAMP Info Request'
         }),
       })
 
       if (!res.ok) throw new Error('Failed to submit')
 
-      toast({
-        title: "Success!",
-        description: "We'll be in touch soon with more information about CAMP.",
-        className: "bg-white text-gray-900 border-green-500",
+      setMessage({
+        text: "Thank you! We'll send more information to the provided email soon.",
+        type: 'success'
       })
-
       setEmail('')
       setName('')
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-        className: "bg-white text-red-600 border-red-500",
+      setMessage({
+        text: "Something went wrong. Please try again.",
+        type: 'error'
       })
     } finally {
       setIsLoading(false)
+      // Clear message after 5 seconds
+      setTimeout(() => setMessage(null), 5000)
     }
   }
 
@@ -230,6 +229,14 @@ export default function CampPage() {
                   className="rounded-xl"
                 />
               </div>
+              {message && (
+                <div className={cn(
+                  "text-sm px-4 py-2 rounded-lg",
+                  message.type === 'success' ? "text-green-600 bg-green-50" : "text-red-600 bg-red-50"
+                )}>
+                  {message.text}
+                </div>
+              )}
               <Button 
                 type="submit" 
                 disabled={isLoading}
@@ -248,6 +255,15 @@ export default function CampPage() {
           </div>
         </div>
       </section>
+
+      {/* Toast */}
+      {/* {toast.show && (
+        <Toast
+          title={toast.title}
+          description={toast.description}
+          variant={toast.variant}
+        />
+      )} */}
     </main>
   )
 } 

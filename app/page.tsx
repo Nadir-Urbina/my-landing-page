@@ -138,7 +138,7 @@ export default async function LandingPage() {
                   />
                   <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="/east-gate">Learn More</Link>
+                      <Link href="https://www.eastgatejax.com">Learn More</Link>
                     </Button>
                   </div>
                 </div>
