@@ -25,7 +25,7 @@ export default function CampPage() {
     setMessage(null)
 
     try {
-      const res = await fetch('/api/camp-application', {
+      const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
