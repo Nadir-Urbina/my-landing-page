@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import mailchimp from '@mailchimp/mailchimp_marketing'
+import Client from '@mailchimp/mailchimp_marketing'
 
 export async function POST(req: Request) {
   try {
@@ -16,13 +16,14 @@ export async function POST(req: Request) {
     const data = await req.json()
     console.log('Received data:', { email: data.email, name: data.fullName })
 
-    // Initialize Mailchimp with hardcoded server prefix for testing
+    // Initialize Mailchimp client
+    const mailchimp = new Client()
+    mailchimp.setConfig({
+      apiKey: process.env.MAILCHIMP_API_KEY || '',
+      server: 'us15'
+    })
+
     try {
-      mailchimp.setConfig({
-        apiKey: process.env.MAILCHIMP_API_KEY || '',
-        server: 'us15'  // Hardcode for testing
-      })
-      
       // Attempt to ping Mailchimp API
       console.log('Attempting to add member to Mailchimp')
       const response = await mailchimp.lists.addListMember(process.env.MAILCHIMP_LIST_ID!, {
