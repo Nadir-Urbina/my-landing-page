@@ -12,16 +12,16 @@ export async function POST(req: Request) {
       hasServerPrefix: !!process.env.MAILCHIMP_SERVER_PREFIX,
     })
 
+    // Get the data early so it's available throughout the function
+    const data = await req.json()
+    console.log('Received data:', { email: data.email, name: data.fullName })
+
     // Initialize Mailchimp with hardcoded server prefix for testing
     try {
       mailchimp.setConfig({
         apiKey: process.env.MAILCHIMP_API_KEY || '',
         server: 'us15'  // Hardcode for testing
       })
-
-      // Test the connection
-      const data = await req.json()
-      console.log('Received data:', { email: data.email, name: data.fullName })
       
       // Attempt to ping Mailchimp API
       console.log('Attempting to add member to Mailchimp')
