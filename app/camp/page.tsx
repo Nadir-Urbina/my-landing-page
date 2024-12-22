@@ -24,34 +24,34 @@ export default function CampPage() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/subscribe', {
+      const res = await fetch('/api/camp-application', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          fullName: name,
+          source: 'CAMP Info Request'
+        }),
       })
 
-      const data = await response.json()
-      console.log('Form submission response:', data)
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to subscribe')
-      }
+      if (!res.ok) throw new Error('Failed to submit')
 
       toast({
         title: "Success!",
-        description: data.message || "Thank you for your interest in CAMP!",
-        variant: "default",
-        className: "bg-green-50",
-        duration: 5000,
+        description: "We'll be in touch soon with more information about CAMP.",
+        className: "bg-white text-gray-900 border-green-500",
       })
+
       setEmail('')
       setName('')
-    } catch (error: any) {
-      console.error('Form submission error:', error)
+    } catch (error) {
       toast({
         title: "Error",
-        description: error.message || "Something went wrong. Please try again later.",
+        description: "Something went wrong. Please try again.",
         variant: "destructive",
+        className: "bg-white text-red-600 border-red-500",
       })
     } finally {
       setIsLoading(false)
