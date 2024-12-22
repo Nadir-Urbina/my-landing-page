@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import Client from '@mailchimp/mailchimp_marketing'
+import mailchimp from '@mailchimp/mailchimp_marketing'
+import type { ApiError } from '@mailchimp/mailchimp_marketing'
 
 export async function POST(req: Request) {
   try {
@@ -16,10 +17,9 @@ export async function POST(req: Request) {
     const data = await req.json()
     console.log('Received data:', { email: data.email, name: data.fullName })
 
-    // Initialize Mailchimp client
-    const mailchimp = new Client()
+    // Initialize Mailchimp
     mailchimp.setConfig({
-      apiKey: process.env.MAILCHIMP_API_KEY || '',
+      apiKey: process.env.MAILCHIMP_API_KEY,
       server: 'us15'
     })
 
