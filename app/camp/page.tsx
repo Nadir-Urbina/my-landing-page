@@ -256,6 +256,16 @@ export default function CampPage() {
                 )}
               </Button>
             </form>
+            <div className="flex flex-col gap-4 items-center mt-8">
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+              <p className="text-lg text-center">Ready to take the next step?</p>
+              <Link 
+                href="/camp-application"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+              >
+                Apply Now to CAMP 2025
+              </Link>
+            </div>
           </div>
         </div>
       </section>
