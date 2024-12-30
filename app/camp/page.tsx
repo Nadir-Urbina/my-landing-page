@@ -115,7 +115,7 @@ export default function CampPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
           >
-            A sacred gathering space where prayer warriors are equipped and empowered
+            A sacred gathering space where prophetic warriors are equipped and empowered
           </motion.p>
         </div>
       </section>

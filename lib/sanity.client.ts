@@ -89,19 +89,18 @@ export async function getFeaturedBooks(): Promise<Book[]> {
 }
 
 export async function getUpcomingEvents(): Promise<Event[]> {
-  const now = new Date().toISOString()
   return client.fetch(`
-    *[_type == "event" && date > $now] | order(date asc) [0...3] {
+    *[_type == "event"] | order(date asc) {
       _id,
       title,
-      date,
-      location,
       description,
       "imageUrl": image.asset->url,
+      date,
+      location,
       learnMoreLink,
       registrationLink
     }
-  `, { now })
+  `)
 }
 
 export async function getHealingStreamsContent() {

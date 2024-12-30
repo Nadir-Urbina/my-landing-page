@@ -337,123 +337,126 @@ export default async function LandingPage() {
 
         {/* Events Section */}
         <section id="events" className="py-16 bg-[#F1F5F9]">
-          <div className="container">
+          <div className="container px-0">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Upcoming Events</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <CarouselWrapper>
               {upcomingEvents && upcomingEvents.length > 0 ? (
                 upcomingEvents.map((event: Event) => (
-                  <div key={event._id} className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                    <div className="h-[200px] relative transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                      <FallbackImage
-                        src={event.imageUrl}
-                        alt={event.title || 'Event'}
-                        fallbackSrc="/placeholder-image.jpg"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="p-6 border-t border-gray-100">
-                      <h3 className="text-xl font-semibold mb-3">{event.title || 'Untitled Event'}</h3>
-                      {(event.date || event.location) && (
-                        <div className="space-y-2 mb-4">
-                          {event.date && (
-                            <span className="flex items-center text-muted-foreground">
-                              <Calendar className="h-4 w-4 mr-2" />
-                              {new Date(event.date).toLocaleDateString()}
-                            </span>
+                  <CarouselItem key={event._id} className="pl-6 md:basis-1/2 lg:basis-1/3">
+                    <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full">
+                      <div className="h-[200px] relative transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                        <FallbackImage
+                          src={event.imageUrl}
+                          alt={event.title || 'Event'}
+                          fallbackSrc="/placeholder-image.jpg"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="p-6 border-t border-gray-100">
+                        <h3 className="text-xl font-semibold mb-3">{event.title || 'Untitled Event'}</h3>
+                        {(event.date || event.location) && (
+                          <div className="space-y-2 mb-4">
+                            {event.date && (
+                              <span className="flex items-center text-muted-foreground">
+                                <Calendar className="h-4 w-4 mr-2" />
+                                {new Date(event.date).toLocaleDateString()}
+                              </span>
+                            )}
+                            {event.location && (
+                              <span className="flex items-center text-muted-foreground">
+                                <Globe className="h-4 w-4 mr-2" />
+                                {event.location}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        <p className="text-sm text-muted-foreground mb-4">{event.description || 'No description available'}</p>
+                        <div className="flex gap-2">
+                          {event.learnMoreLink && (
+                            <Button variant="outline" asChild className="flex-1">
+                              <Link href={event.learnMoreLink}>Learn More</Link>
+                            </Button>
                           )}
-                          {event.location && (
-                            <span className="flex items-center text-muted-foreground">
-                              <Globe className="h-4 w-4 mr-2" />
-                              {event.location}
-                            </span>
+                          {event.registrationLink && (
+                            <Button asChild className="flex-1">
+                              <Link href={event.registrationLink}>Register Now</Link>
+                            </Button>
                           )}
                         </div>
-                      )}
-                      <p className="text-sm text-muted-foreground mb-4">{event.description || 'No description available'}</p>
-                      <div className="flex gap-2">
-                        {event.learnMoreLink && (
-                          <Button variant="outline" asChild className="flex-1">
-                            <Link href={event.learnMoreLink}>Learn More</Link>
-                          </Button>
-                        )}
-                        {event.registrationLink && (
-                          <Button asChild className="flex-1">
-                            <Link href={event.registrationLink}>Register Now</Link>
-                          </Button>
-                        )}
                       </div>
                     </div>
-                  </div>
+                  </CarouselItem>
                 ))
               ) : (
-                <p className="text-center text-muted-foreground col-span-3">No upcoming events at the moment.</p>
+                <p className="text-center text-muted-foreground w-full">No upcoming events at the moment.</p>
               )}
-            </div>
+            </CarouselWrapper>
           </div>
         </section>
 
         {/* Mission Trips Section */}
         <section id="missions" className="py-16">
-          <div className="container">
+          <div className="container px-0">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Mission Trips</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {missions && missions.map((mission: Mission) => (
-                <Card key={mission._id} className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1 rounded-xl">
-                  <div className="h-[200px] relative">
-                    <FallbackImage
-                      src={mission.imageUrl}
-                      alt={mission.title || 'Mission Trip'}
-                      fallbackSrc="/placeholder-image.jpg"
-                      fill
-                      className="object-cover rounded-t-lg"
-                    />
-                    {mission.status && (
-                      <div className="absolute top-4 right-4">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          mission.status === 'open' ? 'bg-green-100 text-green-800' :
-                          mission.status === 'full' ? 'bg-red-100 text-red-800' :
-                          'bg-gray-100 text-gray-800'
-                        }`}>
-                          {mission.status.charAt(0).toUpperCase() + mission.status.slice(1)}
-                        </span>
+            <CarouselWrapper>
+              {missions && missions.length > 0 ? (
+                missions.map((mission: Mission) => (
+                  <CarouselItem key={mission._id} className="pl-6 md:basis-1/2 lg:basis-1/3">
+                    <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full">
+                      <div className="h-[200px] relative transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                        <FallbackImage
+                          src={mission.imageUrl}
+                          alt={mission.title || 'Mission Trip'}
+                          fallbackSrc="/placeholder-image.jpg"
+                          fill
+                          className="object-cover"
+                        />
+                        {mission.status && (
+                          <div className="absolute top-4 right-4">
+                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                              mission.status === 'open' ? 'bg-green-100 text-green-800' :
+                              mission.status === 'full' ? 'bg-red-100 text-red-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {mission.status.charAt(0).toUpperCase() + mission.status.slice(1)}
+                            </span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <CardHeader>
-                    <CardTitle>{mission.title || 'Untitled Mission'}</CardTitle>
-                    <CardDescription>
-                      {mission.startDate && mission.endDate && (
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(mission.startDate).toLocaleDateString()} - {new Date(mission.endDate).toLocaleDateString()}
+                      <div className="p-6 border-t border-gray-100">
+                        <h3 className="text-xl font-semibold mb-3">{mission.title || 'Untitled Mission'}</h3>
+                        <div className="space-y-2 mb-4">
+                          {mission.startDate && mission.endDate && (
+                            <span className="flex items-center text-muted-foreground">
+                              <Calendar className="h-4 w-4 mr-2" />
+                              {new Date(mission.startDate).toLocaleDateString()} - {new Date(mission.endDate).toLocaleDateString()}
+                            </span>
+                          )}
+                          {mission.location && (
+                            <span className="flex items-center text-muted-foreground">
+                              <Globe className="h-4 w-4 mr-2" />
+                              {mission.location}
+                            </span>
+                          )}
                         </div>
-                      )}
-                      {mission.location && (
-                        <div className="flex items-center gap-2 mt-1">
-                          <Globe className="h-4 w-4" />
-                          {mission.location}
-                        </div>
-                      )}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{mission.description || 'No description available'}</p>
-                    {mission.cost && <p className="mt-2 font-semibold">Cost: ${mission.cost}</p>}
-                  </CardContent>
-                  {mission.status === 'open' && mission.registrationLink && (
-                    <CardFooter>
-                      <Button className="w-full" asChild>
-                        <Link href={mission.registrationLink}>Register Now</Link>
-                      </Button>
-                    </CardFooter>
-                  )}
-                </Card>
-              ))}
-              {(!missions || missions.length === 0) && (
-                <p className="text-center text-muted-foreground col-span-3">No mission trips available at the moment.</p>
+                        <p className="text-sm text-muted-foreground mb-4">{mission.description || 'No description available'}</p>
+                        {mission.cost && (
+                          <p className="font-semibold mb-4">Cost: ${mission.cost}</p>
+                        )}
+                        {mission.status === 'open' && mission.registrationLink && (
+                          <Button className="w-full" asChild>
+                            <Link href={mission.registrationLink}>Register Now</Link>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))
+              ) : (
+                <p className="text-center text-muted-foreground w-full">No mission trips available at the moment.</p>
               )}
-            </div>
+            </CarouselWrapper>
           </div>
         </section>
 
