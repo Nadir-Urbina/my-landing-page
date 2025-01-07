@@ -28,6 +28,8 @@
     "@sanity/client": "^6.12.3",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.26.1",
+    "@vercel/analytics": "^1.4.1",
+    "@vercel/speed-insights": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "core-util-is": "^1.0.3",
