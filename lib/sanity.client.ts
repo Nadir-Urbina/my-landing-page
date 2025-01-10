@@ -7,7 +7,8 @@ export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: '2024-01-01',
-  useCdn: false,
+  useCdn: process.env.NODE_ENV === 'production',
+  perspective: 'published',
 })
 
 const builder = imageUrlBuilder(client)
@@ -18,7 +19,7 @@ export function urlFor(source: SanityImageSource): string {
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   return client.fetch(
-    `*[_type == "testimonial"] {
+    `*[_type == "testimonial" && !(_id in path("drafts.**"))] | order(_createdAt desc) {
       _id,
       name,
       location,
