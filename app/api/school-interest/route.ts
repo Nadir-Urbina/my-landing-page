@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { createHash } from 'crypto'
 
 export async function POST(req: Request) {
   try {
@@ -7,18 +8,39 @@ export async function POST(req: Request) {
     const LIST_ID = process.env.MAILCHIMP_LIST_ID
     const DC = process.env.MAILCHIMP_SERVER_PREFIX || 'us15'
 
-    console.log('Config check:', {
+    console.log('Form submission received:', { name, email, phone })
+    console.log('Mailchimp config:', {
       hasApiKey: !!API_KEY,
+      apiKeyLength: API_KEY?.length,
       hasListId: !!LIST_ID,
-      email: email
+      listId: LIST_ID,
+      dataCenterPrefix: DC
     })
 
     if (!email || !email.length) {
+      console.log('Validation error: Email is required')
       return NextResponse.json(
         { success: false, message: 'Email is required', type: 'error' },
         { status: 400 }
       )
     }
+
+    // Generate MD5 hash of lowercase email (required by Mailchimp for member identification)
+    const subscriberHash = createHash('md5').update(email.toLowerCase()).digest('hex')
+
+    const requestBody = {
+      email_address: email,
+      status: 'subscribed',
+      tags: ['School of Encounter Interest'],
+      merge_fields: {
+        FNAME: name.split(' ')[0],
+        LNAME: name.split(' ').slice(1).join(' '),
+        PHONE: phone || ''
+      }
+    }
+
+    console.log('Preparing Mailchimp request to:', `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`)
+    console.log('Request body:', JSON.stringify(requestBody))
 
     const response = await fetch(
       `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`,
@@ -28,41 +50,103 @@ export async function POST(req: Request) {
           Authorization: `Basic ${Buffer.from(`anystring:${API_KEY}`).toString('base64')}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email_address: email,
-          status: 'subscribed',
-          tags: ['School of Encounter Interest'],
-          merge_fields: {
-            FNAME: name.split(' ')[0],
-            LNAME: name.split(' ').slice(1).join(' '),
-            PHONE: phone || ''
-          }
-        }),
+        body: JSON.stringify(requestBody),
       }
     )
 
     const data = await response.json()
+    console.log('Mailchimp API response status:', response.status)
+    console.log('Mailchimp API response:', data)
 
     if (!response.ok) {
       if (data.title === 'Member Exists') {
+        console.log('Member already exists in Mailchimp - adding new tag')
+        
+        // Add the School of Encounter Interest tag to the existing member
+        try {
+          const tagUpdateResponse = await fetch(
+            `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}/tags`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Basic ${Buffer.from(`anystring:${API_KEY}`).toString('base64')}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                tags: [{ name: 'School of Encounter Interest', status: 'active' }]
+              }),
+            }
+          )
+          
+          if (tagUpdateResponse.ok) {
+            console.log('Successfully added School of Encounter tag to existing member')
+            
+            // Also update their merge fields with any new info provided
+            const mergeFieldsResponse = await fetch(
+              `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members/${subscriberHash}`,
+              {
+                method: 'PATCH',
+                headers: {
+                  Authorization: `Basic ${Buffer.from(`anystring:${API_KEY}`).toString('base64')}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  merge_fields: requestBody.merge_fields
+                }),
+              }
+            )
+            
+            console.log('Merge fields update response:', await mergeFieldsResponse.json())
+            
+            return NextResponse.json({
+              success: true,
+              message: "Thank you for your interest in the School of Encounter! We'll send you more information soon.",
+              type: 'success'
+            })
+          } else {
+            console.error('Failed to add tag:', await tagUpdateResponse.json())
+            return NextResponse.json({
+              success: false,
+              message: "We couldn't update your preferences. Please try again later.",
+              type: 'error'
+            }, { status: 400 })
+          }
+        } catch (tagError) {
+          console.error('Error updating member tags:', tagError)
+          return NextResponse.json({
+            success: false,
+            message: "We couldn't update your preferences. Please try again later.",
+            type: 'error'
+          }, { status: 500 })
+        }
+      }
+      
+      // Handle GDPR/forgotten email case
+      if (data.title === 'Forgotten Email Not Subscribed') {
+        console.log('Email was previously deleted and cannot be re-added via API')
         return NextResponse.json({
           success: false,
-          message: "You're already on our list! We'll keep you updated about the School of Encounter.",
+          message: "This email address has previously been removed from our list. Please use a different email or contact us directly for assistance.",
           type: 'info'
         })
       }
 
       console.error('Mailchimp API error:', data)
-      throw new Error(data.detail || 'Failed to subscribe')
+      return NextResponse.json({ 
+        success: false, 
+        message: data.detail || 'There was an issue with your subscription. Please try again or contact us directly.',
+        type: 'error'
+      }, { status: 400 })
     }
 
+    console.log('Successfully subscribed to Mailchimp')
     return NextResponse.json({
       success: true,
       message: "Thank you for your interest! We'll send more information about the School of Encounter to your email soon.",
       type: 'success'
     })
   } catch (error: any) {
-    console.error('Error:', error)
+    console.error('Exception caught:', error)
     return NextResponse.json(
       { 
         success: false,

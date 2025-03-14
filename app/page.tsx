@@ -222,7 +222,7 @@ export default async function LandingPage() {
                   />
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="https://www.theschoolofencounter.com">Learn More</Link>
+                      <Link href="/school-of-encounter">Learn More</Link>
                     </Button>
                   </div>
                 </div>

@@ -53,7 +53,7 @@ export default function HeroSection() {
                 className="inline-block rounded-full px-8 py-3 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 backdrop-blur-sm"
               >
                 <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">
-                  Launching March 23rd, 2024
+                  Launching March 23rd, 2025
                 </span>
               </motion.span>
             </motion.div>
