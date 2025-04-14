@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 export function MainNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const donateUrl = "https://give.tithe.ly/?formId=fc03799a-0541-44e4-91a9-d53c7f5fd9d3&locationId=ebb1aab5-ff12-4129-8311-983143e7db4f&fundId=62ddfc18-4b94-41ac-978c-3b14d9cdc37c"
+  const donateUrl = "https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11"
 
   return (
     <div className="container flex h-14 items-center">

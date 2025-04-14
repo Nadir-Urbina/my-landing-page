@@ -1,13 +1,13 @@
-import type { Testimonial, Event, Book, Mission } from '@/types/sanity'
+import type { Testimonial, Event, Book, Mission, Post } from '@/types/sanity'
 import { MainNav } from '@/components/MainNav'
 import { CarouselWrapper } from '@/components/CarouselWrapper'
-import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, urlFor } from '@/lib/sanity.client'
+import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, getPosts, urlFor } from '@/lib/sanity.client'
 import Link from 'next/link'
 import { motion } from "framer-motion"
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown, Tent } from 'lucide-react'
+import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown, Tent, Clock, ArrowRight } from 'lucide-react'
 import localFont from 'next/font/local'
 import { Montserrat, Inter } from 'next/font/google'
 import { useState, useEffect } from 'react'
@@ -32,6 +32,8 @@ export default async function LandingPage() {
   console.log('Books:', JSON.stringify(featuredBooks, null, 2))
   const missions = await getMissions()
   console.log('Missions:', JSON.stringify(missions, null, 2))
+  const blogPosts = await getPosts()
+  console.log('Blog Posts:', JSON.stringify(blogPosts, null, 2))
 
   return (
     <div className={`flex flex-col min-h-screen ${inter.className}`}>
@@ -80,7 +82,7 @@ export default async function LandingPage() {
                 className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white border-0 w-full sm:w-auto h-[42px] px-6 rounded-2xl"
                 asChild
               >
-                <Link href="https://give.tithe.ly/?formId=fc03799a-0541-44e4-91a9-d53c7f5fd9d3&locationId=ebb1aab5-ff12-4129-8311-983143e7db4f&fundId=62ddfc18-4b94-41ac-978c-3b14d9cdc37c">
+                <Link href="https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11">
                   Partner with Me
                 </Link>
               </Button>
@@ -300,6 +302,61 @@ export default async function LandingPage() {
           </div>
         </section>
 
+        {/* Blog Posts Section */}
+        <section id="blog" className="py-16 bg-white">
+          <div className="container">
+            <div className="flex justify-between items-center mb-12">
+              <h2 className={`text-3xl font-bold ${montserrat.className}`}>Latest from the Blog</h2>
+              <Button variant="outline" asChild className="flex items-center gap-2">
+                <Link href="/blog">
+                  View All Posts
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {blogPosts && blogPosts.length > 0 ? (
+                blogPosts.slice(0, 3).map((post) => (
+                  <Link href={`/blog/${post.slug}`} key={post._id} className="group">
+                    <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full">
+                      <div className="relative h-[220px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                        <FallbackImage
+                          src={post.imageUrl}
+                          alt={post.title}
+                          fallbackSrc="/placeholder-image.jpg"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                      <div className="p-6 border-t border-gray-100">
+                        {post.publishedAt && (
+                          <div className="flex items-center text-sm text-muted-foreground mb-3">
+                            <Clock className="h-4 w-4 mr-2" />
+                            {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </div>
+                        )}
+                        <h3 className="text-xl font-semibold mb-3 group-hover:text-blue-600 transition-colors duration-300">{post.title}</h3>
+                        <p className="text-muted-foreground line-clamp-3">{post.excerpt}</p>
+                        <div className="mt-4 flex items-center text-blue-600 font-medium">
+                          <span className="group-hover:underline">Read more</span>
+                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <p className="text-center text-muted-foreground col-span-3">No blog posts available at the moment.</p>
+              )}
+            </div>
+          </div>
+        </section>
+
         {/* Partner with Me Section */}
         <section className="py-16 bg-white">
           <div className="container">
@@ -321,7 +378,7 @@ export default async function LandingPage() {
                 " 
                 asChild
               >
-                <Link href="/donate">
+                <Link href="https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11">
                   <span className="relative z-10 flex items-center gap-2">
                     Donate Now
                     <span className="group-hover:translate-x-1 transition-transform duration-300">
