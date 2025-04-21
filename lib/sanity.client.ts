@@ -91,7 +91,7 @@ export async function getFeaturedBooks(): Promise<Book[]> {
 
 export async function getUpcomingEvents(): Promise<Event[]> {
   return client.fetch(`
-    *[_type == "event"] | order(date asc) {
+    *[_type == "event" && !(_id in path("drafts.**"))] | order(date asc) {
       _id,
       title,
       description,
@@ -137,7 +137,7 @@ export async function getHealingStreamsContent() {
 export async function getPosts(): Promise<Post[]> {
   console.log('Fetching posts...')
   const posts = await client.fetch(`
-    *[_type == "post"] | order(publishedAt desc) {
+    *[_type == "post" && !(_id in path("drafts.**"))] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,

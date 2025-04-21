@@ -23,6 +23,9 @@ import { FallbackImage } from '@/components/ui/fallback-image'
 const inter = Inter({ subsets: ['latin'] })
 const montserrat = Montserrat({ subsets: ['latin'] })
 
+// Disable cache for this page to always fetch latest data
+export const revalidate = 0
+
 export default async function LandingPage() {
   // Fetch data
   const testimonials = await getTestimonials()
@@ -351,7 +354,9 @@ export default async function LandingPage() {
                   </Link>
                 ))
               ) : (
-                <p className="text-center text-muted-foreground col-span-3">No blog posts available at the moment.</p>
+                <p className="text-center text-muted-foreground col-span-3">
+                  {blogPosts ? `No blog posts available (${blogPosts.length} found in CMS).` : 'Error loading blog posts. Check console for details.'}
+                </p>
               )}
             </div>
           </div>
@@ -446,7 +451,9 @@ export default async function LandingPage() {
                   </CarouselItem>
                 ))
               ) : (
-                <p className="text-center text-muted-foreground w-full">No upcoming events at the moment.</p>
+                <p className="text-center text-muted-foreground w-full">
+                  {upcomingEvents ? `No upcoming events available (${upcomingEvents.length} found in CMS).` : 'Error loading events. Check console for details.'}
+                </p>
               )}
             </CarouselWrapper>
           </div>
