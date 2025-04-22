@@ -4,11 +4,19 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import { track } from '@vercel/analytics'
 
 export function MainNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const donateUrl = "https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11"
+
+  const handlePartnerClick = () => {
+    track('partner_header_click', {
+      location: 'header',
+      text: 'Partner'
+    })
+  }
 
   return (
     <div className="container flex h-14 items-center">
@@ -44,6 +52,7 @@ export function MainNav() {
           [animation:pulse_4s_ease-in-out_infinite] hover:animate-none"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={handlePartnerClick}
         >
           Partner
         </Link>
@@ -113,7 +122,10 @@ export function MainNav() {
               className="mt-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-md font-medium text-center"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+                handlePartnerClick();
+              }}
             >
               Partner
             </Link>

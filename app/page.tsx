@@ -19,6 +19,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { FallbackImage } from '@/components/ui/fallback-image'
+import { track } from '@vercel/analytics'
+import { TrackableLink } from '@/components/TrackableLink'
 
 const inter = Inter({ subsets: ['latin'] })
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -384,7 +386,13 @@ export default async function LandingPage() {
               <p className="text-lg text-muted-foreground mb-8">
                 Your support enables us to continue spreading the message of Kingdom Culture and discipleship worldwide. Join me in making a difference.
               </p>
-              <Button 
+              <TrackableLink 
+                href="https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11"
+                eventName="donate_button_click"
+                eventProps={{
+                  location: 'partner_section',
+                  button_text: 'Donate Now'
+                }}
                 className="
                   bg-[#E879F9] hover:bg-[#E879F9]/90 
                   text-white font-semibold px-8 py-6 text-lg
@@ -394,19 +402,16 @@ export default async function LandingPage() {
                   rounded-full
                   relative overflow-hidden
                   group
-                " 
-                asChild
+                "
               >
-                <Link href="https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11">
-                  <span className="relative z-10 flex items-center gap-2">
-                    Donate Now
-                    <span className="group-hover:translate-x-1 transition-transform duration-300">
-                      →
-                    </span>
+                <span className="relative z-10 flex items-center gap-2">
+                  Donate Now
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">
+                    →
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#F0ABFC] to-[#E879F9] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
-              </Button>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#F0ABFC] to-[#E879F9] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </TrackableLink>
             </div>
           </div>
         </section>
