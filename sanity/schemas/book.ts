@@ -1,4 +1,4 @@
-export default {
+const bookSchema = {
   name: 'book',
   title: 'Book',
   type: 'document',
@@ -28,4 +28,6 @@ export default {
       type: 'url',
     },
   ],
-} 
+}
+
+export default bookSchema 

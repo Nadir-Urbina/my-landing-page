@@ -1,4 +1,4 @@
-export default {
+const testimonialSchema = {
   name: 'testimonial',
   title: 'Testimonial',
   type: 'document',
@@ -24,4 +24,6 @@ export default {
       type: 'image',
     },
   ],
-} 
+}
+
+export default testimonialSchema 

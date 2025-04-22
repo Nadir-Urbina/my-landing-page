@@ -1,4 +1,4 @@
-export default {
+const calendarEventSchema = {
   name: 'calendarEvent',
   title: 'Calendar Events',
   type: 'document',
@@ -58,4 +58,6 @@ export default {
       }
     }
   ]
-} 
+}
+
+export default calendarEventSchema 

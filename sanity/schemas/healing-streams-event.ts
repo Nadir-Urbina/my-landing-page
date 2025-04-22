@@ -1,6 +1,6 @@
 import { Rule } from '@sanity/types'
 
-export default {
+const healingStreamsEventSchema = {
   name: 'healingStreamsEvent',
   title: 'Healing Streams Event',
   type: 'document',
@@ -42,4 +42,6 @@ export default {
       type: 'url'
     }
   ]
-} 
+}
+
+export default healingStreamsEventSchema 

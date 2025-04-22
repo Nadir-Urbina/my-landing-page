@@ -1,4 +1,4 @@
-export default {
+const missionSchema = {
   name: 'mission',
   title: 'Mission Trip',
   type: 'document',
@@ -58,4 +58,6 @@ export default {
       optional: true,
     },
   ],
-} 
+}
+
+export default missionSchema 

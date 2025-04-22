@@ -1,6 +1,6 @@
 import { Rule } from '@sanity/types'
 
-export default {
+const healingStreamsTestimonialSchema = {
   name: 'healingStreamsTestimonial',
   title: 'Healing Streams Testimonial',
   type: 'document',
@@ -50,4 +50,6 @@ export default {
       }
     }
   ]
-} 
+}
+
+export default healingStreamsTestimonialSchema 

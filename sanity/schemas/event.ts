@@ -1,4 +1,4 @@
-export default {
+const eventSchema = {
   name: 'event',
   title: 'Events',
   type: 'document',
@@ -58,4 +58,6 @@ export default {
       }
     }
   ]
-} 
+}
+
+export default eventSchema 
