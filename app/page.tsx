@@ -1,13 +1,13 @@
-import type { Testimonial, Event, Book, Mission, Post } from '@/types/sanity'
+import type { Testimonial, Event, Book, Mission, Post, Ministry } from '@/types/sanity'
 import { MainNav } from '@/components/MainNav'
 import { CarouselWrapper } from '@/components/CarouselWrapper'
-import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, getPosts, urlFor } from '@/lib/sanity.client'
+import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, getPosts, getMinistryLife, urlFor } from '@/lib/sanity.client'
 import Link from 'next/link'
 import { motion } from "framer-motion"
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown, Tent, Clock, ArrowRight } from 'lucide-react'
+import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown, Tent, Clock, ArrowRight, Gift, Star, Users, Sparkles, Zap, Church } from 'lucide-react'
 import localFont from 'next/font/local'
 import { Montserrat, Inter } from 'next/font/google'
 import { useState, useEffect } from 'react'
@@ -37,6 +37,29 @@ export default async function LandingPage() {
   console.log('Missions:', JSON.stringify(missions, null, 2))
   const blogPosts = await getPosts()
   console.log('Blog Posts:', JSON.stringify(blogPosts, null, 2))
+  const ministryItems = await getMinistryLife() || []
+  
+  console.log('Ministry items:', JSON.stringify(ministryItems, null, 2))
+
+  // Map icon names to components
+  const getIconComponent = (iconName: string) => {
+    const iconMap: { [key: string]: React.ReactNode } = {
+      CircleUserRound: <CircleUserRound className="h-5 w-5" />,
+      Heart: <Heart className="h-5 w-5" />,
+      Crown: <Crown className="h-5 w-5" />,
+      BookOpen: <BookOpen className="h-5 w-5" />,
+      Tent: <Tent className="h-5 w-5" />,
+      Gift: <Gift className="h-5 w-5" />,
+      Star: <Star className="h-5 w-5" />,
+      Globe: <Globe className="h-5 w-5" />,
+      Users: <Users className="h-5 w-5" />,
+      Sparkles: <Sparkles className="h-5 w-5" />,
+      Zap: <Zap className="h-5 w-5" />,
+      Church: <Church className="h-5 w-5" />
+    };
+    
+    return iconMap[iconName] || <CircleUserRound className="h-5 w-5" />;
+  };
 
   return (
     <div className={`flex flex-col min-h-screen ${inter.className}`}>
@@ -132,141 +155,132 @@ export default async function LandingPage() {
           <div className="container">
             <h2 className={`text-3xl font-bold mb-12 ${montserrat.className}`}>Ministry Life</h2>
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {/* East Gate Card */}
-              <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                  <Image
-                    src="/ministry/egkfDarkBg.png"
-                    alt="East Gate Logo"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="https://www.eastgatejax.com">Learn More</Link>
-                    </Button>
+              {ministryItems && ministryItems.length > 0 ? (
+                ministryItems.map((ministry: Ministry) => (
+                  <div key={ministry._id} className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
+                    {/* Registration Badge */}
+                    {ministry.registrationBadge?.isActive && (
+                      <div className="absolute top-4 left-4 z-10">
+                        <div className="bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium animate-pulse">
+                          {ministry.registrationBadge.text}
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                      <FallbackImage
+                        src={ministry.imageUrl || '/placeholder-image.jpg'}
+                        alt={ministry.title}
+                        fallbackSrc="/placeholder-image.jpg"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
+                          <Link href={ministry.learnMoreLink}>Learn More</Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="p-6 border-t border-gray-100">
+                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
+                        {getIconComponent(ministry.icon)}
+                        {ministry.role}
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {ministry.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="p-6 border-t border-gray-100">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                    <CircleUserRound className="h-5 w-5" />
-                    Senior Leader at East Gate
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.
-                  </p>
-                </div>
-              </div>
-              {/* CAMP Card */}
-              <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                {/* Registration Badge */}
-                <div className="absolute top-4 left-4 z-10">
-                  <div className="bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium animate-pulse">
-                    2025 Registration Open
+                ))
+              ) : (
+                <>
+                  {/* Fallback to hardcoded cards if no Sanity data is available */}
+                  {/* East Gate Card */}
+                  <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
+                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                      <Image
+                        src="/ministry/egkfDarkBg.png"
+                        alt="East Gate Logo"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
+                          <Link href="https://www.eastgatejax.com">Learn More</Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="p-6 border-t border-gray-100">
+                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
+                        <CircleUserRound className="h-5 w-5" />
+                        Senior Leader at East Gate
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                  
+                  {/* CAMP Card */}
+                  <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
+                    {/* Registration Badge */}
+                    <div className="absolute top-4 left-4 z-10">
+                      <div className="bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium animate-pulse">
+                        2025 Registration Open
+                      </div>
+                    </div>
 
-                <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                  <Image
-                    src="/ministry/camp.webp"
-                    alt="CAMP Logo"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="/camp">Learn More</Link>
-                    </Button>
+                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                      <Image
+                        src="/ministry/camp.webp"
+                        alt="CAMP Logo"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
+                          <Link href="/camp">Learn More</Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="p-6 border-t border-gray-100">
+                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
+                        <Tent className="h-5 w-5" />
+                        CAMP
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        A sacred gathering space where prayer warriors are equipped and empowered through strategic intercession, prophetic mentoring, and covenant alignment.
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="p-6 border-t border-gray-100">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                    <Tent className="h-5 w-5" />  {/* You'll need to import Tent from lucide-react */}
-                    CAMP
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    A sacred gathering space where prayer warriors are equipped and empowered through strategic intercession, prophetic mentoring, and covenant alignment.
-                  </p>
-                </div>
-              </div>
 
-              {/* Healing Streams Card */}
-              <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                  <Image
-                    src="/ministry/healingStreamsHorizontal.png"
-                    alt="Healing Streams Logo"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="/healing-streams">Learn More</Link>
-                    </Button>
+                  {/* Healing Streams Card */}
+                  <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
+                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
+                      <Image
+                        src="/ministry/healingStreamsHorizontal.png"
+                        alt="Healing Streams Logo"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
+                          <Link href="/healing-streams">Learn More</Link>
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="p-6 border-t border-gray-100">
+                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
+                        <Heart className="h-5 w-5" />
+                        Healing Streams
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="p-6 border-t border-gray-100">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                    <Heart className="h-5 w-5" />
-                    Healing Streams
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.
-                  </p>
-                </div>
-              </div>
-
-              {/* School of Encounter Card */}
-              <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                  <Image
-                    src="/ministry/tsoeHorizontal2.png"
-                    alt="School of Encounter Logo"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="/school-of-encounter">Learn More</Link>
-                    </Button>
-                  </div>
-                </div>
-                <div className="p-6 border-t border-gray-100">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                    <BookOpen className="h-5 w-5" />
-                    The School of Encounter
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Crest of The Wave is Dr. Todd's initiative to equip and empower the next generation of leaders, riding the forefront of spiritual awakening and cultural transformation.
-                  </p>
-                </div>
-              </div>
-
-              {/* TWGA Card */}
-              <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                  <Image
-                    src="/ministry/twgaElder.png"
-                    alt="The Well Global Alliance Logo"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                      <Link href="https://www.thewellglobal.life/alliance">Learn More</Link>
-                    </Button>
-                  </div>
-                </div>
-                <div className="p-6 border-t border-gray-100">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                    <Crown className="h-5 w-5" />
-                    Elder at TWGA
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Developing and implementing training programs that establish Kingdom principles and values in individuals, families, and organizations.
-                  </p>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </section>

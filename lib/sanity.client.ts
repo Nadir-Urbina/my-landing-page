@@ -209,4 +209,20 @@ export async function getHealingStreamsEvents(): Promise<HealingStreamsEvent[]> 
       registrationLink
     }
   `)
+}
+
+export async function getMinistryLife() {
+  return client.fetch(`
+    *[_type == "ministry"] | order(order asc) {
+      _id,
+      title,
+      role,
+      description,
+      icon,
+      "imageUrl": image.asset->url,
+      learnMoreLink,
+      order,
+      registrationBadge
+    }
+  `)
 } 

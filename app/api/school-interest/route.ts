@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createHash } from 'crypto'
+import { client } from '@/lib/sanity.client'
 
 export async function POST(req: Request) {
   try {
@@ -42,6 +43,25 @@ export async function POST(req: Request) {
     console.log('Preparing Mailchimp request to:', `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`)
     console.log('Request body:', JSON.stringify(requestBody))
 
+    // Store the submission in Sanity CMS
+    try {
+      const sanityData = {
+        _type: 'interestForm',
+        name,
+        email,
+        phone: phone || undefined,
+        interests: ['schoolOfEncounter'],
+        submittedAt: new Date().toISOString(),
+        mailchimpStatus: 'pending'
+      }
+      
+      const sanityResult = await client.create(sanityData)
+      console.log('Created Sanity record:', sanityResult._id)
+    } catch (sanityError) {
+      console.error('Error storing submission in Sanity:', sanityError)
+      // Continue with Mailchimp integration even if Sanity fails
+    }
+
     const response = await fetch(
       `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`,
       {
@@ -57,6 +77,31 @@ export async function POST(req: Request) {
     const data = await response.json()
     console.log('Mailchimp API response status:', response.status)
     console.log('Mailchimp API response:', data)
+
+    // Update Sanity record with Mailchimp status
+    try {
+      const sanityRecord = await client.fetch(
+        `*[_type == "interestForm" && email == $email] | order(submittedAt desc)[0]._id`,
+        { email }
+      )
+      
+      if (sanityRecord) {
+        if (response.ok) {
+          await client.patch(sanityRecord)
+            .set({ mailchimpStatus: 'subscribed' })
+            .commit()
+        } else {
+          await client.patch(sanityRecord)
+            .set({ 
+              mailchimpStatus: 'failed',
+              statusNotes: data.detail || data.title || JSON.stringify(data)
+            })
+            .commit()
+        }
+      }
+    } catch (updateError) {
+      console.error('Error updating Sanity record:', updateError)
+    }
 
     if (!response.ok) {
       if (data.title === 'Member Exists') {
@@ -98,6 +143,22 @@ export async function POST(req: Request) {
             
             console.log('Merge fields update response:', await mergeFieldsResponse.json())
             
+            // Update Sanity record status
+            try {
+              const sanityRecord = await client.fetch(
+                `*[_type == "interestForm" && email == $email] | order(submittedAt desc)[0]._id`,
+                { email }
+              )
+              
+              if (sanityRecord) {
+                await client.patch(sanityRecord)
+                  .set({ mailchimpStatus: 'subscribed', statusNotes: 'Member already existed. Tag and merge fields updated.' })
+                  .commit()
+              }
+            } catch (updateError) {
+              console.error('Error updating Sanity record:', updateError)
+            }
+            
             return NextResponse.json({
               success: true,
               message: "Thank you for your interest in the School of Encounter! We'll send you more information soon.",
@@ -124,6 +185,26 @@ export async function POST(req: Request) {
       // Handle GDPR/forgotten email case
       if (data.title === 'Forgotten Email Not Subscribed') {
         console.log('Email was previously deleted and cannot be re-added via API')
+        
+        // Update Sanity record
+        try {
+          const sanityRecord = await client.fetch(
+            `*[_type == "interestForm" && email == $email] | order(submittedAt desc)[0]._id`,
+            { email }
+          )
+          
+          if (sanityRecord) {
+            await client.patch(sanityRecord)
+              .set({ 
+                mailchimpStatus: 'failed', 
+                statusNotes: 'Email was previously deleted and cannot be re-added via API due to GDPR compliance' 
+              })
+              .commit()
+          }
+        } catch (updateError) {
+          console.error('Error updating Sanity record:', updateError)
+        }
+        
         return NextResponse.json({
           success: false,
           message: "This email address has previously been removed from our list. Please use a different email or contact us directly for assistance.",
