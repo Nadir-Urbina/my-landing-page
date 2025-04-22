@@ -1,4 +1,4 @@
-export default {
+const interestFormSchema = {
   name: 'interestForm',
   title: 'Interest Form Submissions',
   type: 'document',
@@ -63,7 +63,8 @@ export default {
       subtitle: 'email',
       description: 'submittedAt'
     },
-    prepare({ title, subtitle, description }) {
+    prepare(selection: { title: string; subtitle: string; description?: string }) {
+      const { title, subtitle, description } = selection;
       const date = description ? new Date(description).toLocaleDateString() : '';
       return {
         title,
@@ -80,4 +81,6 @@ export default {
       ]
     }
   ]
-} 
+}
+
+export default interestFormSchema 

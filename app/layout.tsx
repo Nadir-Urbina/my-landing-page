@@ -4,8 +4,17 @@ import './globals.css'
 import { Footer } from '@/components/footer'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Metadata } from 'next'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Dr. Joshua Todd',
+  description: 'Dr. Joshua Todd - Fathering, Sonship, Kingdom Culture and more',
+  icons: {
+    icon: '/favicon.svg',
+  },
+}
 
 export default function RootLayout({
   children,

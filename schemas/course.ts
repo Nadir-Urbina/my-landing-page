@@ -1,4 +1,4 @@
-export default {
+const courseSchema = {
   name: 'course',
   title: 'Course',
   type: 'document',
@@ -76,4 +76,6 @@ export default {
       media: 'image'
     }
   }
-} 
+}
+
+export default courseSchema 
