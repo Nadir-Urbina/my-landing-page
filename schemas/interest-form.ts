@@ -63,12 +63,12 @@ const interestFormSchema = {
       subtitle: 'email',
       description: 'submittedAt'
     },
-    prepare(selection: { title: string; subtitle: string; description?: string }) {
+    prepare: function(selection: Record<string, any>) {
       const { title, subtitle, description } = selection;
       const date = description ? new Date(description).toLocaleDateString() : '';
       return {
-        title,
-        subtitle: `${subtitle} (${date})`
+        title: title || 'Untitled',
+        subtitle: subtitle ? `${subtitle} (${date})` : date
       };
     }
   },

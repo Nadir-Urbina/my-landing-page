@@ -1,13 +1,14 @@
 'use client'
 
 /**
- * This configuration is used to for the Sanity Studio that’s mounted on the `/app/studio/[[...index]]/page.tsx` route
+ * This configuration is used to for the Sanity Studio that's mounted on the `/app/studio/[[...index]]/page.tsx` route
  */
 
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
 import { schemaTypes } from './sanity/schemas'
 import { structure } from './sanity/structure'
+import { SchemaTypeDefinition } from 'sanity'
 
 export default defineConfig({
   name: 'default',
@@ -25,6 +26,6 @@ export default defineConfig({
   ],
 
   schema: {
-    types: schemaTypes,
+    types: schemaTypes as SchemaTypeDefinition[],
   },
 })
