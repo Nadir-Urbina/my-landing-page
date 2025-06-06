@@ -132,18 +132,25 @@ export default async function LandingPage() {
                 />
               </div>
               <div>
-                <div className="space-y-4 text-lg">
-                  <p>
-                    Joshua Todd was born again in 1994 after a profound encounter with Jesus, accepting his call to ministry that same year. In his late teens, regular encounters with the Lord through His Word ignited a deep desire for a more meaningful relationship with God. A pivotal moment came in 1999 during a visit to Ireland, where he was baptized in the Holy Spirit. This life-changing experience set him on a global missionary journey and led him to pursue theological education.
-                  </p>
-                  <p>
-                    Joshua studied at the Southern Baptist Theological Seminary, where he was introduced to deliverance ministry—a key element that has since shaped his life and leadership. He went on to earn a master's degree from Wagner Leadership Institute and a doctorate from Kingdom Leadership Institute. Joshua has been happily married to Coral for 18 years, and they are blessed with two wonderful children, Mia and Joshua.
-                  </p>
+                <div className="space-y-6 text-lg">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3 text-[#8B5CF6]">The Holy Spirit Encounter</h3>
+                    <p className="leading-relaxed">
+                      Dr. Joshua&apos;s journey into the nations began with a powerful baptism in the Holy Spirit while ministering in Northern Ireland. That encounter lit a fire in him, sending him to the Northeastern United States after high school to mentor with Victory Center Church, where he began moving in signs and wonders.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3 text-[#8B5CF6]">Today&apos;s Mission</h3>
+                    <p className="leading-relaxed">
+                      Today, Dr. Joshua is the founder of Kingdom Champions College, dedicated to raising up leaders for the nations. He also serves as the Senior Leader of East Gate Jacksonville—a Kingdom center positioned at the East Gate of the United States, where the gospel first arrived on American shores.
+                    </p>
+                  </div>
                 </div>
                 <div className="mt-8">
                   <Button variant="outline" asChild>
                     <Link href="/about">
-                      Learn More
+                      Read Full Bio
                     </Link>
                   </Button>
                 </div>

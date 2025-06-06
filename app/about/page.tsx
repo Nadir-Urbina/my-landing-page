@@ -65,35 +65,86 @@ export default function AboutPage() {
               className="object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <div className="space-y-6">
-            <h2 className={`text-2xl font-semibold ${montserrat.className}`}>Early Life & Calling</h2>
-            <p className="text-lg">
-              Joshua Todd was born again in 1994 after a profound encounter with Jesus, accepting his call to ministry that same year. In his late teens, regular encounters with the Lord through His Word ignited a deep desire for a more meaningful relationship with God.
-            </p>
-            <p className="text-lg">
-              A pivotal moment came in 1999 during a visit to Ireland, where he was baptized in the Holy Spirit. This life-changing experience set him on a global missionary journey and led him to pursue theological education.
+          <div className="flex flex-col justify-center">
+            <h2 className={`text-3xl font-bold mb-6 ${montserrat.className}`}>The Journey</h2>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              From a powerful encounter with the Holy Spirit in Northern Ireland to becoming a global leader in Kingdom culture, Dr. Joshua&apos;s story is one of divine calling, faithful preparation, and unwavering commitment to raising up the next generation of leaders.
             </p>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-muted p-8 rounded-xl shadow-md">
-            <h2 className={`text-2xl font-semibold mb-4 ${montserrat.className}`}>Education & Training</h2>
-            <p className="text-lg">
-              Joshua studied at the Southern Baptist Theological Seminary, where he was unexpectedly introduced to deliverance through another studenta, a key element that has since shaped his life and leadership. He went on to earn a master's degree from Wagner Leadership Institute and a doctorate from Kingdom Leadership Institute.
-            </p>
+        {/* Card-based timeline */}
+        <div className="space-y-8 mb-16">
+          <h2 className={`text-3xl font-bold text-center mb-12 ${montserrat.className}`}>His Story</h2>
+          
+          {/* Card 1: The Holy Spirit Encounter */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900">The Holy Spirit Encounter</h3>
+              <p className="text-lg leading-relaxed text-gray-700">
+                Dr. Joshua&apos;s journey into the nations began with a powerful baptism in the Holy Spirit while ministering in Northern Ireland. That encounter lit a fire in him, sending him to the Northeastern United States after high school to mentor with Victory Center Church, where he began moving in signs and wonders.
+              </p>
+            </div>
           </div>
 
-          <div className="bg-muted p-8 rounded-xl shadow-md">
-            <h2 className={`text-2xl font-semibold mb-4 ${montserrat.className}`}>Ministry Focus</h2>
-            <p className="text-lg mb-4">Dr. Todd's ministry focuses on several key areas:</p>
-            <ul className="list-disc list-inside space-y-2 text-lg ml-4">
-              <li>Kingdom Culture Development</li>
-              <li>Spiritual Fathering and Sonship</li>
-              <li>Healing and Deliverance Ministry</li>
-              <li>Leadership Development</li>
-              <li>Global Missions and Church Planting</li>
-            </ul>
+          {/* Card 2: Educational Foundation */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900">Educational Foundation</h3>
+              <div className="space-y-4">
+                <p className="text-lg leading-relaxed text-gray-700">
+                  After that season, Joshua returned home, feeling the need for deeper grounding in the Word but unsure where to begin. He enrolled at Boyce College, the undergraduate school of The Southern Baptist Theological Seminary in Louisville, Kentucky. There, he quickly became known among the students and even traveled across the country representing the college.
+                </p>
+                <p className="text-lg leading-relaxed text-gray-700">
+                  During his time at Boyce, Joshua experienced a life-changing moment of deliverance through another student in his dorm. The same fire fell on both of them, and together they began ministering to the homeless at the Salvation Army.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3: Meeting Coral & Ministry Formation */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900">Meeting Coral & Ministry Formation</h3>
+              <p className="text-lg leading-relaxed text-gray-700">
+                Two years into the program, Joshua felt his time there was complete. He returned to Jacksonville, Florida, where he met his wife, Coral. Together, they entered a school of ministry and spent two years immersed in the Word of Faith movement, growing in faith and preparing for a season of intense ministry.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 4: Spiritual Fathering & Advanced Education */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900">Spiritual Fathering & Advanced Education</h3>
+              <div className="space-y-4">
+                <p className="text-lg leading-relaxed text-gray-700">
+                  After four years, Joshua connected with Dr. Don Lynch, who became his spiritual father for nearly 14 years. Under Dr. Don&apos;s guidance, Joshua enrolled in Wagner Leadership Institute, where he earned his Bachelor&apos;s and Master&apos;s degrees in Practical Ministry. Still, they both knew there was more.
+                </p>
+                <p className="text-lg leading-relaxed text-gray-700">
+                  Together, they helped establish the Kingdom Leadership Institute. Three years later, under rigorous conditions, Joshua earned the first-ever Doctorate of Kingdom Leadership from the school—awarded based on years of leading successful international ministry and building a strong, mission-focused local church.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 5: Transition & New Beginnings */}
+          <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-100">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900">Transition & New Beginnings</h3>
+              <p className="text-lg leading-relaxed text-gray-700">
+                In 2021, Joshua and Dr. Don began developing the next phase of the school. Sadly, Dr. Don transitioned to glory in February 2022. Later that year, the board chose a different direction, and Joshua was honorably released by Ruthanne Lynch in October 2022 to continue walking in his God-given inheritance.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 6: Today's Mission */}
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-2 border-purple-200">
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 text-gray-900">Today&apos;s Mission</h3>
+              <p className="text-lg leading-relaxed text-gray-700">
+                Today, Dr. Joshua is the founder of Kingdom Champions College, dedicated to raising up leaders for the nations. He also serves as the Senior Leader of East Gate Jacksonville—a Kingdom center positioned at the East Gate of the United States, where the gospel first arrived on American shores.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -104,7 +155,7 @@ export default function AboutPage() {
               Joshua has been happily married to Coral for 18 years, and they are blessed with two wonderful children, Mia and Joshua. Their family stands as a testament to the principles of Kingdom culture and family values that Dr. Todd teaches.
             </p>
             <p className="text-lg">
-            In 2022, The Lord spoke to the Todd family and encouraged them to embrace this reality, that if they would answer to the call to establish a place of Kingdom family, He would restore natural families.  Since this time, supernatural kingdom family has impacted natural families around the world.    Learn more about this vision by visiting www.eastgatejax.com (http://www.eastgatejax.com) which acts as the International Hub expanding Kingdom family so that the gates of Hell cannot prevail against it. 
+            In 2022, The Lord spoke to the Todd family and encouraged them to embrace this reality, that if they would answer to the call to establish a place of Kingdom family, He would restore natural families.    Since this time, supernatural kingdom family has impacted natural families around the world.   Learn more about this vision by visiting www.eastgatejax.com (http://www.eastgatejax.com) which acts as the International Hub expanding Kingdom family so that the gates of Hell cannot prevail against it. 
             </p>
           </div>
           <div className="relative h-[400px] rounded-xl overflow-hidden shadow-xl md:order-1">
