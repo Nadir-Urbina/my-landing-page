@@ -9,6 +9,9 @@ import { components } from '@/components/portable-text'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
+// Disable cache for this page to always fetch latest data
+export const revalidate = 0
+
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = await getPost(params.slug)
 
