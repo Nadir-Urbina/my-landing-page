@@ -39,6 +39,13 @@ const postSchema = {
         { type: 'block' },
         { type: 'image' }
       ]
+    },
+    {
+      name: 'likeCount',
+      title: 'Like Count',
+      type: 'number',
+      initialValue: 0,
+      validation: (Rule: any) => Rule.integer().min(0)
     }
   ]
 }

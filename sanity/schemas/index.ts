@@ -3,6 +3,7 @@ import testimonial from './testimonial'
 import event from './event'
 import mission from './mission'
 import post from './post'
+import comment from './comment'
 import calendarEvent from './calendar-event'
 import healingStreamsTestimonial from './healing-streams-testimonial'
 import healingStreamsEvent from './healing-streams-event'
@@ -17,6 +18,7 @@ export const schemaTypes = [
   event,
   mission,
   post,
+  comment,
   calendarEvent,
   healingStreamsTestimonial,
   healingStreamsEvent,

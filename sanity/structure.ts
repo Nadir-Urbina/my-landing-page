@@ -29,6 +29,11 @@ export const structure = (S: StructureBuilder) =>
         .title('Blog Posts')
         .child(S.documentTypeList('post')),
       
+      // Comments
+      S.listItem()
+        .title('Comments')
+        .child(S.documentTypeList('comment')),
+      
       // Calendar Events
       S.listItem()
         .title('Calendar Events')

@@ -67,6 +67,7 @@ export interface Post {
     }
   }
   body?: any
+  likeCount?: number
 }
 
 export interface CalendarEvent {
@@ -141,4 +142,19 @@ export interface InterestForm {
   submittedAt: string;
   mailchimpStatus: 'pending' | 'subscribed' | 'failed';
   statusNotes?: string;
+}
+
+export interface Comment {
+  _id: string;
+  post: {
+    _ref: string;
+    _type: 'reference';
+  };
+  author: string;
+  email: string;
+  content: string;
+  isApproved: boolean;
+  submittedAt: string;
+  approvedAt?: string;
+  moderatorNotes?: string;
 } 

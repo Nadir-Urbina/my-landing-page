@@ -9,6 +9,7 @@ export const client = createClient({
   apiVersion: '2024-01-01',
   useCdn: process.env.NODE_ENV === 'production',
   perspective: 'published',
+  token: process.env.SANITY_API_TOKEN,
 })
 
 const builder = imageUrlBuilder(client)
@@ -159,7 +160,8 @@ export async function getPost(slug: string): Promise<Post | null> {
       publishedAt,
       excerpt,
       "imageUrl": mainImage.asset->url,
-      body
+      body,
+      likeCount
     }
   `, { slug })
 }

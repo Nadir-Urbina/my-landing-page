@@ -6,6 +6,9 @@ import { formatDate } from '@/lib/utils'
 import { getPost } from '@/lib/sanity.client'
 import { PortableText } from '@portabletext/react'
 import { components } from '@/components/portable-text'
+import { LikeButton } from '@/components/like-button'
+import { CommentsSection } from '@/components/comments-section'
+import { TrackableLink } from '@/components/TrackableLink'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -75,6 +78,38 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               components={components}
             />
           </div>
+          
+          {/* Like Button */}
+          <LikeButton slug={post.slug} initialLikeCount={post.likeCount} />
+          
+          {/* Donate CTA Section */}
+          <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <div className="text-center">
+              <h3 className={`text-2xl font-bold mb-4 ${montserrat.className}`}>
+                Support This Ministry
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                If this content has blessed you, consider partnering with us to reach more lives with the Gospel.
+              </p>
+              <TrackableLink 
+                href="https://give.tithe.ly/?formId=42e3f1ba-6865-11ee-90fc-1260ab546d11"
+                eventName="donate_button_click"
+                eventProps={{
+                  location: 'blog_post',
+                  button_text: 'Partner with Us',
+                  post_slug: post.slug
+                }}
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-medium 
+                transition-all duration-300 hover:scale-105 hover:shadow-lg hover:from-purple-600 hover:to-pink-600
+                [animation:pulse_4s_ease-in-out_infinite] hover:animate-none"
+              >
+                Partner with Us
+              </TrackableLink>
+            </div>
+          </div>
+          
+          {/* Comments Section */}
+          <CommentsSection slug={post.slug} />
         </div>
       </section>
     </main>
