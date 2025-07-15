@@ -62,7 +62,7 @@ const commentSchema = {
       subtitle: 'content',
       media: 'post.mainImage'
     },
-    prepare({ title, subtitle, media }) {
+    prepare({ title, subtitle, media }: { title: string; subtitle: string; media: any }) {
       return {
         title: `Comment by ${title}`,
         subtitle: subtitle?.substring(0, 50) + '...',
