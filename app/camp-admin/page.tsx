@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { CampAdminAuth } from './auth'
 // Simple Badge component inline
 const Badge = ({ children, variant = 'default' }: { children: React.ReactNode, variant?: 'default' | 'secondary' | 'destructive' | 'outline' }) => {
   const variants = {
@@ -47,10 +48,17 @@ interface CampApplication {
   financialCommitmentAcknowledged: boolean
   submittedAt: string
   status: 'pending' | 'under_review' | 'accepted' | 'rejected' | 'waitlisted'
+  paymentStatus?: 'not_started' | 'active' | 'past_due' | 'cancelled' | 'incomplete'
+  stripeCustomerId?: string
+  stripeSubscriptionId?: string
   reviewNotes?: string
+  paymentLinkSent?: boolean
+  paymentLinkSentAt?: string
+  paymentLinkSentCount?: number
 }
 
 export default function CampAdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [interests, setInterests] = useState<CampInterest[]>([])
   const [applications, setApplications] = useState<CampApplication[]>([])
   const [loading, setLoading] = useState(true)
@@ -59,10 +67,23 @@ export default function CampAdminPage() {
   const [emailContent, setEmailContent] = useState('')
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('interests')
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
 
   useEffect(() => {
-    fetchData()
+    // Check if already authenticated
+    const authStatus = sessionStorage.getItem('camp-admin-auth')
+    if (authStatus === 'true') {
+      setIsAuthenticated(true)
+      fetchData()
+    } else {
+      setLoading(false)
+    }
   }, [])
+
+  const handleAuthentication = () => {
+    setIsAuthenticated(true)
+    fetchData()
+  }
 
   const fetchData = async () => {
     try {
@@ -142,6 +163,40 @@ export default function CampAdminPage() {
     }
   }
 
+  const sendPaymentLink = async (application: CampApplication, amount: string = '100') => {
+    try {
+      const response = await fetch('/api/camp-admin/send-payment-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          applicationId: application._id,
+          amount: amount
+        }),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        const isResend = application.paymentLinkSent
+        const message = isResend 
+          ? `Payment link resent successfully! (Send #${result.sentCount})`
+          : 'Payment link sent successfully!'
+        setNotification({ message, type: 'success' })
+        fetchData()
+      } else {
+        setNotification({ message: result.message || 'Error sending payment link', type: 'error' })
+      }
+    } catch (error) {
+      console.error('Error sending payment link:', error)
+      setNotification({ message: 'Error sending payment link', type: 'error' })
+    }
+    
+    // Auto-hide notification after 5 seconds
+    setTimeout(() => setNotification(null), 5000)
+  }
+
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
       case 'info_sent': return 'secondary'
@@ -160,6 +215,11 @@ export default function CampAdminPage() {
     return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
   }
 
+  // Show authentication form if not authenticated
+  if (!isAuthenticated) {
+    return <CampAdminAuth onAuthenticated={handleAuthentication} />
+  }
+
   if (loading) {
     return (
       <div className="container max-w-7xl py-8">
@@ -169,11 +229,62 @@ export default function CampAdminPage() {
   }
 
   return (
-    <div className="container max-w-7xl py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">CAMP 2025 Admin Dashboard</h1>
-        <p className="text-gray-600">Manage CAMP interest requests and applications</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Notification Modal */}
+      {notification && (
+        <div className="fixed top-4 right-4 z-50 max-w-sm">
+          <div className={`p-4 rounded-lg shadow-lg border ${
+            notification.type === 'success' 
+              ? 'bg-green-50 border-green-200 text-green-800' 
+              : 'bg-red-50 border-red-200 text-red-800'
+          }`}>
+            <div className="flex justify-between items-start">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  {notification.type === 'success' ? (
+                    <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium">{notification.message}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setNotification(null)}
+                className="ml-4 text-gray-400 hover:text-gray-600"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="container max-w-7xl py-8">
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">CAMP 2025 Admin Dashboard</h1>
+            <p className="text-gray-600">Manage CAMP interest requests and applications</p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => {
+              sessionStorage.removeItem('camp-admin-auth')
+              setIsAuthenticated(false)
+            }}
+            className="text-red-600 border-red-200 hover:bg-red-50"
+          >
+            Logout
+          </Button>
+        </div>
 
       <div className="space-y-6">
         {/* Simple Tab Navigation */}
@@ -283,6 +394,20 @@ export default function CampAdminPage() {
                         <p><strong>Ministry:</strong> {application.ministry.substring(0, 100)}...</p>
                         <p><strong>How heard:</strong> {application.howHeardAboutCamp}</p>
                         <p><strong>Financial commitment:</strong> {application.financialCommitmentAcknowledged ? 'Acknowledged' : 'Not acknowledged'}</p>
+                        {application.paymentStatus && (
+                          <p><strong>Payment:</strong> <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                            application.paymentStatus === 'active' ? 'bg-green-100 text-green-800' :
+                            application.paymentStatus === 'past_due' ? 'bg-red-100 text-red-800' :
+                            application.paymentStatus === 'cancelled' ? 'bg-gray-100 text-gray-800' :
+                            'bg-yellow-100 text-yellow-800'
+                          }`}>{application.paymentStatus.replace(/_/g, ' ').toUpperCase()}</span></p>
+                        )}
+                        {application.paymentLinkSent && (
+                          <p><strong>Payment Link:</strong> <span className="px-2 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-800">
+                            Sent {application.paymentLinkSentAt ? new Date(application.paymentLinkSentAt).toLocaleDateString() : ''}
+                            {application.paymentLinkSentCount && application.paymentLinkSentCount > 1 && ` (${application.paymentLinkSentCount}x)`}
+                          </span></p>
+                        )}
                       </div>
                       {application.reviewNotes && (
                         <p className="text-sm text-gray-700 mt-2 bg-gray-50 p-2 rounded">
@@ -322,6 +447,42 @@ export default function CampAdminPage() {
                             </div>
                           </DialogContent>
                         </Dialog>
+                        {application.status === 'accepted' && (!application.paymentStatus || application.paymentStatus === 'not_started') && (
+                          <div className="flex gap-2">
+                            {!application.paymentLinkSent ? (
+                              <Button
+                                size="sm"
+                                variant="default"
+                                onClick={() => sendPaymentLink(application)}
+                                className="bg-green-600 hover:bg-green-700"
+                              >
+                                Send Payment Link
+                              </Button>
+                            ) : (
+                              <>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  disabled
+                                  className="bg-green-50 text-green-700 border-green-200"
+                                >
+                                  Payment Link Sent
+                                  {application.paymentLinkSentCount && application.paymentLinkSentCount > 1 && (
+                                    <span className="ml-1 text-xs">({application.paymentLinkSentCount}x)</span>
+                                  )}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => sendPaymentLink(application)}
+                                  className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                                >
+                                  Resend
+                                </Button>
+                              </>
+                            )}
+                          </div>
+                        )}
                         <Button
                           size="sm"
                           variant="outline"
@@ -431,6 +592,7 @@ export default function CampAdminPage() {
           </div>
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   )
 }

@@ -101,10 +101,54 @@ const campApplicationSchema = {
       initialValue: 'pending'
     },
     {
+      name: 'paymentStatus',
+      title: 'Payment Status',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Not Started', value: 'not_started' },
+          { title: 'Active', value: 'active' },
+          { title: 'Past Due', value: 'past_due' },
+          { title: 'Cancelled', value: 'cancelled' },
+          { title: 'Incomplete', value: 'incomplete' }
+        ]
+      },
+      initialValue: 'not_started'
+    },
+    {
+      name: 'stripeCustomerId',
+      title: 'Stripe Customer ID',
+      type: 'string',
+      description: 'Stripe customer ID for payment tracking'
+    },
+    {
+      name: 'stripeSubscriptionId',
+      title: 'Stripe Subscription ID',
+      type: 'string',
+      description: 'Stripe subscription ID for payment tracking'
+    },
+    {
       name: 'reviewNotes',
       title: 'Review Notes',
       type: 'text',
       description: 'Notes from Dr. Josh or admin about the application review'
+    },
+    {
+      name: 'paymentLinkSent',
+      title: 'Payment Link Sent',
+      type: 'boolean',
+      initialValue: false
+    },
+    {
+      name: 'paymentLinkSentAt',
+      title: 'Payment Link Sent Date',
+      type: 'datetime'
+    },
+    {
+      name: 'paymentLinkSentCount',
+      title: 'Payment Link Send Count',
+      type: 'number',
+      initialValue: 0
     },
     {
       name: 'communicationLog',
@@ -128,7 +172,8 @@ const campApplicationSchema = {
                   { title: 'Email Sent', value: 'email_sent' },
                   { title: 'Email Received', value: 'email_received' },
                   { title: 'Phone Call', value: 'phone_call' },
-                  { title: 'Note Added', value: 'note' }
+                  { title: 'Note Added', value: 'note' },
+                  { title: 'Payment Link Sent', value: 'payment_link_sent' }
                 ]
               }
             },
@@ -172,13 +217,14 @@ const campApplicationSchema = {
     prepare: function(selection: Record<string, any>) {
       const { title, subtitle, description, status } = selection;
       const date = description ? new Date(description).toLocaleDateString() : '';
-      const statusEmoji = {
+      const statusEmojiMap: Record<string, string> = {
         'pending': '⏳',
         'under_review': '👀',
         'accepted': '✅',
         'rejected': '❌',
         'waitlisted': '⏰'
-      }[status] || '❓';
+      };
+      const statusEmoji = statusEmojiMap[status] || '❓';
       
       return {
         title: title || 'Untitled',

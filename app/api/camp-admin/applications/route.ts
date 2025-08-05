@@ -31,7 +31,13 @@ export async function GET() {
         financialCommitmentAcknowledged,
         submittedAt,
         status,
-        reviewNotes
+        paymentStatus,
+        stripeCustomerId,
+        stripeSubscriptionId,
+        reviewNotes,
+        paymentLinkSent,
+        paymentLinkSentAt,
+        paymentLinkSentCount
       }
     `)
 
