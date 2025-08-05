@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
+import { client } from '@/lib/sanity.client'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -212,6 +213,15 @@ export async function POST(req: Request) {
 </body>
 </html>
     `;
+
+    // Store the interest in Sanity
+    await client.create({
+      _type: 'campInterest',
+      fullName,
+      email,
+      submittedAt: new Date().toISOString(),
+      status: 'info_sent'
+    })
 
     // Send email using Resend
     await resend.emails.send({

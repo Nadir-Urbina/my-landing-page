@@ -78,4 +78,20 @@ export const structure = (S: StructureBuilder) =>
       S.listItem()
         .title('Ministry Life')
         .child(S.documentTypeList('ministry')),
+      
+      // CAMP 2025 Management
+      S.listItem()
+        .title('CAMP 2025')
+        .child(
+          S.list()
+            .title('CAMP 2025 Management')
+            .items([
+              S.listItem()
+                .title('Info Requests')
+                .child(S.documentTypeList('campInterest')),
+              S.listItem()
+                .title('Applications')
+                .child(S.documentTypeList('campApplication')),
+            ])
+        ),
     ])

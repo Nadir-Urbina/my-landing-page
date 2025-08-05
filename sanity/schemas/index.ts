@@ -11,6 +11,8 @@ import ministry from '../../schemas/ministry'
 import course from '../../schemas/course'
 import instructor from '../../schemas/instructor'
 import interestForm from '../../schemas/interest-form'
+import campInterest from './camp-interest'
+import campApplication from './camp-application'
 
 export const schemaTypes = [
   book,
@@ -25,5 +27,7 @@ export const schemaTypes = [
   ministry,
   course,
   instructor,
-  interestForm
+  interestForm,
+  campInterest,
+  campApplication
 ] 

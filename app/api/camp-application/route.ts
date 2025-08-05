@@ -1,11 +1,32 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { client } from '@/lib/sanity.client'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: Request) {
   try {
     const data = await req.json()
+    
+    // Store the application in Sanity
+    await client.create({
+      _type: 'campApplication',
+      ...data,
+      submittedAt: new Date().toISOString(),
+      status: 'pending'
+    })
+
+    // Check if this person previously requested info and update their status
+    const existingInterest = await client.fetch(
+      `*[_type == "campInterest" && email == $email][0]`,
+      { email: data.email }
+    )
+    
+    if (existingInterest) {
+      await client.patch(existingInterest._id).set({
+        status: 'applied'
+      }).commit()
+    }
     
     // Send thank you email to applicant
     await resend.emails.send({
