@@ -125,12 +125,29 @@ export default function CampAdminPage() {
       })
 
       if (response.ok) {
-        // Refresh data
-        fetchData()
+        setNotification({ message: `Status updated to ${newStatus.replace(/_/g, ' ')}`, type: 'success' })
+        
+        // Optimistically update the UI - no server refresh to avoid conflicts
+        if (type === 'application') {
+          setApplications(prev => prev.map(app => 
+            app._id === id ? { ...app, status: newStatus as any } : app
+          ))
+        } else {
+          setInterests(prev => prev.map(interest => 
+            interest._id === id ? { ...interest, status: newStatus as any } : interest
+          ))
+        }
+      } else {
+        const errorData = await response.json()
+        setNotification({ message: errorData.error || 'Failed to update status', type: 'error' })
       }
     } catch (error) {
       console.error('Error updating status:', error)
+      setNotification({ message: 'Failed to update status. Please try again.', type: 'error' })
     }
+    
+    // Auto-hide notification after 3 seconds
+    setTimeout(() => setNotification(null), 3000)
   }
 
   const sendEmail = async () => {

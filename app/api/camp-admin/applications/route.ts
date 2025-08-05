@@ -13,36 +13,24 @@ const adminClient = createClient({
 
 export async function GET() {
   try {
-    // Get applications with detailed fields - using coalesce for optional fields
+    // Get applications with all fields, handling missing ones properly
     const applications = await adminClient.fetch(`
-      *[_type == "campApplication"] | order(submittedAt desc) {
-        _id,
-        fullName,
-        email,
-        phone,
-        ministry,
-        kingdomLeader,
-        propheticTraining,
-        salvationExperience,
-        viewOfGod,
-        hopesToLearn,
-        howHeardAboutCamp,
-        knowSomeoneInCamp,
-        potentialCandidates,
-        financialCommitmentAcknowledged,
-        submittedAt,
-        status,
-        "paymentStatus": coalesce(paymentStatus, null),
-        "stripeCustomerId": coalesce(stripeCustomerId, null),
-        "stripeSubscriptionId": coalesce(stripeSubscriptionId, null),
-        "reviewNotes": coalesce(reviewNotes, null),
-        "paymentLinkSent": coalesce(paymentLinkSent, false),
-        "paymentLinkSentAt": coalesce(paymentLinkSentAt, null),
-        "paymentLinkSentCount": coalesce(paymentLinkSentCount, 0)
-      }
+      *[_type == "campApplication"] | order(submittedAt desc)
     `)
 
-    return NextResponse.json(applications)
+    // Process applications to ensure all required fields exist with defaults
+    const processedApplications = applications.map((app: any) => ({
+      ...app,
+      paymentStatus: app.paymentStatus || null,
+      stripeCustomerId: app.stripeCustomerId || null,
+      stripeSubscriptionId: app.stripeSubscriptionId || null,
+      reviewNotes: app.reviewNotes || null,
+      paymentLinkSent: app.paymentLinkSent || false,
+      paymentLinkSentAt: app.paymentLinkSentAt || null,
+      paymentLinkSentCount: app.paymentLinkSentCount || 0
+    }))
+
+    return NextResponse.json(processedApplications)
   } catch (error) {
     console.error('Error fetching applications:', error)
     return NextResponse.json(
