@@ -31,9 +31,9 @@ export async function POST(req: Request) {
       )
     }
 
-    // Create payment URL with the correct base URL
+    // Create payment URL with the correct base URL and required parameters
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3333'
-    const paymentUrl = `${baseUrl}/camp-payment?applicationId=${applicationId}&amount=${amount}`
+    const paymentUrl = `${baseUrl}/camp-payment?applicationId=${applicationId}&amount=${amount}&email=${encodeURIComponent(application.email)}&name=${encodeURIComponent(application.fullName)}`
 
     // Email template
     const emailTemplate = `

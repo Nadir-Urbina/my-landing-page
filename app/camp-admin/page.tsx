@@ -201,7 +201,16 @@ export default function CampAdminPage() {
           ? `Payment link resent successfully! (Send #${result.sentCount})`
           : 'Payment link sent successfully!'
         setNotification({ message, type: 'success' })
-        fetchData()
+        
+        // Optimistically update the payment link status without refreshing all data
+        setApplications(prev => prev.map(app => 
+          app._id === application._id ? {
+            ...app,
+            paymentLinkSent: true,
+            paymentLinkSentAt: new Date().toISOString(),
+            paymentLinkSentCount: result.sentCount || (app.paymentLinkSentCount || 0) + 1
+          } : app
+        ))
       } else {
         setNotification({ message: result.message || 'Error sending payment link', type: 'error' })
       }
