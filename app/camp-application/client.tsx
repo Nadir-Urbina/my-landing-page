@@ -22,7 +22,8 @@ export function CampApplicationForm() {
     hopesToLearn: '',
     howHeardAboutCamp: '',
     knowSomeoneInCamp: '',
-    potentialCandidates: ''
+    potentialCandidates: '',
+    financialCommitmentAcknowledged: false
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -65,7 +66,8 @@ export function CampApplicationForm() {
         hopesToLearn: '',
         howHeardAboutCamp: '',
         knowSomeoneInCamp: '',
-        potentialCandidates: ''
+        potentialCandidates: '',
+        financialCommitmentAcknowledged: false
       })
     } catch (error) {
       setSubmitStatus({
@@ -78,10 +80,12 @@ export function CampApplicationForm() {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target
+    const checked = (e.target as HTMLInputElement).checked
+    
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? checked : value
     }))
   }
 
@@ -270,6 +274,40 @@ export function CampApplicationForm() {
                   onChange={handleChange}
                   placeholder="Please provide their name and email address"
                 />
+              </div>
+            </div>
+
+            {/* Financial Commitment Section */}
+            <div className="space-y-4 border-t pt-6">
+              <h2 className={`text-xl font-semibold ${montserrat.className}`}>Financial Commitment</h2>
+              
+              <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                <p className="text-sm text-gray-700 mb-4">
+                  <strong>Important:</strong> If your application is accepted, you will be required to make a minimum monthly offering of $100 for each month you are part of CAMP. This commitment reflects the value being stewarded in this sacred space and ensures 100% participation from all members.
+                </p>
+                
+                <p className="text-sm text-gray-600 mb-4">
+                  While this amount is double what was encouraged during CAMP 1, it remains far below what many seasoned leaders have suggested is appropriate for the depth of teaching, training, and tribe access you will receive. Our goal is still 100% participation - we are not asking for perfection, but for partnership.
+                </p>
+                
+                <p className="text-sm text-gray-600 mb-6">
+                  If you are unable to meet the $100 commitment, please reach out to our team after acceptance to discuss potential assistance.
+                </p>
+                
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    id="financialCommitmentAcknowledged"
+                    name="financialCommitmentAcknowledged"
+                    checked={formData.financialCommitmentAcknowledged}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <label htmlFor="financialCommitmentAcknowledged" className="text-sm text-gray-700">
+                    I acknowledge and understand the financial commitment of $100 per month if my application is accepted, and I commit to being a partner in this sacred space. *
+                  </label>
+                </div>
               </div>
             </div>
 
