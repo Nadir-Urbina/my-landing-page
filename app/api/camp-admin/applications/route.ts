@@ -13,6 +13,7 @@ const adminClient = createClient({
 
 export async function GET() {
   try {
+    // Get applications with detailed fields - using coalesce for optional fields
     const applications = await adminClient.fetch(`
       *[_type == "campApplication"] | order(submittedAt desc) {
         _id,
@@ -31,13 +32,13 @@ export async function GET() {
         financialCommitmentAcknowledged,
         submittedAt,
         status,
-        paymentStatus,
-        stripeCustomerId,
-        stripeSubscriptionId,
-        reviewNotes,
-        paymentLinkSent,
-        paymentLinkSentAt,
-        paymentLinkSentCount
+        "paymentStatus": coalesce(paymentStatus, null),
+        "stripeCustomerId": coalesce(stripeCustomerId, null),
+        "stripeSubscriptionId": coalesce(stripeSubscriptionId, null),
+        "reviewNotes": coalesce(reviewNotes, null),
+        "paymentLinkSent": coalesce(paymentLinkSent, false),
+        "paymentLinkSentAt": coalesce(paymentLinkSentAt, null),
+        "paymentLinkSentCount": coalesce(paymentLinkSentCount, 0)
       }
     `)
 

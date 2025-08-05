@@ -1,15 +1,25 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { client } from '@/lib/sanity.client'
+import { createClient } from 'next-sanity'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+
+// Create admin client for writing applications
+const adminClient = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  perspective: 'previewDrafts',
+  token: process.env.SANITY_API_TOKEN,
+})
 
 export async function POST(req: Request) {
   try {
     const data = await req.json()
     
     // Store the application in Sanity
-    await client.create({
+    await adminClient.create({
       _type: 'campApplication',
       ...data,
       submittedAt: new Date().toISOString(),
@@ -17,13 +27,13 @@ export async function POST(req: Request) {
     })
 
     // Check if this person previously requested info and update their status
-    const existingInterest = await client.fetch(
+    const existingInterest = await adminClient.fetch(
       `*[_type == "campInterest" && email == $email][0]`,
       { email: data.email }
     )
     
     if (existingInterest) {
-      await client.patch(existingInterest._id).set({
+      await adminClient.patch(existingInterest._id).set({
         status: 'applied'
       }).commit()
     }

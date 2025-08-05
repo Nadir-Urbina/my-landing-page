@@ -1,15 +1,25 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { client } from '@/lib/sanity.client'
+import { createClient } from 'next-sanity'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+
+// Create admin client for reading/writing application data
+const adminClient = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  perspective: 'previewDrafts',
+  token: process.env.SANITY_API_TOKEN,
+})
 
 export async function POST(req: Request) {
   try {
     const { applicationId, amount } = await req.json()
 
     // Fetch application details
-    const application = await client.fetch(
+    const application = await adminClient.fetch(
       `*[_type == "campApplication" && _id == $id][0]`,
       { id: applicationId }
     )
@@ -93,7 +103,7 @@ export async function POST(req: Request) {
     const now = new Date().toISOString()
     const currentCount = application.paymentLinkSentCount || 0
     
-    await client
+    await adminClient
       .patch(applicationId)
       .set({ 
         paymentLinkSent: true,
@@ -102,6 +112,7 @@ export async function POST(req: Request) {
       })
       .setIfMissing({ communicationLog: [] })
       .append('communicationLog', [{
+        _key: `payment-link-${Date.now()}`,
         date: now,
         type: 'payment_link_sent',
         subject: `Payment Link Sent - $${amount}/month`,

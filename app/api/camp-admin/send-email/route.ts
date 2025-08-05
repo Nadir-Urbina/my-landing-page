@@ -41,6 +41,7 @@ export async function POST(req: Request) {
 
     // Log the communication in Sanity
     const communicationEntry = {
+      _key: `email-${Date.now()}`,
       date: new Date().toISOString(),
       type: 'email_sent',
       subject,

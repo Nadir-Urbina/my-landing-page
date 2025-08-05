@@ -1,8 +1,18 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
-import { client } from '@/lib/sanity.client'
+import { createClient } from 'next-sanity'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+
+// Create admin client for writing interest records
+const adminClient = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  perspective: 'previewDrafts',
+  token: process.env.SANITY_API_TOKEN,
+})
 
 export async function POST(req: Request) {
   try {
@@ -215,7 +225,7 @@ export async function POST(req: Request) {
     `;
 
     // Store the interest in Sanity
-    await client.create({
+    await adminClient.create({
       _type: 'campInterest',
       fullName,
       email,
