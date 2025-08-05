@@ -22,7 +22,10 @@ export async function GET() {
         status,
         notes
       }
-    `)
+    `, {}, { 
+      // Force fresh data, no cache
+      cache: 'no-store'
+    })
 
     return NextResponse.json(interests)
   } catch (error) {

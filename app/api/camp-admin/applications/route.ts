@@ -16,7 +16,10 @@ export async function GET() {
     // Get applications with all fields, handling missing ones properly
     const applications = await adminClient.fetch(`
       *[_type == "campApplication"] | order(submittedAt desc)
-    `)
+    `, {}, { 
+      // Force fresh data, no cache
+      cache: 'no-store'
+    })
 
     // Process applications to ensure all required fields exist with defaults
     const processedApplications = applications.map((app: any) => ({
@@ -29,7 +32,6 @@ export async function GET() {
       paymentLinkSentAt: app.paymentLinkSentAt || null,
       paymentLinkSentCount: app.paymentLinkSentCount || 0
     }))
-
     return NextResponse.json(processedApplications)
   } catch (error) {
     console.error('Error fetching applications:', error)
