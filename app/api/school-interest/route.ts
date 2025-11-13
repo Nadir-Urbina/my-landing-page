@@ -1,10 +1,27 @@
 import { NextResponse } from 'next/server'
 import { createHash } from 'crypto'
 import { client } from '@/lib/sanity.client'
+import { verifyRecaptcha } from '@/lib/recaptcha'
 
 export async function POST(req: Request) {
   try {
-    const { email, name, phone = '' } = await req.json()
+    const { email, name, phone = '', recaptchaToken } = await req.json()
+
+    // Verify reCAPTCHA token
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { success: false, message: 'reCAPTCHA token is required', type: 'error' },
+        { status: 400 }
+      )
+    }
+
+    const isValid = await verifyRecaptcha(recaptchaToken)
+    if (!isValid) {
+      return NextResponse.json(
+        { success: false, message: 'reCAPTCHA verification failed. Please try again.', type: 'error' },
+        { status: 403 }
+      )
+    }
     const API_KEY = process.env.MAILCHIMP_API_KEY
     const LIST_ID = process.env.MAILCHIMP_LIST_ID
     const DC = process.env.MAILCHIMP_SERVER_PREFIX || 'us15'

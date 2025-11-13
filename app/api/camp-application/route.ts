@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createClient } from 'next-sanity'
+import { verifyRecaptcha } from '@/lib/recaptcha'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -17,11 +18,30 @@ const adminClient = createClient({
 export async function POST(req: Request) {
   try {
     const data = await req.json()
-    
+
+    // Verify reCAPTCHA token
+    if (!data.recaptchaToken) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA token is required' },
+        { status: 400 }
+      )
+    }
+
+    const isValid = await verifyRecaptcha(data.recaptchaToken)
+    if (!isValid) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 403 }
+      )
+    }
+
+    // Remove recaptchaToken from data before storing
+    const { recaptchaToken, ...applicationData } = data
+
     // Store the application in Sanity
     await adminClient.create({
       _type: 'campApplication',
-      ...data,
+      ...applicationData,
       submittedAt: new Date().toISOString(),
       status: 'pending'
     })
@@ -29,19 +49,19 @@ export async function POST(req: Request) {
     // Check if this person previously requested info and update their status
     const existingInterest = await adminClient.fetch(
       `*[_type == "campInterest" && email == $email][0]`,
-      { email: data.email }
+      { email: applicationData.email }
     )
-    
+
     if (existingInterest) {
       await adminClient.patch(existingInterest._id).set({
         status: 'applied'
       }).commit()
     }
-    
+
     // Send thank you email to applicant
     await resend.emails.send({
       from: 'noreply@drjoshuatodd.com',
-      to: [data.email],
+      to: [applicationData.email],
       subject: 'CAMP 2025 Application Received - Thank You!',
       html: `
         <!DOCTYPE html>
@@ -54,17 +74,17 @@ export async function POST(req: Request) {
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
                 <h1 style="color: #1e3a8a; text-align: center;">Thank You for Your CAMP 2025 Application!</h1>
                 
-                <p>Dear ${data.fullName},</p>
-                
+                <p>Dear ${applicationData.fullName},</p>
+
                 <p>Thank you for submitting your application for CAMP 2025. We have successfully received your application and are honored by your interest in this transformational journey.</p>
-                
+
                 <p>Dr. Joshua Todd will personally review your application and get back to you with the result soon. We appreciate your patience during this process as we prayerfully consider each applicant.</p>
-                
+
                 <p>In the meantime, please continue to prepare your heart for what God has in store. This journey is not just about learning—it's about transformation and stepping into the fullness of your prophetic calling.</p>
-                
+
                 <p style="margin-top: 30px;">In His Service,<br>
                 <strong>The CAMP 2025 Team</strong></p>
-                
+
                 <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
                     <a href="https://drjoshuatodd.com" style="color: #1e3a8a; text-decoration: none;">www.drjoshuatodd.com</a>
                 </div>
@@ -73,38 +93,38 @@ export async function POST(req: Request) {
         </html>
       `
     })
-    
+
     // Send admin notification email
     await resend.emails.send({
       from: 'noreply@drjoshuatodd.com',
       to: ['drjoshuatodd@eastgatejax.com'],
       cc: ['nurbinabr@eastgatejax.com'],
-      subject: `New CAMP 2025 Application - ${data.fullName}`,
+      subject: `New CAMP 2025 Application - ${applicationData.fullName}`,
       html: `
         <h1>New CAMP 2025 Application</h1>
-        
+
         <h2>Personal Information</h2>
-        <p><strong>Full Name:</strong> ${data.fullName}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Full Name:</strong> ${applicationData.fullName}</p>
+        <p><strong>Email:</strong> ${applicationData.email}</p>
+        <p><strong>Phone:</strong> ${applicationData.phone}</p>
 
         <h2>Current Ministry Involvement</h2>
-        <p><strong>Current Ministry:</strong> ${data.ministry}</p>
-        <p><strong>Kingdom Leader:</strong> ${data.kingdomLeader}</p>
-        <p><strong>Prophetic Training & Involvement:</strong> ${data.propheticTraining}</p>
+        <p><strong>Current Ministry:</strong> ${applicationData.ministry}</p>
+        <p><strong>Kingdom Leader:</strong> ${applicationData.kingdomLeader}</p>
+        <p><strong>Prophetic Training & Involvement:</strong> ${applicationData.propheticTraining}</p>
 
         <h2>Spiritual Background</h2>
-        <p><strong>Salvation Experience:</strong> ${data.salvationExperience}</p>
-        <p><strong>View of God:</strong> ${data.viewOfGod}</p>
+        <p><strong>Salvation Experience:</strong> ${applicationData.salvationExperience}</p>
+        <p><strong>View of God:</strong> ${applicationData.viewOfGod}</p>
 
         <h2>CAMP Specific Questions</h2>
-        <p><strong>Hopes to Learn:</strong> ${data.hopesToLearn}</p>
-        <p><strong>How They Heard About CAMP:</strong> ${data.howHeardAboutCamp}</p>
-        <p><strong>Knows Someone in CAMP:</strong> ${data.knowSomeoneInCamp || 'No response'}</p>
-        <p><strong>Potential Candidates:</strong> ${data.potentialCandidates || 'No response'}</p>
-        
+        <p><strong>Hopes to Learn:</strong> ${applicationData.hopesToLearn}</p>
+        <p><strong>How They Heard About CAMP:</strong> ${applicationData.howHeardAboutCamp}</p>
+        <p><strong>Knows Someone in CAMP:</strong> ${applicationData.knowSomeoneInCamp || 'No response'}</p>
+        <p><strong>Potential Candidates:</strong> ${applicationData.potentialCandidates || 'No response'}</p>
+
         <h2>Financial Commitment</h2>
-        <p><strong>Financial Commitment Acknowledged:</strong> ${data.financialCommitmentAcknowledged ? 'Yes' : 'No'}</p>
+        <p><strong>Financial Commitment Acknowledged:</strong> ${applicationData.financialCommitmentAcknowledged ? 'Yes' : 'No'}</p>
       `
     })
 

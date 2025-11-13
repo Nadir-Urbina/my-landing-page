@@ -4,6 +4,7 @@ import './globals.css'
 import { Footer } from '@/components/footer'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { ReCaptchaProvider } from '@/components/ReCaptchaProvider'
 import { Metadata } from 'next'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -24,10 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
-        <main>{children}</main>
-        <Footer />
-        <Analytics />
-        <SpeedInsights />
+        <ReCaptchaProvider>
+          <main>{children}</main>
+          <Footer />
+          <Analytics />
+          <SpeedInsights />
+        </ReCaptchaProvider>
       </body>
     </html>
   )

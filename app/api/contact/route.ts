@@ -1,11 +1,28 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
+import { verifyRecaptcha } from '@/lib/recaptcha'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(req: Request) {
   try {
-    const { name, email, message } = await req.json()
+    const { name, email, message, recaptchaToken } = await req.json()
+
+    // Verify reCAPTCHA token
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA token is required' },
+        { status: 400 }
+      )
+    }
+
+    const isValid = await verifyRecaptcha(recaptchaToken)
+    if (!isValid) {
+      return NextResponse.json(
+        { error: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 403 }
+      )
+    }
 
     await resend.emails.send({
       from: 'onboarding@resend.dev',

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { motion } from "framer-motion"
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 export function InterestForm() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export function InterestForm() {
   })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'info'>('idle')
   const [message, setMessage] = useState('')
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -23,11 +25,23 @@ export function InterestForm() {
     e.preventDefault()
     setStatus('loading')
 
+    if (!executeRecaptcha) {
+      setStatus('error')
+      setMessage('reCAPTCHA not loaded yet. Please try again.')
+      return
+    }
+
     try {
+      // Get reCAPTCHA token
+      const token = await executeRecaptcha('school_interest')
+
       const res = await fetch('/api/school-interest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken: token,
+        })
       })
 
       const data = await res.json()
@@ -36,7 +50,7 @@ export function InterestForm() {
 
       setStatus(data.type || 'success')
       setMessage(data.message)
-      
+
       if (data.success) {
         setFormData({
           name: '',

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Montserrat } from 'next/font/google'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -31,23 +32,41 @@ export function CampApplicationForm() {
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' })
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitStatus({ type: null, message: '' })
 
+    if (!executeRecaptcha) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'reCAPTCHA not loaded yet. Please try again.',
+      })
+      setIsSubmitting(false)
+      return
+    }
+
     try {
+      // Get reCAPTCHA token
+      const token = await executeRecaptcha('camp_application')
+
       const response = await fetch('/api/camp-application', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken: token,
+        }),
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to submit application')
+        throw new Error(result.error || 'Failed to submit application')
       }
 
       setSubmitStatus({
@@ -72,7 +91,7 @@ export function CampApplicationForm() {
     } catch (error) {
       setSubmitStatus({
         type: 'error',
-        message: 'There was an error submitting your application. Please try again.',
+        message: error instanceof Error ? error.message : 'There was an error submitting your application. Please try again.',
       })
     } finally {
       setIsSubmitting(false)
