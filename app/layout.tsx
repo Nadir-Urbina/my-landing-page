@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.svg',
   },
+  other: {
+    // Resource hints for performance
+    'preconnect': 'https://cdn.sanity.io',
+  },
 }
 
 export default function RootLayout({
@@ -24,6 +28,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+      </head>
       <body className={cn(inter.className, 'min-h-screen bg-background antialiased')}>
         <ReCaptchaProvider>
           <main>{children}</main>

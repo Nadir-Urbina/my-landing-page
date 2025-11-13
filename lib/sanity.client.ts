@@ -15,7 +15,21 @@ export const client = createClient({
 const builder = imageUrlBuilder(client)
 
 export function urlFor(source: SanityImageSource): string {
-  return builder.image(source).url()
+  return builder
+    .image(source)
+    .auto('format')
+    .quality(85)
+    .url()
+}
+
+// Mobile-optimized version with smaller dimensions
+export function urlForMobile(source: SanityImageSource, width: number = 800): string {
+  return builder
+    .image(source)
+    .width(width)
+    .auto('format')
+    .quality(80)
+    .url()
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
@@ -74,7 +88,6 @@ export async function getMissions(): Promise<Mission[]> {
       registrationLink
     }
   `)
-  console.log('Raw missions data:', missions)
   return missions
 }
 
@@ -136,8 +149,7 @@ export async function getHealingStreamsContent() {
 }
 
 export async function getPosts(): Promise<Post[]> {
-  console.log('Fetching posts...')
-  const posts = await client.fetch(`
+  return client.fetch(`
     *[_type == "post" && !(_id in path("drafts.**"))] | order(publishedAt desc) {
       _id,
       title,
@@ -147,8 +159,6 @@ export async function getPosts(): Promise<Post[]> {
       "imageUrl": mainImage.asset->url
     }
   `)
-  console.log('Posts fetched:', posts)
-  return posts
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
@@ -167,8 +177,7 @@ export async function getPost(slug: string): Promise<Post | null> {
 }
 
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {
-  console.log('Fetching calendar events...')
-  const events = await client.fetch(`
+  return client.fetch(`
     *[_type == "calendarEvent"] | order(startDate asc) {
       _id,
       title,
@@ -181,8 +190,6 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
       "imageUrl": image.asset->url
     }
   `)
-  console.log('Calendar events fetched:', events)
-  return events
 }
 
 export async function getHealingStreamsTestimonials(): Promise<HealingStreamsTestimonial[]> {

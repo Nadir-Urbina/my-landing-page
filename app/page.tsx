@@ -1,47 +1,39 @@
-import type { Testimonial, Event, Book, Mission, Post, Ministry } from '@/types/sanity'
+import type { Testimonial, Event, Book, Mission, Ministry } from '@/types/sanity'
 import { MainNav } from '@/components/MainNav'
 import { CarouselWrapper } from '@/components/CarouselWrapper'
 import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, getPosts, getMinistryLife, urlFor } from '@/lib/sanity.client'
 import Link from 'next/link'
-import { motion } from "framer-motion"
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Menu, Calendar, Globe, BookOpen, ChevronRight, CircleUserRound, Heart, Crown, Tent, Clock, ArrowRight, Gift, Star, Users, Sparkles, Zap, Church } from 'lucide-react'
-import localFont from 'next/font/local'
+import { Calendar, Globe, BookOpen, CircleUserRound, Heart, Crown, Tent, Clock, ArrowRight, Gift, Star, Users, Sparkles, Zap, Church } from 'lucide-react'
 import { Montserrat, Inter } from 'next/font/google'
-import { useState, useEffect } from 'react'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+import { CarouselItem } from "@/components/ui/carousel"
 import { FallbackImage } from '@/components/ui/fallback-image'
-import { track } from '@vercel/analytics'
 import { TrackableLink } from '@/components/TrackableLink'
 
-const inter = Inter({ subsets: ['latin'] })
-const montserrat = Montserrat({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+})
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+})
 
-// Disable cache for this page to always fetch latest data
-export const revalidate = 0
+// Revalidate every hour (3600 seconds) - improves performance while keeping content fresh
+export const revalidate = 3600
 
 export default async function LandingPage() {
   // Fetch data
   const testimonials = await getTestimonials()
-  console.log('Testimonials:', JSON.stringify(testimonials, null, 2))
   const upcomingEvents = await getUpcomingEvents()
   const featuredBooks = await getFeaturedBooks()
-  console.log('Books:', JSON.stringify(featuredBooks, null, 2))
   const missions = await getMissions()
-  console.log('Missions:', JSON.stringify(missions, null, 2))
   const blogPosts = await getPosts()
-  console.log('Blog Posts:', JSON.stringify(blogPosts, null, 2))
   const ministryItems = await getMinistryLife() || []
-  
-  console.log('Ministry items:', JSON.stringify(ministryItems, null, 2))
 
   // Map icon names to components
   const getIconComponent = (iconName: string) => {

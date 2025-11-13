@@ -1,3 +1,5 @@
+import { logger } from './logger'
+
 /**
  * Verify reCAPTCHA token on the server side
  * @param token - The reCAPTCHA token from the client
@@ -29,7 +31,7 @@ export async function verifyRecaptcha(token: string): Promise<boolean> {
       return true
     }
 
-    console.warn('reCAPTCHA verification failed:', {
+    logger.warn('reCAPTCHA verification failed:', {
       success: data.success,
       score: data.score,
       errors: data['error-codes'],

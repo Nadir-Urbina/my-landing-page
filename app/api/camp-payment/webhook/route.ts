@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createClient } from 'next-sanity'
 import { Resend } from 'resend'
+import { logger } from '@/lib/logger'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     )
   } catch (error: any) {
-    console.error('Webhook signature verification failed:', error.message)
+    logger.error('Webhook signature verification failed:', error.message)
     return NextResponse.json(
       { error: 'Webhook signature verification failed' },
       { status: 400 }
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
     switch (event.type) {
       case 'checkout.session.completed':
         const session = event.data.object as Stripe.Checkout.Session
-        console.log('Checkout session completed:', session.id)
+        logger.log('Checkout session completed:', session.id)
         
         // Update application status to 'payment_completed'
         if (session.metadata?.applicationId) {
@@ -126,19 +127,19 @@ export async function POST(req: Request) {
               `
             })
           }
-          
-          console.log('Updated application status for:', session.metadata.applicationId)
+
+          logger.log('Updated application status for:', session.metadata.applicationId)
         }
         break
 
       case 'customer.subscription.created':
         const createdSubscription = event.data.object as Stripe.Subscription
-        console.log('Subscription created:', createdSubscription.id)
+        logger.log('Subscription created:', createdSubscription.id)
         break
 
       case 'customer.subscription.updated':
         const updatedSubscription = event.data.object as Stripe.Subscription
-        console.log('Subscription updated:', updatedSubscription.id)
+        logger.log('Subscription updated:', updatedSubscription.id)
         
         // Update payment status based on subscription status
         if (updatedSubscription.metadata?.applicationId) {
@@ -159,7 +160,7 @@ export async function POST(req: Request) {
 
       case 'customer.subscription.deleted':
         const deletedSubscription = event.data.object as Stripe.Subscription
-        console.log('Subscription cancelled:', deletedSubscription.id)
+        logger.log('Subscription cancelled:', deletedSubscription.id)
         
         // Update application status when subscription is cancelled
         if (deletedSubscription.metadata?.applicationId) {
@@ -172,18 +173,18 @@ export async function POST(req: Request) {
 
       case 'invoice.payment_failed':
         const failedInvoice = event.data.object as Stripe.Invoice
-        console.log('Payment failed for invoice:', failedInvoice.id)
+        logger.log('Payment failed for invoice:', failedInvoice.id)
         
         // You might want to send an email notification here
         break
 
       default:
-        console.log(`Unhandled event type: ${event.type}`)
+        logger.log(`Unhandled event type: ${event.type}`)
     }
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error('Error processing webhook:', error)
+    logger.error('Error processing webhook:', error)
     return NextResponse.json(
       { error: 'Error processing webhook' },
       { status: 500 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createHash } from 'crypto'
 import { client } from '@/lib/sanity.client'
 import { verifyRecaptcha } from '@/lib/recaptcha'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: Request) {
   try {
@@ -26,8 +27,8 @@ export async function POST(req: Request) {
     const LIST_ID = process.env.MAILCHIMP_LIST_ID
     const DC = process.env.MAILCHIMP_SERVER_PREFIX || 'us15'
 
-    console.log('Form submission received:', { name, email, phone })
-    console.log('Mailchimp config:', {
+    logger.log('Form submission received:', { name, email, phone })
+    logger.log('Mailchimp config:', {
       hasApiKey: !!API_KEY,
       apiKeyLength: API_KEY?.length,
       hasListId: !!LIST_ID,
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
     })
 
     if (!email || !email.length) {
-      console.log('Validation error: Email is required')
+      logger.log('Validation error: Email is required')
       return NextResponse.json(
         { success: false, message: 'Email is required', type: 'error' },
         { status: 400 }
@@ -57,8 +58,8 @@ export async function POST(req: Request) {
       }
     }
 
-    console.log('Preparing Mailchimp request to:', `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`)
-    console.log('Request body:', JSON.stringify(requestBody))
+    logger.log('Preparing Mailchimp request to:', `https://${DC}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`)
+    logger.log('Request body:', JSON.stringify(requestBody))
 
     // Store the submission in Sanity CMS
     try {
@@ -73,9 +74,9 @@ export async function POST(req: Request) {
       }
       
       const sanityResult = await client.create(sanityData)
-      console.log('Created Sanity record:', sanityResult._id)
+      logger.log('Created Sanity record:', sanityResult._id)
     } catch (sanityError) {
-      console.error('Error storing submission in Sanity:', sanityError)
+      logger.error('Error storing submission in Sanity:', sanityError)
       // Continue with Mailchimp integration even if Sanity fails
     }
 
@@ -92,8 +93,8 @@ export async function POST(req: Request) {
     )
 
     const data = await response.json()
-    console.log('Mailchimp API response status:', response.status)
-    console.log('Mailchimp API response:', data)
+    logger.log('Mailchimp API response status:', response.status)
+    logger.log('Mailchimp API response:', data)
 
     // Update Sanity record with Mailchimp status
     try {
@@ -117,12 +118,12 @@ export async function POST(req: Request) {
         }
       }
     } catch (updateError) {
-      console.error('Error updating Sanity record:', updateError)
+      logger.error('Error updating Sanity record:', updateError)
     }
 
     if (!response.ok) {
       if (data.title === 'Member Exists') {
-        console.log('Member already exists in Mailchimp - adding new tag')
+        logger.log('Member already exists in Mailchimp - adding new tag')
         
         // Add the School of Encounter Interest tag to the existing member
         try {
@@ -139,9 +140,9 @@ export async function POST(req: Request) {
               }),
             }
           )
-          
+
           if (tagUpdateResponse.ok) {
-            console.log('Successfully added School of Encounter tag to existing member')
+            logger.log('Successfully added School of Encounter tag to existing member')
             
             // Also update their merge fields with any new info provided
             const mergeFieldsResponse = await fetch(
@@ -157,8 +158,8 @@ export async function POST(req: Request) {
                 }),
               }
             )
-            
-            console.log('Merge fields update response:', await mergeFieldsResponse.json())
+
+            logger.log('Merge fields update response:', await mergeFieldsResponse.json())
             
             // Update Sanity record status
             try {
@@ -173,7 +174,7 @@ export async function POST(req: Request) {
                   .commit()
               }
             } catch (updateError) {
-              console.error('Error updating Sanity record:', updateError)
+              logger.error('Error updating Sanity record:', updateError)
             }
             
             return NextResponse.json({
@@ -182,7 +183,7 @@ export async function POST(req: Request) {
               type: 'success'
             })
           } else {
-            console.error('Failed to add tag:', await tagUpdateResponse.json())
+            logger.error('Failed to add tag:', await tagUpdateResponse.json())
             return NextResponse.json({
               success: false,
               message: "We couldn't update your preferences. Please try again later.",
@@ -190,7 +191,7 @@ export async function POST(req: Request) {
             }, { status: 400 })
           }
         } catch (tagError) {
-          console.error('Error updating member tags:', tagError)
+          logger.error('Error updating member tags:', tagError)
           return NextResponse.json({
             success: false,
             message: "We couldn't update your preferences. Please try again later.",
@@ -201,7 +202,7 @@ export async function POST(req: Request) {
       
       // Handle GDPR/forgotten email case
       if (data.title === 'Forgotten Email Not Subscribed') {
-        console.log('Email was previously deleted and cannot be re-added via API')
+        logger.log('Email was previously deleted and cannot be re-added via API')
         
         // Update Sanity record
         try {
@@ -219,7 +220,7 @@ export async function POST(req: Request) {
               .commit()
           }
         } catch (updateError) {
-          console.error('Error updating Sanity record:', updateError)
+          logger.error('Error updating Sanity record:', updateError)
         }
         
         return NextResponse.json({
@@ -229,7 +230,7 @@ export async function POST(req: Request) {
         })
       }
 
-      console.error('Mailchimp API error:', data)
+      logger.error('Mailchimp API error:', data)
       return NextResponse.json({ 
         success: false, 
         message: data.detail || 'There was an issue with your subscription. Please try again or contact us directly.',
@@ -237,14 +238,14 @@ export async function POST(req: Request) {
       }, { status: 400 })
     }
 
-    console.log('Successfully subscribed to Mailchimp')
+    logger.log('Successfully subscribed to Mailchimp')
     return NextResponse.json({
       success: true,
       message: "Thank you for your interest! We'll send more information about the School of Encounter to your email soon.",
       type: 'success'
     })
   } catch (error: any) {
-    console.error('Exception caught:', error)
+    logger.error('Exception caught:', error)
     return NextResponse.json(
       { 
         success: false,
