@@ -10,21 +10,46 @@ import { Montserrat } from 'next/font/google'
 import { Input } from '@/components/ui/input'
 import { motion } from "framer-motion"
 import { cn } from '@/lib/utils'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
 export default function CampPage() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
+  const [website, setWebsite] = useState('') // Honeypot field
+  const [formStartTime] = useState(Date.now()) // Track when form was loaded
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null)
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setMessage(null)
 
+    // Check honeypot - if filled, it's a bot
+    if (website) {
+      setIsLoading(false)
+      return // Silently fail for bots
+    }
+
+    if (!executeRecaptcha) {
+      setMessage({
+        text: 'Security verification not loaded. Please refresh and try again.',
+        type: 'error',
+      })
+      setIsLoading(false)
+      return
+    }
+
     try {
+      // Get reCAPTCHA token
+      const token = await executeRecaptcha('camp_interest')
+
+      // Calculate time taken to fill form (in seconds)
+      const timeTaken = Math.floor((Date.now() - formStartTime) / 1000)
+
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -33,6 +58,9 @@ export default function CampPage() {
         body: JSON.stringify({
           email,
           fullName: name,
+          website, // Include honeypot for server-side check
+          recaptchaToken: token,
+          formFillTime: timeTaken,
         }),
       })
 
@@ -138,11 +166,11 @@ export default function CampPage() {
               </p>
               <p>
                 Through a focus on intimacy with God and standing with each other, CAMP exists to 
-                see individuals and families transformed into vessels of God's glory, advancing His 
+                see individuals and families transformed into vessels of God&apos;s glory, advancing His 
                 Kingdom with unity, purpose, and unwavering faith.
               </p>
               <blockquote className="text-xl italic border-l-4 pl-4 my-8">
-                "I will heal natural families in kingdom family" - God
+                &quot;I will heal natural families in kingdom family&quot; - God
               </blockquote>
             </div>
           </div>
@@ -210,9 +238,20 @@ export default function CampPage() {
               Want to Know More?
             </h3>
             <p className="text-muted-foreground mb-6">
-              Leave your email and we'll send you more information about CAMP.
+              Leave your email and we&apos;ll send you more information about CAMP.
             </p>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              {/* Honeypot field - hidden from humans, visible to bots */}
+              <input
+                type="text"
+                name="website"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px' }}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
               <div className="flex gap-3">
                 <Input
                   type="text"

@@ -1,6 +1,10 @@
 import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
+import { verifyRecaptcha } from '@/lib/recaptcha'
+import { validateFormSubmission } from '@/lib/spam-detection'
+import { rateLimitFormSubmission } from '@/lib/rate-limit'
+import { logger } from '@/lib/logger'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -16,7 +20,81 @@ const adminClient = createClient({
 
 export async function POST(req: Request) {
   try {
-    const { email, fullName } = await req.json()
+    const { email, fullName, website, recaptchaToken, formFillTime } = await req.json()
+
+    // 1. Check rate limiting first (fastest check)
+    const rateCheck = rateLimitFormSubmission(req, email)
+    if (!rateCheck.allowed) {
+      logger.warn('Rate limit exceeded for CAMP interest form', {
+        email,
+        remaining: rateCheck.remaining,
+      })
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Too many requests. Please try again later.',
+          type: 'error',
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': rateCheck.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateCheck.resetTime).toISOString(),
+          }
+        }
+      )
+    }
+
+    // 2. Verify reCAPTCHA
+    if (!recaptchaToken) {
+      logger.warn('Missing reCAPTCHA token for CAMP interest form')
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Security verification required.',
+          type: 'error',
+        },
+        { status: 400 }
+      )
+    }
+
+    const isValidRecaptcha = await verifyRecaptcha(recaptchaToken)
+    if (!isValidRecaptcha) {
+      logger.warn('reCAPTCHA verification failed for CAMP interest form', { email })
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Security verification failed. Please try again.',
+          type: 'error',
+        },
+        { status: 403 }
+      )
+    }
+
+    // 3. Validate form content (honeypot, timing, content quality)
+    const validation = validateFormSubmission({
+      fullName,
+      email,
+      website,
+      formFillTime,
+    })
+
+    if (!validation.isValid) {
+      logger.warn('Form validation failed for CAMP interest form', {
+        email,
+        fullName,
+        reason: validation.reason,
+      })
+      // Return generic success message to not reveal detection to bots
+      return NextResponse.json(
+        {
+          success: true,
+          message: "Thank you! We've sent more information about CAMP 2025 to your email.",
+          type: 'success',
+        },
+        { status: 200 }
+      )
+    }
     
     const firstName = fullName.split(' ')[0]
 
@@ -224,7 +302,7 @@ export async function POST(req: Request) {
 </html>
     `;
 
-    // Store the interest in Sanity
+    // All validations passed - store the interest in Sanity
     await adminClient.create({
       _type: 'campInterest',
       fullName,
@@ -240,6 +318,12 @@ export async function POST(req: Request) {
       bcc: ['nurbinabr@eastgatejax.com', 'drjoshuatodd@eastgatejax.com'],
       subject: 'Welcome to CAMP 2025 - Your Journey of Transformation Awaits',
       html: emailTemplate
+    })
+
+    logger.info('CAMP interest form submitted successfully', {
+      email,
+      fullName,
+      formFillTime,
     })
 
     return NextResponse.json({
