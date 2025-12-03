@@ -113,7 +113,7 @@ export function CampApplicationForm() {
       <div className="container max-w-3xl">
         <Card className="p-8">
           <h1 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>
-            CAMP 2025 Application
+            CAMP Season 3 Application
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -246,7 +246,7 @@ export function CampApplicationForm() {
               
               <div>
                 <label htmlFor="hopesToLearn" className="block text-sm font-medium mb-2">
-                  What do you hope to learn in CAMP 2025? *
+                  What do you hope to learn in CAMP Season 3? *
                 </label>
                 <Textarea
                   id="hopesToLearn"
@@ -272,7 +272,7 @@ export function CampApplicationForm() {
 
               <div>
                 <label htmlFor="knowSomeoneInCamp" className="block text-sm font-medium mb-2">
-                  Do you know someone else in CAMP 2025?
+                  Do you know someone else in CAMP Season 3?
                 </label>
                 <Input
                   id="knowSomeoneInCamp"
@@ -308,10 +308,7 @@ export function CampApplicationForm() {
                 <p className="text-sm text-gray-600 mb-4">
                   While this amount is double what was encouraged during CAMP 1, it remains far below what many seasoned leaders have suggested is appropriate for the depth of teaching, training, and tribe access you will receive. Our goal is still 100% participation - we are not asking for perfection, but for partnership.
                 </p>
-                
-                <p className="text-sm text-gray-600 mb-6">
-                  If you are unable to meet the $100 commitment, please reach out to our team after acceptance to discuss potential assistance.
-                </p>
+              
                 
                 <div className="flex items-start space-x-3">
                   <input

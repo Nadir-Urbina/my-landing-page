@@ -79,12 +79,12 @@ export const structure = (S: StructureBuilder) =>
         .title('Ministry Life')
         .child(S.documentTypeList('ministry')),
       
-      // CAMP 2025 Management
+      // CAMP Season 3 Management
       S.listItem()
-        .title('CAMP 2025')
+        .title('CAMP Season 3')
         .child(
           S.list()
-            .title('CAMP 2025 Management')
+            .title('CAMP Season 3 Management')
             .items([
               S.listItem()
                 .title('Info Requests')

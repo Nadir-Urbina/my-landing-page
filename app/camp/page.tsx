@@ -302,7 +302,7 @@ export default function CampPage() {
                 href="/camp-application"
                 className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
               >
-                Apply Now to CAMP 2025
+                Apply Now to CAMP Season 3
               </Link>
             </div>
           </div>

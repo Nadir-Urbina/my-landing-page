@@ -62,28 +62,28 @@ export async function POST(req: Request) {
     await resend.emails.send({
       from: 'noreply@drjoshuatodd.com',
       to: [applicationData.email],
-      subject: 'CAMP 2025 Application Received - Thank You!',
+      subject: 'CAMP Season 3 Application Received - Thank You!',
       html: `
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset="utf-8">
-            <title>CAMP 2025 Application Received</title>
+            <title>CAMP Season 3 Application Received</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                <h1 style="color: #1e3a8a; text-align: center;">Thank You for Your CAMP 2025 Application!</h1>
+                <h1 style="color: #1e3a8a; text-align: center;">Thank You for Your CAMP Season 3 Application!</h1>
                 
                 <p>Dear ${applicationData.fullName},</p>
 
-                <p>Thank you for submitting your application for CAMP 2025. We have successfully received your application and are honored by your interest in this transformational journey.</p>
+                <p>Thank you for submitting your application for CAMP Season 3. We have successfully received your application and are honored by your interest in this transformational journey.</p>
 
                 <p>Dr. Joshua Todd will personally review your application and get back to you with the result soon. We appreciate your patience during this process as we prayerfully consider each applicant.</p>
 
                 <p>In the meantime, please continue to prepare your heart for what God has in store. This journey is not just about learning—it's about transformation and stepping into the fullness of your prophetic calling.</p>
 
                 <p style="margin-top: 30px;">In His Service,<br>
-                <strong>The CAMP 2025 Team</strong></p>
+                <strong>The CAMP Season 3 Team</strong></p>
 
                 <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
                     <a href="https://drjoshuatodd.com" style="color: #1e3a8a; text-decoration: none;">www.drjoshuatodd.com</a>
@@ -99,9 +99,9 @@ export async function POST(req: Request) {
       from: 'noreply@drjoshuatodd.com',
       to: ['drjoshuatodd@eastgatejax.com'],
       cc: ['nurbinabr@eastgatejax.com'],
-      subject: `New CAMP 2025 Application - ${applicationData.fullName}`,
+      subject: `New CAMP Season 3 Application - ${applicationData.fullName}`,
       html: `
-        <h1>New CAMP 2025 Application</h1>
+        <h1>New CAMP Season 3 Application</h1>
 
         <h2>Personal Information</h2>
         <p><strong>Full Name:</strong> ${applicationData.fullName}</p>

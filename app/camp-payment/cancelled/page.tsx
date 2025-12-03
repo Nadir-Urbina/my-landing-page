@@ -22,7 +22,7 @@ export default function PaymentCancelledPage() {
               Your payment was cancelled and no charges were made to your card.
             </p>
             <p className="text-gray-600">
-              Your CAMP 2025 application is still pending. You can complete the payment process at any time to activate your membership.
+              Your CAMP Season 3 application is still pending. You can complete the payment process at any time to activate your membership.
             </p>
           </div>
 

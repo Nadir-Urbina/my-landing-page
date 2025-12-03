@@ -106,7 +106,7 @@ function CampPaymentContent() {
     <div className="container max-w-2xl py-16">
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Complete Your CAMP 2025 Registration</CardTitle>
+          <CardTitle className="text-2xl text-center">Complete Your CAMP Season 3 Registration</CardTitle>
           <p className="text-gray-600 text-center">
             Welcome {name}! Please select your monthly commitment level to activate your CAMP membership.
           </p>

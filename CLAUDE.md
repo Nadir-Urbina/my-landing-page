@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Next.js 14 personal landing page for Dr. Joshua Todd with integrated Sanity CMS for content management. The site features ministry content, events, blog posts, a calendar, Healing Streams resources, School of Encounter program information, and a comprehensive CAMP 2025 management system with Stripe payment integration.
+This is a Next.js 14 personal landing page for Dr. Joshua Todd with integrated Sanity CMS for content management. The site features ministry content, events, blog posts, a calendar, Healing Streams resources, School of Encounter program information, and a comprehensive CAMP Season 3 management system with Stripe payment integration.
 
 ## Development Commands
 
@@ -44,7 +44,7 @@ npm run lint
 - Two clients: standard `client` (published content) and `adminClient` (includes drafts)
 - Image optimization via `@sanity/image-url`
 
-**Stripe Payments**: CAMP 2025 subscription payment processing
+**Stripe Payments**: CAMP Season 3 subscription payment processing
 - Checkout sessions created via [app/api/camp-payment/create-checkout/route.ts](app/api/camp-payment/create-checkout/route.ts)
 - Webhook handling for payment events at [app/api/camp-payment/webhook/route.ts](app/api/camp-payment/webhook/route.ts)
 - Three payment tiers: $100, $150, $200 monthly (configured in environment)
@@ -60,9 +60,9 @@ npm run lint
 - Forms protected: Contact form, CAMP application, School of Encounter interest form
 - Score threshold: 0.5 (configurable in verification utility)
 
-### CAMP 2025 Management System
+### CAMP Season 3 Management System
 
-The CAMP 2025 program includes:
+The CAMP Season 3 program includes:
 - Public application form: [app/camp-application/](app/camp-application/)
 - Admin dashboard: [app/camp-admin/](app/camp-admin/)
 - Payment portal: [app/camp-payment/](app/camp-payment/)
@@ -100,7 +100,7 @@ The CAMP 2025 program includes:
 - `interestForm` - School of Encounter interest form submissions
 - `ministry` - Ministry life sections
 
-**CAMP 2025**:
+**CAMP Season 3**:
 - `campApplication` - CAMP applications with full lifecycle management
 - `campInterest` - Info request submissions
 

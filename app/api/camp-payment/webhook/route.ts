@@ -65,25 +65,25 @@ export async function POST(req: Request) {
             await resend.emails.send({
               from: 'noreply@drjoshuatodd.com',
               to: [session.metadata.customerEmail],
-              subject: 'CAMP 2025 Payment Confirmed - Welcome!',
+              subject: 'CAMP Season 3 Payment Confirmed - Welcome!',
               html: `
                 <!DOCTYPE html>
                 <html>
                 <head>
                     <meta charset="utf-8">
-                    <title>CAMP 2025 Payment Confirmed</title>
+                    <title>CAMP Season 3 Payment Confirmed</title>
                 </head>
                 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                        <h1 style="color: #1e3a8a; text-align: center;">🎉 Welcome to CAMP 2025!</h1>
+                        <h1 style="color: #1e3a8a; text-align: center;">🎉 Welcome to CAMP Season 3!</h1>
                         
                         <p>Dear ${application.fullName},</p>
                         
-                        <p>Congratulations! Your payment has been successfully processed and your CAMP 2025 subscription is now <strong>active</strong>.</p>
+                        <p>Congratulations! Your payment has been successfully processed and your CAMP Season 3 subscription is now <strong>active</strong>.</p>
                         
                         <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #1e3a8a;">
                             <h3 style="color: #1e3a8a; margin-top: 0;">Payment Confirmation</h3>
-                            <p style="margin-bottom: 5px;"><strong>Subscription:</strong> CAMP 2025 Monthly Mentorship</p>
+                            <p style="margin-bottom: 5px;"><strong>Subscription:</strong> CAMP Season 3 Monthly Mentorship</p>
                             <p style="margin-bottom: 5px;"><strong>Status:</strong> Active</p>
                             <p style="margin-bottom: 0;"><strong>Next Billing:</strong> Monthly on this date</p>
                         </div>
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
                         
                         <p style="margin-top: 30px;">In His Service,<br>
                         <strong>Dr. Joshua Todd</strong><br>
-                        Founder, CAMP 2025</p>
+                        Founder, CAMP Season 3</p>
                         
                         <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
                         

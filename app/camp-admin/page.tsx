@@ -297,7 +297,7 @@ export default function CampAdminPage() {
       <div className="container max-w-7xl py-8">
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold mb-2">CAMP 2025 Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold mb-2">CAMP Season 3 Admin Dashboard</h1>
             <p className="text-gray-600">Manage CAMP interest requests and applications</p>
           </div>
           <Button
@@ -376,8 +376,8 @@ export default function CampAdminPage() {
                           variant="outline"
                           onClick={() => {
                             setSelectedRecord(interest)
-                            setEmailSubject('Follow-up on CAMP 2025 Interest')
-                            setEmailContent(`Hi ${interest.fullName},\n\nI hope this email finds you well. I wanted to follow up on your interest in CAMP 2025...\n\nBlessings,\nDr. Joshua Todd`)
+                            setEmailSubject('Follow-up on CAMP Season 3 Interest')
+                            setEmailContent(`Hi ${interest.fullName},\n\nI hope this email finds you well. I wanted to follow up on your interest in CAMP Season 3...\n\nBlessings,\nDr. Joshua Todd`)
                             setIsEmailDialogOpen(true)
                           }}
                         >
@@ -514,8 +514,8 @@ export default function CampAdminPage() {
                           variant="outline"
                           onClick={() => {
                             setSelectedRecord(application)
-                            setEmailSubject('CAMP 2025 Application Update')
-                            setEmailContent(`Dear ${application.fullName},\n\nThank you for your application to CAMP 2025...\n\nBlessings,\nDr. Joshua Todd`)
+                            setEmailSubject('CAMP Season 3 Application Update')
+                            setEmailContent(`Dear ${application.fullName},\n\nThank you for your application to CAMP Season 3...\n\nBlessings,\nDr. Joshua Todd`)
                             setIsEmailDialogOpen(true)
                           }}
                         >

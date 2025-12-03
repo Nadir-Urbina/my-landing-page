@@ -41,18 +41,18 @@ export async function POST(req: Request) {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>CAMP 2025 Payment Link</title>
+          <title>CAMP Season 3 Payment Link</title>
         </head>
         <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-            <h1 style="color: white; margin: 0; font-size: 28px;">CAMP 2025 Payment</h1>
+            <h1 style="color: white; margin: 0; font-size: 28px;">CAMP Season 3 Payment</h1>
             <p style="color: #f0f0f0; margin: 10px 0 0 0; font-size: 16px;">Complete Your Registration</p>
           </div>
           
           <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h2 style="color: #333; margin-top: 0;">Hello ${application.fullName},</h2>
             
-            <p>Congratulations! Your CAMP 2025 application has been <strong>approved</strong>.</p>
+            <p>Congratulations! Your CAMP Season 3 application has been <strong>approved</strong>.</p>
             
             <p>To complete your registration, please proceed with your monthly subscription payment of <strong>$${amount}</strong>.</p>
             
@@ -73,13 +73,13 @@ export async function POST(req: Request) {
               </ul>
             </div>
             
-            <p><strong>Important:</strong> Your spot in CAMP 2025 will be secured once your first payment is processed successfully.</p>
+            <p><strong>Important:</strong> Your spot in CAMP Season 3 will be secured once your first payment is processed successfully.</p>
             
             <p>If you have any questions about the payment process, please don't hesitate to reach out.</p>
             
             <p>Blessings,<br>
             <strong>Dr. Joshua Todd</strong><br>
-            CAMP 2025 Director</p>
+            CAMP Season 3 Director</p>
             
             <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
             <p style="font-size: 12px; color: #666; text-align: center;">
@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       from: 'noreply@drjoshuatodd.com',
       to: [application.email],
       bcc: ['drjoshuatodd@eastgatejax.com', 'nurbinabr@eastgatejax.com'],
-      subject: `CAMP 2025 Payment Link - Complete Your Registration ($${amount}/month)`,
+      subject: `CAMP Season 3 Payment Link - Complete Your Registration ($${amount}/month)`,
       html: emailTemplate
     })
 

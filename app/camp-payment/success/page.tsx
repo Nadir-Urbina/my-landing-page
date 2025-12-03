@@ -40,9 +40,9 @@ function PaymentSuccessContent() {
         </CardHeader>
         <CardContent className="p-8 text-center space-y-6">
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Welcome to CAMP 2025!</h2>
+            <h2 className="text-xl font-semibold">Welcome to CAMP Season 3!</h2>
             <p className="text-gray-600">
-              Congratulations! Your payment has been processed successfully and your CAMP 2025 subscription is now active.
+              Congratulations! Your payment has been processed successfully and your CAMP Season 3 subscription is now active.
             </p>
           </div>
 

@@ -89,7 +89,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: true,
-          message: "Thank you! We've sent more information about CAMP 2025 to your email.",
+          message: "Thank you! We've sent more information about CAMP Season 3 to your email.",
           type: 'success',
         },
         { status: 200 }
@@ -105,7 +105,7 @@ export async function POST(req: Request) {
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAMP 2025</title>
+    <title>CAMP Season 3</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f8fafc;">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc;">
@@ -116,7 +116,7 @@ export async function POST(req: Request) {
                     <!-- Header -->
                     <tr>
                         <td style="background-color: #1e3a8a; padding: 40px 20px; text-align: center;">
-                            <h1 style="color: #ffffff; font-family: Arial, sans-serif; font-size: 32px; margin: 0; font-weight: 700;">Welcome to CAMP 2025</h1>
+                            <h1 style="color: #ffffff; font-family: Arial, sans-serif; font-size: 32px; margin: 0; font-weight: 700;">Welcome to CAMP Season 3</h1>
                             <h2 style="color: #ffffff; font-family: Arial, sans-serif; font-size: 20px; margin-top: 10px; font-weight: 400;">A Journey of Transformation and Impact</h2>
                         </td>
                     </tr>
@@ -126,7 +126,7 @@ export async function POST(req: Request) {
                         <td style="padding: 40px;">
                             <p style="font-family: Arial, sans-serif; font-size: 18px; margin-top: 0;">Dear ${firstName},</p>
 
-                            <p style="font-family: Arial, sans-serif; line-height: 1.6;">Thank you for expressing interest in CAMP 2025. I am thrilled that you're exploring this sacred space, designed to activate, educate, and empower you into the highest levels of prophetic purity and prevailing prayer.</p>
+                            <p style="font-family: Arial, sans-serif; line-height: 1.6;">Thank you for expressing interest in CAMP Season 3. I am thrilled that you're exploring this sacred space, designed to activate, educate, and empower you into the highest levels of prophetic purity and prevailing prayer.</p>
 
                             <!-- First CTA Button -->
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 40px 0;">
@@ -142,7 +142,7 @@ export async function POST(req: Request) {
                                                               text-decoration: none;
                                                               padding: 16px 32px;
                                                               display: inline-block;">
-                                                        Apply Now for CAMP 2025
+                                                        Apply Now for CAMP Season 3
                                                     </a>
                                                 </td>
                                             </tr>
@@ -160,7 +160,7 @@ export async function POST(req: Request) {
                                 </tr>
                             </table>
 
-                            <p style="font-family: Arial, sans-serif; line-height: 1.6;">However, CAMP 2025 is unlike anything I've offered before. Through a season of dreams and confirmations from prophetic voices in my life, I felt the Lord leading me to create this opportunity for those He is calling to a deeper journey with Him.</p>
+                            <p style="font-family: Arial, sans-serif; line-height: 1.6;">However, CAMP Season 3 is unlike anything I've offered before. Through a season of dreams and confirmations from prophetic voices in my life, I felt the Lord leading me to create this opportunity for those He is calling to a deeper journey with Him.</p>
 
                             <p style="font-family: Arial, sans-serif; line-height: 1.6;">This is not a journey of comfort; it's a call to transformation. Together, we will press into knowing the Holy Spirit in new, profound ways and learn to impact others far beyond what you may currently imagine.</p>
 
@@ -169,7 +169,7 @@ export async function POST(req: Request) {
                                 <tr>
                                     <td>
                                         <h3 style="color: #1e3a8a; font-family: Arial, sans-serif; font-size: 24px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">What You Can Expect</h3>
-                                        <p style="font-family: Arial, sans-serif; line-height: 1.6;">CAMP 2025 is not about large numbers or accumulating attendees. Instead, it's about cultivating deep relationships and fostering significant growth. While I am new to offering an online learning experience, I am open to this being larger than my own comfort zone if it aligns with the Lord's plan.</p>
+                                        <p style="font-family: Arial, sans-serif; line-height: 1.6;">CAMP Season 3 is not about large numbers or accumulating attendees. Instead, it's about cultivating deep relationships and fostering significant growth. While I am new to offering an online learning experience, I am open to this being larger than my own comfort zone if it aligns with the Lord's plan.</p>
                                     </td>
                                 </tr>
                             </table>
@@ -200,7 +200,7 @@ export async function POST(req: Request) {
                                                               text-decoration: none;
                                                               padding: 16px 32px;
                                                               display: inline-block;">
-                                                        Apply Now for CAMP 2025
+                                                        Apply Now for CAMP Season 3
                                                     </a>
                                                 </td>
                                             </tr>
@@ -228,12 +228,12 @@ export async function POST(req: Request) {
                                 <tr>
                                     <td>
                                         <h3 style="color: #1e3a8a; font-family: Arial, sans-serif; font-size: 24px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Exclusive Benefits</h3>
-                                        <p style="font-family: Arial, sans-serif; line-height: 1.6;">Your involvement and successful completion of assignments in CAMP 2025 will earn you transferable ministry studies credits into Kingdom Champion College, which is currently in the chartering phase. Upon its opening and your admission, these credits will apply toward bachelor's, master's, and doctoral degrees in Kingdom life and leadership.</p>
+                                        <p style="font-family: Arial, sans-serif; line-height: 1.6;">Your involvement and successful completion of assignments in CAMP Season 3 will earn you transferable ministry studies credits into Kingdom Champion College, which is currently in the chartering phase. Upon its opening and your admission, these credits will apply toward bachelor's, master's, and doctoral degrees in Kingdom life and leadership.</p>
                                         
                                         <p style="font-family: Arial, sans-serif; line-height: 1.6;">Additionally, you'll participate in:</p>
                                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 20px 0;">
                                             <tr><td style="font-family: Arial, sans-serif; padding: 5px 0;">• 1–2 live teachings from Dr Joshua each month, timed to accommodate different global regions</td></tr>
-                                            <tr><td style="font-family: Arial, sans-serif; padding: 5px 0;">• Forging deep, meaningful relationships with fellow CAMP 2025 participants</td></tr>
+                                            <tr><td style="font-family: Arial, sans-serif; padding: 5px 0;">• Forging deep, meaningful relationships with fellow CAMP Season 3 participants</td></tr>
                                         </table>
                                     </td>
                                 </tr>
@@ -244,7 +244,7 @@ export async function POST(req: Request) {
                                 <tr>
                                     <td>
                                         <h3 style="color: #1e3a8a; font-family: Arial, sans-serif; font-size: 24px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">The Journey Ahead</h3>
-                                        <p style="font-family: Arial, sans-serif; line-height: 1.6;">The application process is thorough, the commitments are real, and the journey is immensely rewarding. CAMP 2025 is not just an opportunity to grow—it's a call to step into a new level of prophetic living and Kingdom impact.</p>
+                                        <p style="font-family: Arial, sans-serif; line-height: 1.6;">The application process is thorough, the commitments are real, and the journey is immensely rewarding. CAMP Season 3 is not just an opportunity to grow—it's a call to step into a new level of prophetic living and Kingdom impact.</p>
                                         <p style="font-family: Arial, sans-serif; line-height: 1.6;">I can't wait to see what God will do in and through you during this journey.</p>
                                     </td>
                                 </tr>
@@ -264,7 +264,7 @@ export async function POST(req: Request) {
                                                               text-decoration: none;
                                                               padding: 16px 32px;
                                                               display: inline-block;">
-                                                        Apply Now for CAMP 2025
+                                                        Apply Now for CAMP Season 3
                                                     </a>
                                                 </td>
                                             </tr>
@@ -278,7 +278,7 @@ export async function POST(req: Request) {
                                 <tr>
                                     <td style="padding-top: 20px;">
                                         <p style="font-family: Arial, sans-serif; line-height: 1.6; margin-bottom: 5px;">In His Service,</p>
-                                        <p style="font-family: Arial, sans-serif; font-weight: bold; margin-top: 0;">Dr Joshua Todd<br>Founder, CAMP 2025</p>
+                                        <p style="font-family: Arial, sans-serif; font-weight: bold; margin-top: 0;">Dr Joshua Todd<br>Founder, CAMP Season 3</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -316,7 +316,7 @@ export async function POST(req: Request) {
       from: 'noreply@drjoshuatodd.com',
       to: [email],
       bcc: ['nurbinabr@eastgatejax.com', 'drjoshuatodd@eastgatejax.com'],
-      subject: 'Welcome to CAMP 2025 - Your Journey of Transformation Awaits',
+      subject: 'Welcome to CAMP Season 3 - Your Journey of Transformation Awaits',
       html: emailTemplate
     })
 
@@ -328,7 +328,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Thank you! We've sent more information about CAMP 2025 to your email.",
+      message: "Thank you! We've sent more information about CAMP Season 3 to your email.",
       type: 'success'
     })
   } catch (error: any) {
