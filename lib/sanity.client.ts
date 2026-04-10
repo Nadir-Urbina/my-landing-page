@@ -46,10 +46,11 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 
 export async function getEvents(): Promise<Event[]> {
   return client.fetch(`
-    *[_type == "event"] | order(date asc) {
+    *[_type == "event"] | order(startDate asc) {
       _id,
       title,
-      date,
+      startDate,
+      endDate,
       location,
       description,
       "imageUrl": image.asset->url,
@@ -105,12 +106,13 @@ export async function getFeaturedBooks(): Promise<Book[]> {
 
 export async function getUpcomingEvents(): Promise<Event[]> {
   return client.fetch(`
-    *[_type == "event" && !(_id in path("drafts.**"))] | order(date asc) {
+    *[_type == "event" && !(_id in path("drafts.**"))] | order(startDate asc) {
       _id,
       title,
       description,
       "imageUrl": image.asset->url,
-      date,
+      startDate,
+      endDate,
       location,
       learnMoreLink,
       registrationLink

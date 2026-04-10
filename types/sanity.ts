@@ -9,7 +9,8 @@ export interface Testimonial {
 export interface Event {
   _id: string;
   title: string;
-  date?: string;
+  startDate?: string;
+  endDate?: string;
   location?: string;
   description?: string;
   imageUrl?: string;

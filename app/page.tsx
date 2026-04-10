@@ -432,15 +432,25 @@ export default async function LandingPage() {
                           fill
                           className="object-cover"
                         />
+                        {event.startDate && (
+                          <div className="absolute bottom-3 left-3 z-10 bg-black/60 backdrop-blur-sm text-white rounded-lg px-3 py-2 text-center min-w-[48px]">
+                            <div className="text-[10px] font-semibold uppercase tracking-wider leading-none mb-1">
+                              {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
+                            </div>
+                            <div className="text-2xl font-bold leading-none">
+                              {new Date(event.startDate).toLocaleDateString('en-US', { day: 'numeric' })}
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className="p-6 border-t border-gray-100">
                         <h3 className="text-xl font-semibold mb-3">{event.title || 'Untitled Event'}</h3>
-                        {(event.date || event.location) && (
+                        {(event.startDate || event.location) && (
                           <div className="space-y-2 mb-4">
-                            {event.date && (
+                            {event.startDate && (
                               <span className="flex items-center text-muted-foreground">
                                 <Calendar className="h-4 w-4 mr-2" />
-                                {new Date(event.date).toLocaleDateString()}
+                                {new Date(event.startDate).toLocaleDateString()}
                               </span>
                             )}
                             {event.location && (
@@ -494,6 +504,16 @@ export default async function LandingPage() {
                           fill
                           className="object-cover"
                         />
+                        {mission.startDate && (
+                          <div className="absolute bottom-3 left-3 z-10 bg-black/60 backdrop-blur-sm text-white rounded-lg px-3 py-2 text-center min-w-[48px]">
+                            <div className="text-[10px] font-semibold uppercase tracking-wider leading-none mb-1">
+                              {new Date(mission.startDate).toLocaleDateString('en-US', { month: 'short' })}
+                            </div>
+                            <div className="text-2xl font-bold leading-none">
+                              {new Date(mission.startDate).toLocaleDateString('en-US', { day: 'numeric' })}
+                            </div>
+                          </div>
+                        )}
                         {mission.status && (
                           <div className="absolute top-4 right-4">
                             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
