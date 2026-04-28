@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Next.js 14 personal landing page for Dr. Joshua Todd with integrated Sanity CMS for content management. The site features ministry content, events, blog posts, a calendar, Healing Streams resources, School of Encounter program information, and a comprehensive CAMP Season 3 management system with Stripe payment integration.
+Next.js 14 personal landing page for Dr. Joshua Todd with Sanity CMS. Features ministry content, events, blog, calendar, Healing Streams resources, School of Encounter program, and a CAMP Season 3 management system with Stripe subscription payments.
 
 ## Development Commands
 
@@ -15,9 +15,11 @@ npm run dev
 # Build for production
 npm run build
 
-# Run linter (ESLint is configured to not block builds)
+# Run linter (ESLint does NOT block builds — ignoreDuringBuilds: true in next.config.js)
 npm run lint
 ```
+
+No test suite exists in this project.
 
 ## Architecture
 
@@ -27,12 +29,12 @@ npm run lint
 - [app/studio/](app/studio/) - Sanity Studio mounted at `/studio`
 - [components/](components/) - Shared React components; shadcn/ui primitives in [components/ui/](components/ui/)
 - [lib/](lib/) - Shared utilities and clients
-- [sanity/schemas/](sanity/schemas/) - All Sanity content type schemas
+- [sanity/schemas/](sanity/schemas/) - All Sanity content type schemas (**active**; root-level `schemas/` is legacy/unused)
 
 ### Content Management (Sanity CMS)
 
 [lib/sanity.client.ts](lib/sanity.client.ts) is the primary data-fetching layer. It exports:
-- `client` — published content only (`useCdn: true` in production)
+- `client` — published content only (`useCdn: true` in production). Also used for **writes** (blog comments and like counts), so `SANITY_API_TOKEN` must have write permission.
 - `urlFor(source)` / `urlForMobile(source, width)` — image URL builders (auto-format, quality 85/80)
 - Typed fetch helpers: `getTestimonials`, `getEvents`, `getBooks`, `getMissions`, `getPosts`, `getPost(slug)`, `getCalendarEvents`, `getHealingStreamsContent`, `getHealingStreamsTestimonials`, `getHealingStreamsEvents`, `getMinistryLife`
 
@@ -40,10 +42,15 @@ For admin operations requiring draft access, create a separate Sanity client wit
 
 **On-demand ISR via Sanity webhook**: [app/api/revalidate/route.ts](app/api/revalidate/route.ts) receives Sanity webhooks and calls `revalidatePath()` for the affected content type. Requires `SANITY_REVALIDATE_SECRET` env var.
 
+### Blog Comment & Like System
+
+- Comments submitted to `POST /api/blog/[slug]/comments` are created in Sanity with `isApproved: false` — they must be manually approved in Sanity Studio before appearing on the site.
+- Likes are stored directly as `likeCount` on the post document and incremented via `PATCH` using the same `client` (requires write token).
+
 ### CAMP Season 3 Management System
 
 - Public application form: [app/camp-application/](app/camp-application/)
-- Admin dashboard (auth-protected): [app/camp-admin/](app/camp-admin/)
+- Admin dashboard (password-protected via `CAMP_ADMIN_PWD` env var, **not session-based**): [app/camp-admin/](app/camp-admin/)
 - Payment portal: [app/camp-payment/](app/camp-payment/)
 - Admin API routes: [app/api/camp-admin/](app/api/camp-admin/) — fetch applications/interests, update status, send payment links and emails
 
@@ -52,6 +59,10 @@ For admin operations requiring draft access, create a separate Sanity client wit
 - Payment status: `not_started | active | past_due | cancelled | incomplete`
 - Stripe fields: `stripeCustomerId`, `stripeSubscriptionId`
 - Communication log for applicant interactions
+
+### School of Encounter
+
+[app/school-of-encounter/](app/school-of-encounter/) — Courses and instructors managed via Sanity (`course`, `instructor` schemas). Interest form submissions stored as `interestForm` documents in Sanity and synced to Mailchimp via [app/api/school-interest/route.ts](app/api/school-interest/route.ts).
 
 ### Bot & Spam Protection
 
@@ -85,15 +96,15 @@ if (!isValid) return NextResponse.json({ error: 'Verification failed' }, { statu
 # Sanity CMS
 NEXT_PUBLIC_SANITY_PROJECT_ID
 NEXT_PUBLIC_SANITY_DATASET
-SANITY_API_TOKEN
+SANITY_API_TOKEN          # Must have write permission (used for blog comments & likes)
 SANITY_API_READ_TOKEN
-SANITY_REVALIDATE_SECRET   # Protects /api/revalidate webhook endpoint
+SANITY_REVALIDATE_SECRET  # Protects /api/revalidate webhook endpoint
 
 # Stripe
 STRIPE_SECRET_KEY
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 STRIPE_WEBHOOK_SECRET
-CAMP_PRICE_100   # Stripe Price ID for $100/month tier
+CAMP_PRICE_100            # Stripe Price ID for $100/month tier
 CAMP_PRICE_150
 CAMP_PRICE_200
 
@@ -107,13 +118,16 @@ MAILCHIMP_SERVER_PREFIX
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 RECAPTCHA_SECRET_KEY
 
+# CAMP Admin
+CAMP_ADMIN_PWD            # Plain-text password for CAMP admin dashboard
+
 # Application
 NEXT_PUBLIC_BASE_URL
 ```
 
 ### Styling
 
-Tailwind CSS with custom config ([tailwind.config.ts](tailwind.config.ts)), shadcn/ui components, Framer Motion for animations. Global styles in [app/globals.css](app/globals.css).
+Tailwind CSS with custom config ([tailwind.config.ts](tailwind.config.ts)), shadcn/ui components, Framer Motion for animations. Global styles in [app/globals.css](app/globals.css). Inter is the global font; Montserrat is used on select pages.
 
 ### TypeScript Types
 

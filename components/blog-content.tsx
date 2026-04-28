@@ -21,9 +21,14 @@ export function BlogContent({ posts }: BlogContentProps) {
   const [filteredPosts, setFilteredPosts] = useState(posts)
 
   const handleSearch = (query: string) => {
-    const filtered = posts.filter(post => 
-      post.title.toLowerCase().includes(query.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(query.toLowerCase())
+    if (!query.trim()) {
+      setFilteredPosts(posts)
+      return
+    }
+    const lower = query.toLowerCase()
+    const filtered = posts.filter(post =>
+      post.title?.toLowerCase().includes(lower) ||
+      post.excerpt?.toLowerCase().includes(lower)
     )
     setFilteredPosts(filtered)
   }

@@ -89,12 +89,9 @@ export async function POST(req: Request) {
                         </div>
                         
                         <h3 style="color: #1e3a8a;">What Happens Next:</h3>
-                        <ol style="padding-left: 20px;">
-                            <li style="margin-bottom: 10px;"><strong>Welcome Package:</strong> You'll receive detailed information about accessing CAMP materials and sessions</li>
-                            <li style="margin-bottom: 10px;"><strong>Personal Contact:</strong> Dr. Joshua will personally reach out with your schedule and access details</li>
-                            <li style="margin-bottom: 10px;"><strong>Community Access:</strong> You'll be invited to the exclusive CAMP member community</li>
-                            <li style="margin-bottom: 10px;"><strong>First Session:</strong> Details about your first mentorship session will be provided soon</li>
-                        </ol>
+                        <ul style="padding-left: 20px;">
+                            <li style="margin-bottom: 10px;"><strong>Community Access:</strong> You'll be invited to the exclusive CAMP member community via Facebook. Expect a Facebook invitation from Keyla Buchinger or Joshua Todd.</li>
+                        </ul>
                         
                         <div style="background-color: #fef3c7; padding: 15px; border-radius: 8px; margin: 20px 0;">
                             <h4 style="color: #92400e; margin-top: 0;">Important Reminders:</h4>
