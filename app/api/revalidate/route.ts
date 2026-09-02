@@ -90,8 +90,11 @@ export async function POST(request: NextRequest) {
         break
 
       case 'ministry':
-        // Revalidate homepage (shows ministry life)
+        // Revalidate homepage (shows ministry life) and the detail page if it has one
         pathsToRevalidate.push('/')
+        if (slug?.current) {
+          pathsToRevalidate.push(`/ministry/${slug.current}`)
+        }
         break
 
       case 'campApplication':

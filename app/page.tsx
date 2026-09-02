@@ -1,16 +1,20 @@
 import type { Testimonial, Event, Book, Mission, Ministry } from '@/types/sanity'
 import { MainNav } from '@/components/MainNav'
 import { CarouselWrapper } from '@/components/CarouselWrapper'
-import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, getPosts, getMinistryLife, urlFor } from '@/lib/sanity.client'
+import { getTestimonials, getUpcomingEvents, getFeaturedBooks, getMissions, getPosts, getMinistryLife } from '@/lib/sanity.client'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, Globe, BookOpen, CircleUserRound, Heart, Crown, Tent, Clock, ArrowRight, Gift, Star, Users, Sparkles, Zap, Church } from 'lucide-react'
+import { BookOpen, Clock, ArrowRight } from 'lucide-react'
 import { Montserrat, Inter } from 'next/font/google'
 import { CarouselItem } from "@/components/ui/carousel"
 import { FallbackImage } from '@/components/ui/fallback-image'
 import { TrackableLink } from '@/components/TrackableLink'
+import { TestimonialCard } from '@/components/testimonial-card'
+import { MinistryCard } from '@/components/ministry-card'
+import { EventCard } from '@/components/event-card'
+import { MissionCard } from '@/components/mission-card'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,25 +39,9 @@ export default async function LandingPage() {
   const blogPosts = await getPosts()
   const ministryItems = await getMinistryLife() || []
 
-  // Map icon names to components
-  const getIconComponent = (iconName: string) => {
-    const iconMap: { [key: string]: React.ReactNode } = {
-      CircleUserRound: <CircleUserRound className="h-5 w-5" />,
-      Heart: <Heart className="h-5 w-5" />,
-      Crown: <Crown className="h-5 w-5" />,
-      BookOpen: <BookOpen className="h-5 w-5" />,
-      Tent: <Tent className="h-5 w-5" />,
-      Gift: <Gift className="h-5 w-5" />,
-      Star: <Star className="h-5 w-5" />,
-      Globe: <Globe className="h-5 w-5" />,
-      Users: <Users className="h-5 w-5" />,
-      Sparkles: <Sparkles className="h-5 w-5" />,
-      Zap: <Zap className="h-5 w-5" />,
-      Church: <Church className="h-5 w-5" />
-    };
-    
-    return iconMap[iconName] || <CircleUserRound className="h-5 w-5" />;
-  };
+  // Show a sliver of the next card, but only when there is actually a next card
+  const carouselItemClass = (count: number) =>
+    `pl-6 basis-[88%] sm:basis-[60%] md:basis-[45%] ${count > 3 ? 'lg:basis-[30%]' : 'lg:basis-1/3'}`
 
   return (
     <div className={`flex flex-col min-h-screen ${inter.className}`}>
@@ -153,136 +141,19 @@ export default async function LandingPage() {
 
         {/* Ministry Life Section */}
         <section id="ministry" className="py-16 bg-white">
-          <div className="container">
-            <h2 className={`text-3xl font-bold mb-12 ${montserrat.className}`}>Ministry Life</h2>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="container px-0">
+            <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Ministry Life</h2>
+            <CarouselWrapper showDots>
               {ministryItems && ministryItems.length > 0 ? (
                 ministryItems.map((ministry: Ministry) => (
-                  <div key={ministry._id} className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                    {/* Registration Badge */}
-                    {ministry.registrationBadge?.isActive && (
-                      <div className="absolute top-4 left-4 z-10">
-                        <div className="bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium animate-pulse">
-                          {ministry.registrationBadge.text}
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                      <FallbackImage
-                        src={ministry.imageUrl || '/placeholder-image.jpg'}
-                        alt={ministry.title}
-                        fallbackSrc="/placeholder-image.jpg"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                          <Link href={ministry.learnMoreLink}>Learn More</Link>
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="p-6 border-t border-gray-100">
-                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                        {getIconComponent(ministry.icon)}
-                        {ministry.role}
-                      </h3>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        {ministry.description}
-                      </p>
-                    </div>
-                  </div>
+                  <CarouselItem key={ministry._id} className={carouselItemClass(ministryItems.length)}>
+                    <MinistryCard ministry={ministry} />
+                  </CarouselItem>
                 ))
               ) : (
-                <>
-                  {/* Fallback to hardcoded cards if no Sanity data is available */}
-                  {/* East Gate Card */}
-                  <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                      <Image
-                        src="/ministry/egkfDarkBg.png"
-                        alt="East Gate Logo"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                          <Link href="https://www.eastgatejax.com">Learn More</Link>
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="p-6 border-t border-gray-100">
-                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                        <CircleUserRound className="h-5 w-5" />
-                        Senior Leader at East Gate
-                      </h3>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        As the Senior Leader at East Gate, Dr. Todd guides the spiritual growth and development of the community, fostering an environment of faith, love, and discipleship.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* CAMP Card */}
-                  <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                    {/* Registration Badge */}
-                    <div className="absolute top-4 left-4 z-10">
-                      <div className="bg-gradient-to-r from-green-500/90 to-blue-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-medium animate-pulse">
-                        2025 Registration Open
-                      </div>
-                    </div>
-
-                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                      <Image
-                        src="/ministry/camp.webp"
-                        alt="CAMP Logo"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                          <Link href="/camp">Learn More</Link>
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="p-6 border-t border-gray-100">
-                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                        <Tent className="h-5 w-5" />
-                        CAMP
-                      </h3>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        A sacred gathering space where prayer warriors are equipped and empowered through strategic intercession, prophetic mentoring, and covenant alignment.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Healing Streams Card */}
-                  <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80">
-                    <div className="relative h-[300px] transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                      <Image
-                        src="/ministry/healingStreamsHorizontal.png"
-                        alt="Healing Streams Logo"
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Button variant="secondary" size="sm" asChild className="bg-white/90 hover:bg-white rounded-full">
-                          <Link href="/healing-streams">Learn More</Link>
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="p-6 border-t border-gray-100">
-                      <h3 className="text-lg font-semibold flex items-center gap-2 group-hover:text-blue-600 transition-colors duration-300">
-                        <Heart className="h-5 w-5" />
-                        Healing Streams
-                      </h3>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        Through Healing Streams, Dr. Todd ministers to those in need of physical, emotional, and spiritual healing, bringing hope and restoration to many lives.
-                      </p>
-                    </div>
-                  </div>
-                </>
+                <p className="text-center text-muted-foreground w-full">No ministries available at the moment.</p>
               )}
-            </div>
+            </CarouselWrapper>
           </div>
         </section>
 
@@ -290,27 +161,11 @@ export default async function LandingPage() {
         <section id="testimonials" className="py-16 bg-[#F1F5F9]">
           <div className="container px-0">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Testimonials</h2>
-            <CarouselWrapper>
+            <CarouselWrapper showDots>
               {testimonials && testimonials.length > 0 ? (
                 testimonials.map((testimonial: Testimonial) => (
-                  <CarouselItem key={testimonial._id} className="pl-6 md:basis-1/2 lg:basis-1/4">
-                    <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full">
-                      <div className="p-6">
-                        <div className="flex flex-col items-center">
-                          <FallbackImage
-                            src={testimonial.imageUrl ? urlFor(testimonial.imageUrl) : '/placeholder-image.jpg'}
-                            alt={`Testimonial from ${testimonial.name || 'Anonymous'}`}
-                            fallbackSrc="/placeholder-image.jpg"
-                            width={150}
-                            height={150}
-                            className="rounded-full mb-4 transform group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <h3 className="text-xl font-semibold mb-1">{testimonial.name || 'Anonymous'}</h3>
-                          <p className="text-muted-foreground text-sm mb-4">{testimonial.location || 'Location not specified'}</p>
-                          <p className="text-muted-foreground italic text-center">{testimonial.text || 'No testimonial text available'}</p>
-                        </div>
-                      </div>
-                    </div>
+                  <CarouselItem key={testimonial._id} className="pl-6 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                    <TestimonialCard testimonial={testimonial} />
                   </CarouselItem>
                 ))
               ) : (
@@ -419,69 +274,15 @@ export default async function LandingPage() {
         <section id="events" className="py-16 bg-[#F1F5F9]">
           <div className="container px-0">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Upcoming Events</h2>
-            <CarouselWrapper>
+            <CarouselWrapper showDots>
               {upcomingEvents && upcomingEvents.length > 0 ? (
                 upcomingEvents.map((event: Event) => (
-                  <CarouselItem key={event._id} className="pl-6 md:basis-1/2 lg:basis-1/3">
-                    <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full">
-                      <div className="h-[200px] relative transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                        <FallbackImage
-                          src={event.imageUrl}
-                          alt={event.title || 'Event'}
-                          fallbackSrc="/placeholder-image.jpg"
-                          fill
-                          className="object-cover"
-                        />
-                        {event.startDate && (
-                          <div className="absolute bottom-3 left-3 z-10 bg-black/60 backdrop-blur-sm text-white rounded-lg px-3 py-2 text-center min-w-[48px]">
-                            <div className="text-[10px] font-semibold uppercase tracking-wider leading-none mb-1">
-                              {new Date(event.startDate).toLocaleDateString('en-US', { month: 'short' })}
-                            </div>
-                            <div className="text-2xl font-bold leading-none">
-                              {new Date(event.startDate).toLocaleDateString('en-US', { day: 'numeric' })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-6 border-t border-gray-100">
-                        <h3 className="text-xl font-semibold mb-3">{event.title || 'Untitled Event'}</h3>
-                        {(event.startDate || event.location) && (
-                          <div className="space-y-2 mb-4">
-                            {event.startDate && (
-                              <span className="flex items-center text-muted-foreground">
-                                <Calendar className="h-4 w-4 mr-2" />
-                                {new Date(event.startDate).toLocaleDateString()}
-                              </span>
-                            )}
-                            {event.location && (
-                              <span className="flex items-center text-muted-foreground">
-                                <Globe className="h-4 w-4 mr-2" />
-                                {event.location}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        <p className="text-sm text-muted-foreground mb-4">{event.description || 'No description available'}</p>
-                        <div className="flex gap-2">
-                          {event.learnMoreLink && (
-                            <Button variant="outline" asChild className="flex-1">
-                              <Link href={event.learnMoreLink}>Learn More</Link>
-                            </Button>
-                          )}
-                          {event.registrationLink && (
-                            <Button asChild className="flex-1">
-                              <Link href={event.registrationLink}>Register Now</Link>
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                  <CarouselItem key={event._id} className={carouselItemClass(upcomingEvents.length)}>
+                    <EventCard event={event} />
                   </CarouselItem>
                 ))
               ) : (
-                <p className="text-center text-muted-foreground w-full">
-                  {upcomingEvents ? `No upcoming events available (${upcomingEvents.length} found in CMS).` : 'Error loading events. Check console for details.'}
-                </p>
+                <p className="text-center text-muted-foreground w-full">No upcoming events at the moment.</p>
               )}
             </CarouselWrapper>
           </div>
@@ -491,68 +292,11 @@ export default async function LandingPage() {
         <section id="missions" className="py-16">
           <div className="container px-0">
             <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>Mission Trips</h2>
-            <CarouselWrapper>
+            <CarouselWrapper showDots>
               {missions && missions.length > 0 ? (
                 missions.map((mission: Mission) => (
-                  <CarouselItem key={mission._id} className="pl-6 md:basis-1/2 lg:basis-1/3">
-                    <div className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full">
-                      <div className="h-[200px] relative transform group-hover:scale-105 transition-transform duration-300 ease-in-out">
-                        <FallbackImage
-                          src={mission.imageUrl}
-                          alt={mission.title || 'Mission Trip'}
-                          fallbackSrc="/placeholder-image.jpg"
-                          fill
-                          className="object-cover"
-                        />
-                        {mission.startDate && (
-                          <div className="absolute bottom-3 left-3 z-10 bg-black/60 backdrop-blur-sm text-white rounded-lg px-3 py-2 text-center min-w-[48px]">
-                            <div className="text-[10px] font-semibold uppercase tracking-wider leading-none mb-1">
-                              {new Date(mission.startDate).toLocaleDateString('en-US', { month: 'short' })}
-                            </div>
-                            <div className="text-2xl font-bold leading-none">
-                              {new Date(mission.startDate).toLocaleDateString('en-US', { day: 'numeric' })}
-                            </div>
-                          </div>
-                        )}
-                        {mission.status && (
-                          <div className="absolute top-4 right-4">
-                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                              mission.status === 'open' ? 'bg-green-100 text-green-800' :
-                              mission.status === 'full' ? 'bg-red-100 text-red-800' :
-                              'bg-gray-100 text-gray-800'
-                            }`}>
-                              {mission.status.charAt(0).toUpperCase() + mission.status.slice(1)}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-6 border-t border-gray-100">
-                        <h3 className="text-xl font-semibold mb-3">{mission.title || 'Untitled Mission'}</h3>
-                        <div className="space-y-2 mb-4">
-                          {mission.startDate && mission.endDate && (
-                            <span className="flex items-center text-muted-foreground">
-                              <Calendar className="h-4 w-4 mr-2" />
-                              {new Date(mission.startDate).toLocaleDateString()} - {new Date(mission.endDate).toLocaleDateString()}
-                            </span>
-                          )}
-                          {mission.location && (
-                            <span className="flex items-center text-muted-foreground">
-                              <Globe className="h-4 w-4 mr-2" />
-                              {mission.location}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-4">{mission.description || 'No description available'}</p>
-                        {mission.cost && (
-                          <p className="font-semibold mb-4">Cost: ${mission.cost}</p>
-                        )}
-                        {mission.status === 'open' && mission.registrationLink && (
-                          <Button className="w-full" asChild>
-                            <Link href={mission.registrationLink}>Register Now</Link>
-                          </Button>
-                        )}
-                      </div>
-                    </div>
+                  <CarouselItem key={mission._id} className={carouselItemClass(missions.length)}>
+                    <MissionCard mission={mission} />
                   </CarouselItem>
                 ))
               ) : (

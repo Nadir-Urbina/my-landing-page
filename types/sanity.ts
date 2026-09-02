@@ -46,7 +46,11 @@ export interface Ministry {
   description: string;
   icon: string;
   imageUrl?: string;
-  learnMoreLink: string;
+  slug?: string;
+  /** True when the ministry has page content, so it gets a /ministry/[slug] page */
+  hasBody?: boolean;
+  body?: any;
+  learnMoreLink?: string;
   order: number;
   registrationBadge?: {
     isActive: boolean;

@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent } from '@/types/sanity'
+import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent, Ministry } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -222,7 +222,7 @@ export async function getHealingStreamsEvents(): Promise<HealingStreamsEvent[]> 
   `)
 }
 
-export async function getMinistryLife() {
+export async function getMinistryLife(): Promise<Ministry[]> {
   return client.fetch(`
     *[_type == "ministry"] | order(order asc) {
       _id,
@@ -231,9 +231,37 @@ export async function getMinistryLife() {
       description,
       icon,
       "imageUrl": image.asset->url,
+      "slug": slug.current,
+      "hasBody": count(body) > 0,
       learnMoreLink,
       order,
       registrationBadge
     }
+  `)
+}
+
+export async function getMinistryBySlug(slug: string): Promise<Ministry | null> {
+  return client.fetch(`
+    *[_type == "ministry" && slug.current == $slug && count(body) > 0][0] {
+      _id,
+      title,
+      role,
+      description,
+      icon,
+      "imageUrl": image.asset->url,
+      "slug": slug.current,
+      "hasBody": count(body) > 0,
+      body,
+      learnMoreLink,
+      order,
+      registrationBadge
+    }
+  `, { slug })
+}
+
+// Only ministries with page content get a detail route
+export async function getMinistrySlugs(): Promise<string[]> {
+  return client.fetch(`
+    *[_type == "ministry" && defined(slug.current) && count(body) > 0].slug.current
   `)
 } 

@@ -9,6 +9,8 @@ import { ArrowLeft } from 'lucide-react'
 import type { HealingStreamsTestimonial, HealingStreamsEvent } from '@/types/sanity'
 import { urlFor } from '@/lib/sanity.client'
 import { FallbackImage } from '@/components/ui/fallback-image'
+import { CarouselWrapper, CarouselItem } from '@/components/CarouselWrapper'
+import { TestimonialCard } from '@/components/testimonial-card'
 import { Button } from "@/components/ui/button"
 import { Calendar, MapPin } from 'lucide-react'
 
@@ -178,48 +180,30 @@ export default function HealingStreamsClient({ testimonials, events }: Props) {
 
       {/* Testimonials Section */}
       <section className="py-16 bg-[#F1F5F9]">
-        <div className="container">
+        <div className="container px-0">
           <h2 className={`text-3xl font-bold mb-8 ${montserrat.className}`}>
             Testimonials
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((testimonial) => (
-              <div 
-                key={testimonial._id} 
-                className="relative group rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100/80 h-full"
-              >
-                <div className="p-6">
-                  <div className="flex flex-col items-center">
-                    {testimonial.imageUrl && (
-                      <FallbackImage
-                        src={urlFor(testimonial.imageUrl)}
-                        alt={`Testimonial from ${testimonial.name}`}
-                        fallbackSrc="/placeholder-image.jpg"
-                        width={150}
-                        height={150}
-                        className="rounded-full mb-4 transform group-hover:scale-105 transition-transform duration-300"
-                      />
-                    )}
-                    <h3 className="text-xl font-semibold mb-1">{testimonial.name}</h3>
-                    {testimonial.location && (
-                      <p className="text-muted-foreground text-sm mb-4">{testimonial.location}</p>
-                    )}
-                    <p className="text-muted-foreground italic text-center mb-4">{testimonial.text}</p>
-                    {testimonial.healingType && (
-                      <span className="inline-block px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800 mt-2">
-                        {testimonial.healingType.charAt(0).toUpperCase() + testimonial.healingType.slice(1)} Healing
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-            {testimonials.length === 0 && (
-              <p className="text-center text-muted-foreground col-span-full">
+          <CarouselWrapper showDots>
+            {testimonials.length > 0 ? (
+              testimonials.map((testimonial) => (
+                <CarouselItem key={testimonial._id} className="pl-6 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                  <TestimonialCard
+                    testimonial={testimonial}
+                    badge={
+                      testimonial.healingType
+                        ? `${testimonial.healingType.charAt(0).toUpperCase()}${testimonial.healingType.slice(1)} Healing`
+                        : undefined
+                    }
+                  />
+                </CarouselItem>
+              ))
+            ) : (
+              <p className="text-center text-muted-foreground w-full">
                 No testimonials available at this time.
               </p>
             )}
-          </div>
+          </CarouselWrapper>
         </div>
       </section>
 
