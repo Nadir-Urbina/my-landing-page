@@ -97,6 +97,11 @@ export async function POST(request: NextRequest) {
         }
         break
 
+      case 'shepherdsPage':
+        // Revalidate the Shepherds and Wolves sales page
+        pathsToRevalidate.push('/shepherds7')
+        break
+
       case 'campApplication':
       case 'campInterest':
         // Revalidate camp pages

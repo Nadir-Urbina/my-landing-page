@@ -35,6 +35,9 @@ module.exports = {
           foreground: "hsl(var(--accent-foreground))",
         },
       },
+      fontFamily: {
+        montserrat: ["var(--font-montserrat)", "sans-serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
