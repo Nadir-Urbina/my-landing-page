@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent, Ministry } from '@/types/sanity'
+import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent, Ministry, ShepherdsPage } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -265,3 +265,23 @@ export async function getMinistrySlugs(): Promise<string[]> {
     *[_type == "ministry" && defined(slug.current) && count(body) > 0].slug.current
   `)
 } 
+export async function getShepherdsPage(): Promise<ShepherdsPage | null> {
+  return client.fetch(`
+    *[_type == "shepherdsPage"][0] {
+      checkoutUrl,
+      ctaLabel,
+      promoVideoUrl,
+      videoHours,
+      communityName,
+      price,
+      compareAtPrice,
+      priceNote,
+      valueStack[]{ label, value },
+      totalValue,
+      priceAnchor,
+      guarantee,
+      endorsements[]{ quote, name, role },
+      faqs[]{ question, answer }
+    }
+  `)
+}

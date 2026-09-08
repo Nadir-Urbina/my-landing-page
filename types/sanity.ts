@@ -163,3 +163,35 @@ export interface Comment {
   approvedAt?: string;
   moderatorNotes?: string;
 } 
+export interface ShepherdsEndorsement {
+  quote: string;
+  name: string;
+  role?: string;
+}
+
+export interface ShepherdsFaq {
+  question: string;
+  answer: string;
+}
+
+export interface ShepherdsValueItem {
+  label: string;
+  value: string;
+}
+
+export interface ShepherdsPage {
+  checkoutUrl?: string;
+  ctaLabel?: string;
+  promoVideoUrl?: string;
+  videoHours?: string;
+  communityName?: string;
+  price?: string;
+  compareAtPrice?: string;
+  priceNote?: string;
+  valueStack?: ShepherdsValueItem[];
+  totalValue?: string;
+  priceAnchor?: string;
+  guarantee?: string;
+  endorsements?: ShepherdsEndorsement[];
+  faqs?: ShepherdsFaq[];
+}

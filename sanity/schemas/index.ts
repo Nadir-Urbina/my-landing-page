@@ -13,6 +13,7 @@ import instructor from '../../schemas/instructor'
 import interestForm from '../../schemas/interest-form'
 import campInterest from './camp-interest'
 import campApplication from './camp-application'
+import shepherdsPage from './shepherds-page'
 
 export const schemaTypes = [
   book,
@@ -29,5 +30,6 @@ export const schemaTypes = [
   instructor,
   interestForm,
   campInterest,
-  campApplication
+  campApplication,
+  shepherdsPage
 ] 
