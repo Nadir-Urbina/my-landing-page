@@ -195,3 +195,31 @@ export interface ShepherdsPage {
   endorsements?: ShepherdsEndorsement[];
   faqs?: ShepherdsFaq[];
 }
+
+export interface CampTent {
+  _id?: string;
+  name: string;
+  leader: string;
+  leaderImageUrl?: string;
+  description?: string;
+  duration?: string;
+  price?: string;
+  order?: number;
+}
+
+export interface CampPage {
+  checkoutUrl?: string;
+  ctaLabel?: string;
+  seasonLabel?: string;
+  price?: string;
+  priceNote?: string;
+  tentPrice?: string;
+  tentPriceNote?: string;
+  memberCount?: string;
+  openingSoon?: boolean;
+  openingSoonNote?: string;
+  testimonialVideoUrl?: string;
+  testimonialVideoPosterUrl?: string;
+  testimonialVideoCaption?: string;
+  faqs?: ShepherdsFaq[];
+}

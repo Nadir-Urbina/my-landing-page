@@ -1,7 +1,7 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent, Ministry, ShepherdsPage } from '@/types/sanity'
+import type { Book, Event, Mission, Testimonial, Post, CalendarEvent, HealingStreamsTestimonial, HealingStreamsEvent, Ministry, ShepherdsPage, CampTent, CampPage } from '@/types/sanity'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -282,6 +282,42 @@ export async function getShepherdsPage(): Promise<ShepherdsPage | null> {
       guarantee,
       endorsements[]{ quote, name, role },
       faqs[]{ question, answer }
+    }
+  `)
+}
+
+export async function getCampPage(): Promise<CampPage | null> {
+  return client.fetch(`
+    *[_type == "campPage"][0] {
+      checkoutUrl,
+      ctaLabel,
+      seasonLabel,
+      price,
+      priceNote,
+      tentPrice,
+      tentPriceNote,
+      memberCount,
+      openingSoon,
+      openingSoonNote,
+      testimonialVideoUrl,
+      "testimonialVideoPosterUrl": testimonialVideoPoster.asset->url,
+      testimonialVideoCaption,
+      faqs[]{ question, answer }
+    }
+  `)
+}
+
+export async function getCampTents(): Promise<CampTent[]> {
+  return client.fetch(`
+    *[_type == "campTent" && isActive != false] | order(order asc) {
+      _id,
+      name,
+      leader,
+      "leaderImageUrl": leaderImage.asset->url,
+      description,
+      duration,
+      price,
+      order
     }
   `)
 }
