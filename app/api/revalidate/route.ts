@@ -102,10 +102,15 @@ export async function POST(request: NextRequest) {
         pathsToRevalidate.push('/shepherds7')
         break
 
+      case 'campTent':
+      case 'campPage':
+        // Revalidate the CAMP funnel page
+        pathsToRevalidate.push('/camp')
+        break
+
       case 'campApplication':
       case 'campInterest':
-        // Revalidate camp pages
-        pathsToRevalidate.push('/camp')
+        // Revalidate the camp admin dashboard
         pathsToRevalidate.push('/camp-admin')
         break
 

@@ -4,36 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { track } from '@vercel/analytics'
 import { ClipboardList, Play, Users, X } from 'lucide-react'
-
-/**
- * Turns a normal YouTube/Vimeo share URL into an embeddable one.
- * Returns null for anything unrecognised, so the caller can fall back to
- * opening the link rather than embedding a page that refuses to frame.
- */
-function toEmbedUrl(url: string): string | null {
-  try {
-    const parsed = new URL(url)
-    const host = parsed.hostname.replace(/^www\./, '')
-
-    if (host === 'youtu.be') {
-      return `https://www.youtube.com/embed/${parsed.pathname.slice(1)}?autoplay=1&rel=0`
-    }
-    if (host === 'youtube.com' || host === 'm.youtube.com') {
-      const id = parsed.searchParams.get('v') || parsed.pathname.split('/').pop()
-      return id ? `https://www.youtube.com/embed/${id}?autoplay=1&rel=0` : null
-    }
-    if (host === 'vimeo.com') {
-      const id = parsed.pathname.split('/').filter(Boolean)[0]
-      return id ? `https://player.vimeo.com/video/${id}?autoplay=1` : null
-    }
-    if (host === 'player.vimeo.com' || host === 'youtube-nocookie.com') {
-      return url
-    }
-    return null
-  } catch {
-    return null
-  }
-}
+import { toEmbedUrl } from '@/lib/video-embed'
 
 /**
  * Hero visual for the masterclass. The video frame leads because the recorded

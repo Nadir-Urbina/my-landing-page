@@ -180,49 +180,6 @@ export default function CampAdminPage() {
     }
   }
 
-  const sendPaymentLink = async (application: CampApplication, amount: string = '100') => {
-    try {
-      const response = await fetch('/api/camp-admin/send-payment-link', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          applicationId: application._id,
-          amount: amount
-        }),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
-        const isResend = application.paymentLinkSent
-        const message = isResend 
-          ? `Payment link resent successfully! (Send #${result.sentCount})`
-          : 'Payment link sent successfully!'
-        setNotification({ message, type: 'success' })
-        
-        // Optimistically update the payment link status without refreshing all data
-        setApplications(prev => prev.map(app => 
-          app._id === application._id ? {
-            ...app,
-            paymentLinkSent: true,
-            paymentLinkSentAt: new Date().toISOString(),
-            paymentLinkSentCount: result.sentCount || (app.paymentLinkSentCount || 0) + 1
-          } : app
-        ))
-      } else {
-        setNotification({ message: result.message || 'Error sending payment link', type: 'error' })
-      }
-    } catch (error) {
-      console.error('Error sending payment link:', error)
-      setNotification({ message: 'Error sending payment link', type: 'error' })
-    }
-    
-    // Auto-hide notification after 5 seconds
-    setTimeout(() => setNotification(null), 5000)
-  }
-
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
       case 'info_sent': return 'secondary'
@@ -473,41 +430,18 @@ export default function CampAdminPage() {
                             </div>
                           </DialogContent>
                         </Dialog>
-                        {application.status === 'accepted' && (!application.paymentStatus || application.paymentStatus === 'not_started') && (
-                          <div className="flex gap-2">
-                            {!application.paymentLinkSent ? (
-                              <Button
-                                size="sm"
-                                variant="default"
-                                onClick={() => sendPaymentLink(application)}
-                                className="bg-green-600 hover:bg-green-700"
-                              >
-                                Send Payment Link
-                              </Button>
-                            ) : (
-                              <>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  disabled
-                                  className="bg-green-50 text-green-700 border-green-200"
-                                >
-                                  Payment Link Sent
-                                  {application.paymentLinkSentCount && application.paymentLinkSentCount > 1 && (
-                                    <span className="ml-1 text-xs">({application.paymentLinkSentCount}x)</span>
-                                  )}
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => sendPaymentLink(application)}
-                                  className="text-blue-600 border-blue-200 hover:bg-blue-50"
-                                >
-                                  Resend
-                                </Button>
-                              </>
+                        {application.paymentLinkSent && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled
+                            className="bg-gray-50 text-gray-600 border-gray-200"
+                          >
+                            Payment Link Sent
+                            {application.paymentLinkSentCount && application.paymentLinkSentCount > 1 && (
+                              <span className="ml-1 text-xs">({application.paymentLinkSentCount}x)</span>
                             )}
-                          </div>
+                          </Button>
                         )}
                         <Button
                           size="sm"

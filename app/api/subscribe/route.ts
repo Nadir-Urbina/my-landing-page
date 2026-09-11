@@ -135,7 +135,7 @@ export async function POST(req: Request) {
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#1e3a8a" style="border-radius: 8px;">
-                                                    <a href="https://drjoshuatodd.com/camp-application" style="color: #ffffff; 
+                                                    <a href="https://drjoshuatodd.com/camp" style="color: #ffffff; 
                                                               font-family: Arial, sans-serif;
                                                               font-size: 16px;
                                                               font-weight: bold;
@@ -193,7 +193,7 @@ export async function POST(req: Request) {
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#1e3a8a" style="border-radius: 8px;">
-                                                    <a href="https://drjoshuatodd.com/camp-application" style="color: #ffffff; 
+                                                    <a href="https://drjoshuatodd.com/camp" style="color: #ffffff; 
                                                               font-family: Arial, sans-serif;
                                                               font-size: 16px;
                                                               font-weight: bold;
@@ -257,7 +257,7 @@ export async function POST(req: Request) {
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
                                                 <td align="center" bgcolor="#1e3a8a" style="border-radius: 8px;">
-                                                    <a href="https://drjoshuatodd.com/camp-application" style="color: #ffffff; 
+                                                    <a href="https://drjoshuatodd.com/camp" style="color: #ffffff; 
                                                               font-family: Arial, sans-serif;
                                                               font-size: 16px;
                                                               font-weight: bold;
