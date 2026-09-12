@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   alternates: { canonical: '/camp' },
   openGraph: {
-    title: 'CAMP Season 4 — Calling, Activating & Maturing the Prophetic',
+    title: 'CAMP Season 4 — Christ’s Authority Meeting People',
     description: DESCRIPTION,
     type: 'website',
     url: '/camp',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CAMP Season 4 — Calling, Activating & Maturing the Prophetic',
+    title: 'CAMP Season 4 — Christ’s Authority Meeting People',
     description: DESCRIPTION,
     images: ['/ministry/camp-heroImg.webp'],
   },
@@ -142,7 +142,7 @@ export default async function CampPage() {
             </h1>
 
             <p className="mt-6 text-lg leading-relaxed text-[#B6C2BE] sm:text-xl">
-              CAMP — Calling, Activating &amp; Maturing the Prophetic — is an open community of
+              CAMP — Christ’s Authority Meeting People — is an open community of
               people learning to carry what God has given them. Live calls twice a month with Dr.
               Joshua Todd and the leadership team, his full library of resources, and members-only
               access to register for eight specialization tents.

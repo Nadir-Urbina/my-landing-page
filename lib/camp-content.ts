@@ -119,7 +119,7 @@ export const DEFAULT_CAMP_FAQS = [
   {
     question: 'What does CAMP stand for?',
     answer:
-      'Calling, Activating & Maturing the Prophetic. It is an open prophetic community built to equip people who are touching the Kingdom of God in business, ministry, family, education, and government — whatever level of the prophetic you are currently walking in.',
+      'Christ’s Authority Meeting People. It is an open prophetic community built to equip people who are touching the Kingdom of God in business, ministry, family, education, and government — whatever level of the prophetic you are currently walking in.',
   },
   {
     question: 'Do I still have to apply and be accepted?',
