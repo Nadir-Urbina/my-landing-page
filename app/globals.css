@@ -40,3 +40,27 @@
     @apply bg-background text-foreground;
   }
 }
+/* ---------------------------------------------------------------------------
+   LeadConnector chat widget
+
+   The widget injects itself outside the React tree, so it is controlled here
+   by data attributes set on <body> by components/chat/chat-widget.tsx.
+   Selectors cover the element names GoHighLevel has shipped; if the widget
+   changes its markup these may need updating.
+--------------------------------------------------------------------------- */
+body[data-chat-hidden='true'] chat-widget,
+body[data-chat-hidden='true'] #lc_text-widget,
+body[data-chat-hidden='true'] [id^='lc_text-widget'],
+body[data-chat-hidden='true'] [class*='lc_text-widget'],
+body[data-chat-hidden='true'] [class*='leadconnector'] {
+  display: none !important;
+}
+
+/* Lift the bubble clear of the mobile sticky CTA on the funnel pages */
+@media (max-width: 1023px) {
+  body[data-chat-offset='true'] chat-widget,
+  body[data-chat-offset='true'] #lc_text-widget,
+  body[data-chat-offset='true'] [id^='lc_text-widget'] {
+    bottom: 5.5rem !important;
+  }
+}
