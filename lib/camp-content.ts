@@ -17,14 +17,14 @@ export interface CampTentSeed {
 export const TENT_SEED: CampTentSeed[] = [
   {
     name: 'Bloodline Deliverance',
-    leader: 'Ben & Page Irvine',
+    leader: 'Ben and Page Irvine',
     duration: '12-week intensive',
     description:
       'This will include some teaching, but there will also be plenty of space for Q&A for those who may not have a clear understanding of bloodline deliverance, or who have encountered situations in deliverance they are unsure how to navigate.\n\nOver the last six years, Ben and Page have been part of close to 3,000 deliverance sessions with people from all over the world. They are actively involved in deliverance almost daily and have encountered a wide range of situations and experiences. While they are continually learning and growing, they carry a significant amount of hands-on experience that they are eager to share.\n\nTraining and equipping others in deliverance has become a natural part of their ministry, as they regularly invite others to sit in on sessions for the purpose of learning and development. They were trained by Mike Brewer and also serve as coaches with his Kingdom Warfare and Leadership Institute.\n\nTheir heart for this tent is highly practical. The goal is to create an environment where participants can ask questions, discuss real-life situations, learn from practical experience, and leave feeling more confident and equipped to help bring freedom to others.',
   },
   {
     name: 'Biblical Understanding of the Prophetic',
-    leader: 'Angel',
+    leader: 'Angel Redman',
     duration: '12-week intensive',
     description:
       'We will unpack Scripture in depth through sound hermeneutical tools — including concordances, commentaries, and biblical word studies — to cultivate mature biblical understanding and produce a pure, powerful prophetic flow.\n\nAs we deepen our study, we will grow in the depth and clarity with which we express the voice of the Lord, establishing the fear of the Lord and allowing Scripture to serve as the safeguard and foundation of the prophetic.\n\nWe will explore the various prophetic graces and expressions throughout Scripture, examining men and women who were uniquely graced to reveal different aspects of the heart and mind of God — from the seer (chozeh), such as Daniel, who received visions and mysteries from God (Daniel 2:19), to Hosea, whose very life became a prophetic message.\n\nTogether we will ask: What is the prophetic? What is the difference between the gift of prophecy and the office of a prophet? What is the purpose of the prophetic, and what can we learn from the diverse prophetic expressions throughout Scripture? We will explore the nabi, ro’eh, and chozeh, as well as dreams and visions, prophetic acts, intercession, the watchman, prophetic musicians and artists, and the shepherd-prophet.',
@@ -38,28 +38,52 @@ export const TENT_SEED: CampTentSeed[] = [
   },
   {
     name: 'Maturing the Prophetic',
-    leader: 'Victoria',
+    leader: 'Victoria Gutierrez',
     duration: '12-week intensive',
     description:
       'The goal of this 12-week intensive is to mature the way we receive, release, and function prophetically as sons and daughters consumed with the heart of God. We will lean on Scripture while creating space for practical application, growth, and learning together.\n\nTopics will include increasing intimacy with the Lord, gaining greater clarity around His voice, pursuing the Lord through suffering and trials, embodying and birthing the message, prophesying with greater authority, prophetic intercession, moving above warfare and resistance, loving others well, and prophetic accountability.',
   },
-  { name: 'Apostolic Intercession', leader: 'Wayland', comingSoon: true },
-  { name: 'High Courts of the Lord', leader: 'Liz', comingSoon: true },
-  { name: 'Identity', leader: 'Adam', comingSoon: true },
-  { name: 'Inner Healing', leader: 'Nicole', comingSoon: true },
+  {
+    name: 'Apostolic Intercession',
+    leader: 'Dr. Wayland Henderson',
+    duration: '12-week intensive',
+    description:
+      'This 12-week intensive will take a deeper look at prophetic intercession, priestly presence, and apostolic mission, exploring what it means to partner with God in prayer and labor for the maturity of the Church and the advancement of His Kingdom.',
+  },
+  {
+    name: 'High Courts of the Lord',
+    leader: 'Liz Jagenberg',
+    duration: '12-week intensive',
+    description:
+      'This 12-week intensive will explore the biblical and practical understanding of the High Court of the Lord, with a focus on intercession, spiritual warfare, Kingdom authority, and learning to operate together as a team.',
+  },
+  {
+    name: 'Identity',
+    leader: 'Adam Jagenberg',
+    duration: '12-week intensive',
+    description:
+      'This 12-week intensive will help you identify and uproot false identity strongholds, discover your true identity in Christ, and step into the calling and destiny God has for you.',
+  },
+  {
+    name: 'Inner Healing',
+    leader: 'Nicole Cameron',
+    duration: '12-week intensive',
+    description:
+      'This 12-week intensive will explore the heart of God’s desire for our wholeness, including trauma, healing and restoration, identifying the roots behind what we experience, family healing, and learning to recognize the voice of our hearts.',
+  },
 ]
 
 
 /** Cycled through the hero typing effect after "What can you learn in CAMP?" */
 export const LEARN_ROTATION = [
+  'Identity.',
   'Inner healing.',
-  'The High Courts of the Lord.',
   'Bloodline deliverance.',
-  'The prophetic.',
-  'Maturing the prophetic.',
   'Spiritual warfare.',
   'Apostolic intercession.',
-  'Identity.',
+  'The High Courts of the Lord.',
+  'The prophetic.',
+  'Maturing the prophetic.',
   'All of it.',
 ]
 
@@ -73,7 +97,7 @@ export const MEMBERSHIP_BENEFITS = [
   {
     icon: 'calls',
     title: 'Twice-monthly live calls',
-    body: 'Two calls every month with Dr. Joshua Todd and the CAMP leadership team, continuing to build expertise across the prophetic and every other area CAMP now carries.',
+    body: 'Two calls every month with Dr. Joshua Todd and the CAMP leadership team, equipping you to carry Christ’s authority across every area CAMP covers.',
   },
   {
     icon: 'leaders',
@@ -119,7 +143,7 @@ export const DEFAULT_CAMP_FAQS = [
   {
     question: 'What does CAMP stand for?',
     answer:
-      'Christ’s Authority Meeting People. It is an open prophetic community built to equip people who are touching the Kingdom of God in business, ministry, family, education, and government — whatever level of the prophetic you are currently walking in.',
+      'Christ’s Authority Meeting People. It is an open community where Kingdom leadership is equipped and expanded — believers learning to carry Christ’s authority in every sphere they touch: business, ministry, family, education, and government. Wherever you are starting from, there is a place for you at the table.',
   },
   {
     question: 'Do I still have to apply and be accepted?',
@@ -142,9 +166,9 @@ export const DEFAULT_CAMP_FAQS = [
       'Yes. Each tent enrols separately, so how many you take on is up to the season you are in and the capacity you have.',
   },
   {
-    question: 'Do I need to be an experienced prophetic minister?',
+    question: 'Do I need leadership or ministry experience?',
     answer:
-      'No. CAMP exists for people at every level. Some members are stepping into the prophetic for the first time; others have carried it for decades. The tents are built to meet people where they are.',
+      'No. CAMP exists for people at every level. Some members are just beginning to steward what God has placed in their hands; others have led for decades. The equipping is built to meet you where you are and to grow the capacity, maturity, and authority you carry from there.',
   },
   {
     question: 'Can I cancel?',

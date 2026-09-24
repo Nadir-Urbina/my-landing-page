@@ -16,7 +16,9 @@ export function CampStickyCta({
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setIsVisible(window.scrollY > 900)
+    // Hands off from the hero CTA as it scrolls out of view (~520px on a phone),
+    // so mobile is never left without a visible button.
+    const onScroll = () => setIsVisible(window.scrollY > 520)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -25,7 +27,8 @@ export function CampStickyCta({
   return (
     <div
       className={cn(
-        'fixed inset-x-0 bottom-0 z-50 border-t border-[#F5A44A]/20 bg-[#0E1417]/95 px-4 py-3 backdrop-blur',
+        'fixed inset-x-0 bottom-0 z-50 border-t border-[#F5A44A]/20 bg-[#0E1417]/95 px-4 pt-3 backdrop-blur',
+        'pb-[calc(0.75rem+env(safe-area-inset-bottom))]',
         'transition-transform duration-300 lg:hidden',
         isVisible ? 'translate-y-0' : 'translate-y-full'
       )}

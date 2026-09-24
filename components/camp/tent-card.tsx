@@ -3,11 +3,14 @@ import { Clock } from 'lucide-react'
 import type { CampTent } from '@/types/sanity'
 import { ClampedText } from '@/components/clamped-text'
 
+/** Connectors and honorifics that should not become an initial */
+const INITIALS_SKIP = /^(and|dr\.?|ps\.?|pastor|rev\.?|apostle|prophet)$/i
+
 function initialsOf(leader: string) {
   return leader
     .replace(/&/g, ' ')
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((part) => part && !INITIALS_SKIP.test(part))
     .slice(0, 2)
     .map((part) => part[0]?.toUpperCase())
     .join('')

@@ -36,7 +36,7 @@ const montserrat = Montserrat({ subsets: ['latin'], display: 'swap', variable: '
 export const revalidate = 3600
 
 const DESCRIPTION =
-  'CAMP is an open prophetic community — eight specialization tents, twice-monthly calls with Dr. Joshua Todd and the CAMP leadership team, and access to his full library of resources. $20 a month.'
+  'CAMP is where Kingdom leadership is equipped and expanded from the inside out — eight specialization tents, twice-monthly calls with Dr. Joshua Todd and the CAMP leadership team, and access to the library of resources. $20 a month.'
 
 export const metadata: Metadata = {
   title: 'CAMP Season 4 | Dr. Joshua Todd',
@@ -120,10 +120,10 @@ export default async function CampPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0E1417]/80 via-[#0E1417]/88 to-[#0E1417]" />
 
-        <div className="container relative z-10 py-24 sm:py-28 lg:py-32">
+        <div className="container relative z-10 py-12 sm:py-24 lg:py-32">
           <Link
             href="/"
-            className="mb-10 inline-flex items-center gap-2 text-sm text-[#9BA8A4] transition-colors hover:text-[#F5A44A]"
+            className="mb-7 inline-flex items-center gap-2 text-sm text-[#9BA8A4] transition-colors hover:text-[#F5A44A] sm:mb-10"
           >
             <ArrowLeft className="h-4 w-4" />
             Back home
@@ -134,45 +134,58 @@ export default async function CampPage() {
               {seasonLabel} · Now open
             </span>
 
-            <h1 className="mt-6 font-montserrat text-4xl font-extrabold leading-[1.08] text-[#F4F8F6] sm:text-5xl lg:text-6xl">
-              You were never meant to grow in the prophetic{' '}
+            <h1 className="mt-5 font-montserrat text-3xl font-extrabold leading-[1.1] text-[#F4F8F6] sm:mt-6 sm:text-5xl sm:leading-[1.08] lg:text-6xl">
+              Kingdom leadership was never meant to happen{' '}
               <span className="bg-gradient-to-r from-[#F5A44A] to-[#D9652A] bg-clip-text text-transparent">
-                on your own.
+                in isolation.
               </span>
             </h1>
 
-            <p className="mt-6 text-lg leading-relaxed text-[#B6C2BE] sm:text-xl">
-              CAMP — Christ’s Authority Meeting People — is an open community of
-              people learning to carry what God has given them. Live calls twice a month with Dr.
-              Joshua Todd and the leadership team, his full library of resources, and members-only
-              access to register for eight specialization tents.
+            {/* The second sentence is desktop-only — on mobile it pushes the CTA
+                below the fold, and the stat band right underneath repeats it. */}
+            <p className="mt-4 text-base leading-relaxed text-[#B6C2BE] sm:mt-6 sm:text-xl">
+              CAMP — Christ’s Authority Meeting People — is an open community where Kingdom
+              leaders are equipped and expanded from the inside out, so what God is building in you
+              reaches the region you are in.
+              <span className="hidden sm:inline">
+                {' '}
+                Live calls twice a month with Dr. Joshua Todd and the leadership team, the
+                library of resources, and members-only access to register for eight specialization
+                tents.
+              </span>
             </p>
 
-            <p className="mt-5 font-montserrat text-lg font-semibold text-[#EEF3F1] sm:text-xl">
+            <p className="mt-4 font-montserrat text-base font-semibold text-[#EEF3F1] sm:mt-5 sm:text-xl">
               No application to be approved for. Just {price} a month.
             </p>
 
-            <div className="mt-8 rounded-xl border border-[#F5A44A]/15 bg-[#161E21]/70 px-5 py-5 sm:px-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8A9995]">
-                What can you learn in CAMP?
-              </p>
-              <p className="mt-2 font-montserrat text-2xl font-bold leading-snug text-[#EEF3F1] sm:text-3xl">
-                <TypingRotator phrases={LEARN_ROTATION} />
-              </p>
-            </div>
-
             {isOpeningSoon && settings?.openingSoonNote && (
-              <p className="mt-6 rounded-xl border border-[#F5A44A]/25 bg-[#F5A44A]/5 px-5 py-4 text-sm text-[#F5A44A]">
+              <p className="mt-5 rounded-xl border border-[#F5A44A]/25 bg-[#F5A44A]/5 px-5 py-4 text-sm text-[#F5A44A] sm:mt-6">
                 {settings.openingSoonNote}
               </p>
             )}
 
-            <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <CampCta href={checkoutUrl} label={ctaLabel} location="hero" size="large" />
-              <div className="text-sm text-[#9BA8A4]">
+            <div className="mt-6 flex flex-col items-stretch gap-4 sm:mt-8 sm:flex-row sm:items-center">
+              <CampCta
+                href={checkoutUrl}
+                label={ctaLabel}
+                location="hero"
+                size="large"
+                className="w-full sm:w-auto"
+              />
+              <div className="text-center text-sm text-[#9BA8A4] sm:text-left">
                 <span className="font-montserrat text-lg font-bold text-[#EEF3F1]">{price}</span>
                 <span className="ml-2">{priceNote}</span>
               </div>
+            </div>
+
+            <div className="mt-8 rounded-xl border border-[#F5A44A]/15 bg-[#161E21]/70 px-5 py-5 sm:mt-10 sm:px-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8A9995]">
+                What can you learn in CAMP?
+              </p>
+              <p className="mt-2 font-montserrat text-xl font-bold leading-snug text-[#EEF3F1] sm:text-3xl">
+                <TypingRotator phrases={LEARN_ROTATION} />
+              </p>
             </div>
           </div>
         </div>
@@ -242,8 +255,10 @@ export default async function CampPage() {
               {tents.length} specializations, each led by someone who has walked it
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[#9BA8A4]">
-              Tents are focused twelve-week intensives inside CAMP. {describedTents} are detailed
-              below, with the rest announced soon.
+              Tents are focused twelve-week intensives inside CAMP.{' '}
+              {describedTents === tents.length
+                ? `All ${tents.length} are detailed below.`
+                : `${describedTents} are detailed below, with the rest announced soon.`}
             </p>
             <p className="mx-auto mt-6 max-w-xl rounded-xl border border-[#F5A44A]/20 bg-[#F5A44A]/5 px-5 py-4 text-sm leading-relaxed text-[#B6C2BE]">
               Tents are priced separately from membership at{' '}
@@ -370,8 +385,9 @@ export default async function CampPage() {
               The fire is already lit. Come sit down.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[#9BA8A4]">
-              {memberCount} people are already in CAMP, learning to carry the prophetic with
-              maturity, accountability, and people around them.
+              {memberCount} people are already in CAMP — being equipped, expanded from the inside
+              out, and sent back into their regions with maturity, accountability, and people
+              around them.
             </p>
 
             <div className="mx-auto mt-10 max-w-sm rounded-2xl border border-[#F5A44A]/25 bg-[#161E21] p-7">
