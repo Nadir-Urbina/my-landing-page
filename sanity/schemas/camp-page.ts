@@ -54,8 +54,8 @@ const campPageSchema = {
       name: 'memberCount',
       title: 'Member Count',
       type: 'string',
-      description: 'Shown in the stat band, e.g. "120+". Leave empty to hide that stat.',
-      initialValue: '120+'
+      description: 'Shown in the stat band, e.g. "150+". Leave empty to hide that stat.',
+      initialValue: '150+'
     },
     {
       name: 'openingSoon',

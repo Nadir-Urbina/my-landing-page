@@ -86,7 +86,7 @@ export default async function CampPage() {
   const seasonLabel = settings?.seasonLabel || 'Season 4'
   const price = settings?.price || '$20'
   const priceNote = settings?.priceNote || 'per month · cancel anytime'
-  const memberCount = settings?.memberCount || '120+'
+  const memberCount = settings?.memberCount || '150+'
   const tentPrice = settings?.tentPrice || '$300'
   const tentPriceNote = settings?.tentPriceNote || 'per 12-week tent'
   const faqs = settings?.faqs?.length ? settings.faqs : DEFAULT_CAMP_FAQS
@@ -197,7 +197,7 @@ export default async function CampPage() {
           <dl className="grid grid-cols-2 divide-[#F5A44A]/10 sm:grid-cols-4 sm:divide-x">
             {[
               { value: String(tents.length), label: 'Specialization tents' },
-              { value: memberCount, label: 'Members in CAMP' },
+              { value: memberCount, label: 'Members worldwide' },
               { value: '2x', label: 'Live calls a month' },
               { value: '12wk', label: 'Tent intensives' },
             ].map((stat) => (
@@ -385,9 +385,9 @@ export default async function CampPage() {
               The fire is already lit. Come sit down.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[#9BA8A4]">
-              {memberCount} people are already in CAMP — being equipped, expanded from the inside
-              out, and sent back into their regions with maturity, accountability, and people
-              around them.
+              {memberCount} people from different parts of the world are already in CAMP — being
+              equipped, expanded from the inside out, and sent back into their regions with
+              maturity, accountability, and people around them.
             </p>
 
             <div className="mx-auto mt-10 max-w-sm rounded-2xl border border-[#F5A44A]/25 bg-[#161E21] p-7">
