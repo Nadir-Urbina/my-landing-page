@@ -22,6 +22,25 @@ const nextConfig = {
     NEXT_PUBLIC_CAMP_PRICE_150: process.env.CAMP_PRICE_150,
     NEXT_PUBLIC_CAMP_PRICE_200: process.env.CAMP_PRICE_200,
   },
+  async redirects() {
+    return [
+      // CAMP now lives in the Content Creator Machine funnel, where the Meta
+      // pixel and CAPI are installed. Temporary (307) on purpose: a permanent
+      // redirect is cached by browsers indefinitely and would be painful to
+      // undo. Switch `permanent` to true once the funnel is settled.
+      // Note: this does NOT affect /camp-admin — that is a separate path.
+      {
+        source: '/camp',
+        destination: 'https://ccm.drjoshuatodd.com/campv4-checkout',
+        permanent: false,
+      },
+      {
+        source: '/camp/:path*',
+        destination: 'https://ccm.drjoshuatodd.com/campv4-checkout',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
